@@ -1,0 +1,21 @@
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude Code (user-specific)
+.claude/
+
+# Logs
+*.log
+
+# Temp files
+*.tmp
+*.bak

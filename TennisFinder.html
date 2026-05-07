@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TennisFinder — หาสนามเทนนิสในกรุงเทพฯ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel">
+// ─── TWEAKS PANEL ─────────────────────────────────────────────────────────────
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;overflow-wrap:anywhere}
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+`;
+const TweaksContext = React.createContext(null);
+const _tweaksRef = { current: null };
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null ? keyOrEdits : { [keyOrEdits]: val };
+    setValues(prev => ({ ...prev, ...edits }));
+  }, []);
+  _tweaksRef.current = [values, setTweak];
+  return [values, setTweak];
+}
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current; if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    offsetRef.current = {
+      x: Math.min(Math.max(PAD, window.innerWidth - w - PAD), Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(Math.max(PAD, window.innerHeight - h - PAD), Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(clampToViewport) : null;
+    if (ro) ro.observe(document.documentElement); else window.addEventListener('resize', clampToViewport);
+    return () => { if (ro) ro.disconnect(); else window.removeEventListener('resize', clampToViewport); };
+  }, [open, clampToViewport]);
+  React.useEffect(() => {
+    const onMsg = e => {
+      if (e?.data?.type === '__activate_edit_mode') setOpen(true);
+      else if (e?.data?.type === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+  const dismiss = () => { setOpen(false); window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); };
+  const onDragStart = e => {
+    const panel = dragRef.current; if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY, startRight = window.innerWidth - r.right, startBottom = window.innerHeight - r.bottom;
+    const move = ev => { offsetRef.current = { x: startRight - (ev.clientX - sx), y: startBottom - (ev.clientY - sy) }; clampToViewport(); };
+    const up = () => { window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up); };
+    window.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
+  };
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <TweaksContext.Provider value={_tweaksRef.current}>
+        <div ref={dragRef} className="twk-panel" style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+          <div className="twk-hd" onMouseDown={onDragStart}>
+            <b>{title}</b>
+            <button className="twk-x" onMouseDown={e => e.stopPropagation()} onClick={dismiss}>✕</button>
+          </div>
+          <div className="twk-body">{children}</div>
+        </div>
+      </TweaksContext.Provider>
+    </>
+  );
+}
+function TweakSection({ label, title, children }) {
+  return <><div className="twk-sect">{title ?? label}</div>{children}</>;
+}
+function TweakToggle({ id, label, value, onChange }) {
+  const ctx = React.useContext(TweaksContext);
+  const val = value !== undefined ? value : (ctx?.[0]?.[id] ?? false);
+  const change = onChange ?? (v => ctx?.[1]?.(id, v));
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={val ? '1' : '0'} role="switch" aria-checked={!!val} onClick={() => change(!val)}><i /></button>
+    </div>
+  );
+}
+function TweakRadio({ id, label, value, options, onChange }) {
+  const ctx = React.useContext(TweaksContext);
+  const val = value !== undefined ? value : ctx?.[0]?.[id];
+  const change = onChange ?? (v => ctx?.[1]?.(id, v));
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const opts = options.map(o => typeof o === 'object' ? o : { value: o, label: o });
+  const idx = Math.max(0, opts.findIndex(o => o.value === val));
+  const n = opts.length;
+  const valRef = React.useRef(val); valRef.current = val;
+  const segAt = cx => { const r = trackRef.current.getBoundingClientRect(); return opts[Math.max(0, Math.min(n-1, Math.floor(((cx-r.left-2)/(r.width-4))*n)))].value; };
+  const onPointerDown = e => {
+    setDragging(true);
+    const v0 = segAt(e.clientX); if (v0 !== valRef.current) change(v0);
+    const move = ev => { const v = segAt(ev.clientX); if (v !== valRef.current) change(v); };
+    const up = () => { setDragging(false); window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
+    window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-row">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown} className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb" style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`, width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map(o => <button key={o.value} type="button" role="radio" aria-checked={o.value === val}>{o.label}</button>)}
+      </div>
+    </div>
+  );
+}
+Object.assign(window, { useTweaks, TweaksPanel, TweakSection, TweakToggle, TweakRadio });
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Noto Sans Thai', 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+}
+:root {
+  --green: oklch(0.52 0.15 150);
+  --green-light: oklch(0.96 0.04 150);
+  --green-mid: oklch(0.88 0.08 150);
+  --green-dark: oklch(0.36 0.12 150);
+  --yellow: oklch(0.90 0.16 96);
+  --yellow-dark: oklch(0.74 0.16 96);
+  --bg: #f7f9f7;
+  --card-bg: #ffffff;
+  --text: #1a2420;
+  --text-muted: #6b7f78;
+  --border: #e4ede8;
+  --radius: 20px;
+  --shadow: 0 1px 4px rgba(0,40,20,0.06), 0 4px 16px rgba(0,40,20,0.04);
+  --shadow-hover: 0 4px 8px rgba(0,40,20,0.08), 0 12px 32px rgba(0,40,20,0.08);
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+const TENNIS_COURTS = [
+  { id:1,  name:"CozyTennis Court",                  nameTh:"โคซี่เทนนิส",             district:"พระเวท",   districtEn:"Prawet",       zone:"ฝั่งตะวันออก", address:"ซ.เฉลิมพระเกียรติ ร.9 ซ.46 ดอกไม้ พระเวท กรุงเทพฯ",                     type:"hard",  indoor:true,  aircon:false,  nightLights:true,  courts:4,  priceMin:350, priceMax:450,  rating:4.4, reviews:102, bts:null,                          facilities:["ที่จอดรถ","ครูสอน","ขึ้นเอ็น","ห้องน้ำ","Pro Shop"],                    hours:"07:00–22:00", phone:"088-297-2124", featured:true,  lat:13.6971474, lng:100.6799754, googleMaps:"https://maps.app.goo.gl/WUYXcXV7bQRKgVud6", website:"https://www.cozytennis.com/", image:"images/court-1.jpg" },
+  { id:2,  name:"Chulalongkorn University Sports Center", nameTh:"ศูนย์กีฬาจุฬาฯ",   district:"ปทุมวัน", districtEn:"Pathum Wan",   zone:"ใจกลางกรุง",   address:"254 ถ.พญาไท แขวงวังใหม่ เขตปทุมวัน กรุงเทพฯ",                            type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:10, priceMin:50,  priceMax:100,  rating:4.4, reviews:312, bts:"BTS สนามกีฬาแห่งชาติ",     facilities:["ที่จอดรถ","Knock Board","ห้องน้ำ"],                                    hours:"07:00–21:00", phone:"02-218-2874", featured:true,  lat:13.7380, lng:100.5290, website:"http://www.cusc.chula.ac.th/" },
+  { id:5,  name:"Santisuk Tennis Court",             nameTh:"สนามเทนนิสสันติสุข",      district:"คลองเตย", districtEn:"Khlong Toei",  zone:"สุขุมวิท",     address:"26 ซ.สุขุมวิท 38 คลองเตย กรุงเทพฯ",                                    type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:8,  priceMin:60,  priceMax:100,  rating:4.2, reviews:176, bts:"BTS ทองหล่อ",              facilities:["ที่จอดรถ","ห้องน้ำ","Ball Boy"],                                      hours:"06:00–22:00", phone:"02-391-1830", featured:false, lat:13.7230, lng:100.5780 },
+  { id:6,  name:"The Peninsula Bangkok",             nameTh:"เดอะ เพนนินซูล่า",        district:"คลองสาน", districtEn:"Khlong San",   zone:"ริมแม่น้ำ",    address:"333 ถ.เจริญนคร แขวงคลองต้นไทร เขตคลองสาน กรุงเทพฯ",                   type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:2,  priceMin:1200,priceMax:2000, rating:4.9, reviews:45,  bts:"เรือด่วน/BTS กรุงธนบุรี", facilities:["วาเล่ต์","ครูสอน","ร้านอาหาร","ริมแม่น้ำ"],                          hours:"07:00–21:00", phone:null,           featured:true,  lat:13.7230, lng:100.5109, website:"https://www.peninsula.com/en/bangkok/wellness/tennis-court" },
+  { id:7,  name:"IMPACT Tennis Academy",             nameTh:"IMPACT เทนนิส อะคาเดมี่", district:"ปากเกร็ด", districtEn:"Pak Kred",    zone:"ฝั่งเหนือ",    address:"101/3-4 เมืองทองธานี ถ.แจ้งวัฒนะ ปากเกร็ด นนทบุรี",                  type:"hard",  indoor:true,  aircon:false,  nightLights:true,  courts:12, priceMin:400, priceMax:700,  rating:4.8, reviews:156, bts:null,                          facilities:["ที่จอดรถ","ครูสอน","ฟิตเนส","ห้องอาบน้ำ","Ice Bath","ร้านอาหาร"],    hours:"06:00–22:00", phone:"095-210-3045", featured:true,  lat:13.9120, lng:100.5590, website:"https://www.impact10nis.com/" },
+  { id:8,  name:"Le Smash Club",                    nameTh:"เล สมาช คลับ",             district:"ยานนาวา", districtEn:"Yan Nawa",     zone:"ฝั่งใต้",      address:"499/213 ซ.64 ถ.พระราม 3 ช่องนนทรี ยานนาวา กรุงเทพฯ",                 type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:7,  priceMin:300, priceMax:450,  rating:4.4, reviews:89,  bts:null,                          facilities:["ที่จอดรถ","Pro Shop","ร้านอาหาร","Pickleball"],                       hours:"06:00–22:00", phone:"02-285-2553", featured:false, lat:13.6960, lng:100.5270, website:"https://lesmashclub.com/" },
+  { id:9,  name:"Royal Bangkok Sports Club (RBSC)",  nameTh:"ราชกรีฑาสโมสร (RBSC)",    district:"ปทุมวัน", districtEn:"Pathum Wan",   zone:"ใจกลางกรุง",   address:"ถ.อังรีดูนังต์ แขวงลุมพินี เขตปทุมวัน กรุงเทพฯ",                      type:"grass", indoor:false, aircon:false, nightLights:false, courts:16, priceMin:500, priceMax:1000, rating:4.8, reviews:64,  bts:"BTS ราชดำริ",               facilities:["วาเล่ต์","ร้านอาหาร","สโมสร","สระว่ายน้ำ","คอร์ตหญ้า","สมาชิกเท่านั้น"], hours:"07:00–20:00", phone:"02-028-7272", featured:false, lat:13.7420, lng:100.5390, website:"https://www.rbsc.org/" },
+  { id:11, name:"CV Sport Club",                    nameTh:"ซีวี สปอร์ต คลับ",         district:"ทวีวัฒนา", districtEn:"Thawi Watthana",zone:"ฝั่งตะวันตก",  address:"11/10 ม.8 ถ.ศาลาธรรมสพ แขวงศาลาธรรมสพ เขตทวีวัฒนา กรุงเทพฯ 10170",  type:"hard",  indoor:true,  aircon:false,  nightLights:true,  courts:6,  priceMin:250, priceMax:350,  rating:4.3, reviews:98,  bts:null,                          facilities:["ที่จอดรถ","ฟิตเนส","สระว่ายน้ำ","Pro Shop","ห้องน้ำ"],               hours:"06:00–22:00", phone:"081-562-2622", featured:false, lat:13.7640, lng:100.4480 },
+  { id:12, name:"The Olympic Club (Pathumwan Princess)", nameTh:"เดอะ โอลิมปิค คลับ",  district:"ปทุมวัน", districtEn:"Pathum Wan",   zone:"ใจกลางกรุง",   address:"444 ถ.พญาไท วังใหม่ ปทุมวัน กรุงเทพฯ",                                 type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:1,  priceMin:214, priceMax:321,  rating:4.4, reviews:52,  bts:"BTS สนามกีฬาแห่งชาติ",     facilities:["วาเล่ต์","ฟิตเนส","ห้องอาบน้ำ","สระว่ายน้ำ","Rooftop"],             hours:"06:00–23:00", phone:"02-216-3700", featured:false, lat:13.7434, lng:100.5295, website:"https://www.theolympic-club.com/" },
+  { id:13, name:"Sun Tennis Court",                 nameTh:"ซัน เทนนิส คอร์ต",        district:"คลองเตย", districtEn:"Khlong Toei",  zone:"สุขุมวิท",     address:"ซ.สุขุมวิท 40 พระโขนง คลองเตย กรุงเทพฯ",                              type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:4,  priceMin:120, priceMax:200,  rating:4.3, reviews:67,  bts:"BTS เอกมัย",               facilities:["ที่จอดรถ","ห้องน้ำ","WiFi"],                                          hours:"06:00–00:00", phone:"02-392-2166",           featured:false, lat:13.7200, lng:100.5800 },
+  { id:14, name:"Windfield Tennis Indoor",           nameTh:"วินด์ฟิลด์ เทนนิส",       district:"ราษฎร์บูรณะ",districtEn:"Rat Burana",  zone:"ฝั่งใต้",      address:"ราษฎร์บูรณะ กรุงเทพฯ",                                                                         type:"hard",  indoor:true,  aircon:false,  nightLights:true,  courts:3,  priceMin:400, priceMax:600,  rating:4.5, reviews:76,  bts:null,                          facilities:["ที่จอดรถ","ครูสอน","ห้องอาบน้ำ"],                                    hours:"07:00–22:00", phone:"093-789-6695", featured:false, lat:13.6661, lng:100.5019, googleMaps:"https://maps.app.goo.gl/dRrNbyfAQkYKJ1nK7" },
+  { id:15, name:"DK Tennis Court",                  nameTh:"ดีเค เทนนิส คอร์ต",        district:"ธนบุรี",  districtEn:"Thonburi",     zone:"ริมแม่น้ำ",    address:"ซ.ตากสิน 42/1 ถ.ตากสิน ดาวคะนอง ธนบุรี กรุงเทพฯ",                   type:"hard",  indoor:false, aircon:false, nightLights:false, courts:4,  priceMin:200, priceMax:300,  rating:4.2, reviews:41,  bts:null,                          facilities:["ที่จอดรถ","ห้องน้ำ"],                                                hours:"06:00–18:00", phone:null,           featured:false, lat:13.7050, lng:100.4800 },
+  { id:16, name:"Hilton Bangkok Grande Asoke",       nameTh:"ฮิลตัน แกรนด์ อโศก",      district:"วัฒนา",   districtEn:"Watthana",     zone:"สุขุมวิท",     address:"30 ซ.อโศกมนตรี (สุขุมวิท 21) เขตวัฒนา กรุงเทพฯ",                     type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:1,  priceMin:800, priceMax:1200, rating:4.7, reviews:62,  bts:"BTS อโศก / MRT สุขุมวิท",  facilities:["วาเล่ต์","สระว่ายน้ำ","ร้านอาหาร","ฟิตเนส","Spa"],                   hours:"06:00–22:00", phone:null,           featured:false, lat:13.7371, lng:100.5601, website:"https://www.hilton.com/en/hotels/bkkashi-hilton-bangkok-grande-asoke/" },
+  { id:17, name:"Tennis SAT Hua Mak",               nameTh:"เทนนิส SAT หัวหมาก",       district:"บางกะปิ", districtEn:"Bang Kapi",    zone:"ฝั่งตะวันออก", address:"286 ถ.รามคำแหง แขวงหัวหมาก เขตบางกะปิ กรุงเทพฯ",                     type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:6,  priceMin:100, priceMax:200,  rating:4.1, reviews:88,  bts:"Airport Rail Link หัวหมาก", facilities:["ที่จอดรถ","ครูสอน","ห้องน้ำ"],                                        hours:"06:00–21:00", phone:"02-186-7111", featured:false, lat:13.7480, lng:100.6450 },
+  { id:18, name:"Smarnmitr Tennis",                 nameTh:"สมารท์มิตร เทนนิส",        district:"สวนหลวง",  districtEn:"Suan Luang",   zone:"ฝั่งตะวันออก", address:"ซ.รามคำแหง 4 เขตสวนหลวง กรุงเทพฯ",                                    type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:4,  priceMin:300, priceMax:400,  rating:4.3, reviews:54,  bts:null,                          facilities:["ที่จอดรถ","ห้องน้ำ"],                                                hours:"06:00–21:00", phone:"02-314-7782",  featured:false, lat:13.7270, lng:100.6250 },
+  { id:19, name:"Simoorgh Tennis Academy",           nameTh:"สมูร์ห์ เทนนิส อะคาเดมี่", district:"พระโขนง", districtEn:"Phra Khanong", zone:"สุขุมวิท",     address:"140 ซ.สุขุมวิท 56 พระโขนงใต้ พระโขนง กรุงเทพฯ",                      type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:4,  priceMin:180, priceMax:270,  rating:4.4, reviews:73,  bts:"BTS อ่อนนุช",              facilities:["ที่จอดรถ","ครูสอน","ห้องน้ำ"],                                        hours:"06:00–22:00", phone:"02-311-3842", featured:false, lat:13.7020, lng:100.5970, website:"http://www.bkktennis.com/" },
+  { id:20, name:"Thana City Golf & Country Club",   nameTh:"ธนาซิตี้ กอล์ฟ & สปอร์ตส์",district:"บางพลี", districtEn:"Bang Phli",    zone:"ฝั่งใต้",      address:"100 ม.4 ถ.บางนา-ตราด กม.14 บางแก้ว บางพลี สมุทรปราการ",            type:"clay",  indoor:false, aircon:false, nightLights:true,  courts:8,  priceMin:400, priceMax:600,  rating:4.5, reviews:113, bts:null,                          facilities:["ที่จอดรถ","กอล์ฟ","สระว่ายน้ำ","ร้านอาหาร","ครูสอน"],               hours:"06:00–21:00", phone:"02-172-2300", featured:false, lat:13.6400, lng:100.7620, website:"https://www.thanacitycountryclub.com/" },
+  { id:21, name:"Noah BKK@26",                       nameTh:"โนอาห์ บีเคเค 26",             district:"คลองเตย",  districtEn:"Khlong Toei",  zone:"สุขุมวิท",     address:"12/74 ซ.อัษฎาวุธ 1 (ออกจากสุขุมวิท 26) คลองตัน คลองเตย กรุงเทพฯ 10110", type:"hard", indoor:true, aircon:true, nightLights:true,  courts:6,  priceMin:550, priceMax:1000, rating:4.7, reviews:189, bts:"BTS พร้อมพงษ์",             facilities:["คอร์ตในร่ม","แอร์","ไฟส่องสว่าง","ครูสอน","ให้เช่าอุปกรณ์","ที่จอดรถ"], hours:"06:30–23:30", phone:"02-259-8425", featured:true,  lat:13.7184, lng:100.5714, website:"https://www.noahbkk.com/" },
+  { id:22, name:"Sakolpan Sport Club",                nameTh:"สกลพรรณ สปอร์ตคลับ",          district:"วัฒนา",    districtEn:"Watthana",     zone:"สุขุมวิท",     address:"219 ซ.ปรีดีพนมยงค์ 42 คลองตันเหนือ วัฒนา กรุงเทพฯ 10110",           type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:4,  priceMin:80,  priceMax:260,  rating:4.3, reviews:95,  bts:"BTS พร้อมพงษ์ / ทองหล่อ",   facilities:["ไฟส่องสว่าง","ที่จอดรถ","ห้องน้ำ","ครูสอน"],                          hours:"07:00–23:00", phone:"02-391-0563", featured:false, lat:13.7200, lng:100.5900, website:"http://sakolpansportclub.weebly.com/" },
+  { id:23, name:"The British Club Bangkok",           nameTh:"เดอะ บริติช คลับ กรุงเทพฯ",   district:"บางรัก",   districtEn:"Bang Rak",     zone:"ใจกลางกรุง",  address:"189 ถ.สุรวงศ์ สีลม 18 สุริยวงศ์ บางรัก กรุงเทพฯ 10500",            type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:4,  priceMin:50,  priceMax:100,  rating:4.6, reviews:142, bts:"BTS ช่องนนทรี",              facilities:["ไฟส่องสว่าง","สระว่ายน้ำ","ร้านอาหาร","ห้องสมุด","ที่จอดรถ"],       hours:"06:00–22:00", phone:"02-234-0247", featured:false, lat:13.7243, lng:100.5258, website:"https://www.britishclubbangkok.org/" },
+  { id:24, name:"FBT Pyramid Tennis Academy",         nameTh:"พีระมิด เอฟบีที สปอร์ตพาร์ค",  district:"ลาดกระบัง",districtEn:"Lat Krabang",  zone:"ฝั่งตะวันออก", address:"400 ถ.ฉลองกรุง (ม.10) ลำปลาทิว ลาดกระบัง กรุงเทพฯ 10520",          type:"hard",  indoor:true,  aircon:false, nightLights:true,  courts:13, priceMin:250, priceMax:600,  rating:4.6, reviews:167, bts:"Airport Rail Link ลาดกระบัง", facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","ครูสอน","ที่จอดรถ","ห้องน้ำ","ร้านอาหาร"], hours:"07:00–21:00", phone:"02-737-3600", featured:true,  lat:13.7250, lng:100.7750, website:"http://fbtsports.com/en/fbt-sport-park/" },
+  { id:25, name:"Crystal Tennis Center",              nameTh:"คริสตัล เทนนิส เซ็นเตอร์",    district:"ลาดพร้าว", districtEn:"Lat Phrao",    zone:"ฝั่งเหนือ",    address:"215 ถ.ประดิษฐ์มนูธรรม ลาดพร้าว กรุงเทพฯ 10230", type:"hard", indoor:true, aircon:false, nightLights:true,  courts:8,  priceMin:500, priceMax:600,  rating:4.7, reviews:213, bts:null,                          facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","ครูสอน","ห้องน้ำ","ที่จอดรถ"],           hours:"06:00–22:00", phone:"02-101-5995", featured:true,  lat:13.8160, lng:100.6090, website:"https://crystalsports.kegroup.co.th/" },
+  { id:26, name:"Troops Tennis Academy",              nameTh:"ทรูปส์ เทนนิส อะคาเดมี่",     district:"พระโขนง",  districtEn:"Phra Khanong", zone:"สุขุมวิท",     address:"1050/8 ซ.เรือมแชรน ซ.สุขุมวิท 50 พระโขนง คลองเตย กรุงเทพฯ 10260",  type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:6,  priceMin:350, priceMax:450,  rating:4.5, reviews:88,  bts:"BTS อ่อนนุช",               facilities:["ไฟส่องสว่าง","ครูสอน","ให้เช่าอุปกรณ์","ที่จอดรถ"],                  hours:"06:00–22:00", phone:"02-742-8889", featured:false, lat:13.7040, lng:100.5950, website:"https://troops.academy/" },
+  { id:27, name:"Bearing 68 Tennis",                  nameTh:"สนามเทนนิสแบริ่ง 68",          district:"สมุทรปราการ",districtEn:"Samut Prakan", zone:"ฝั่งใต้",      address:"ซ.แบริ่ง 68 ถ.สุขุมวิท 107 สำโรง สมุทรปราการ 10270",                type:"hard",  indoor:true,  aircon:false, nightLights:true,  courts:4,  priceMin:300, priceMax:500,  rating:4.5, reviews:76,  bts:"BTS แบริ่ง",                 facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","ที่จอดรถ","ห้องน้ำ"],                     hours:"06:00–00:00", phone:"094-503-6770", featured:false, lat:13.6450, lng:100.6020, website:"https://sites.google.com/view/bearing68tennis/home" },
+  { id:28, name:"Ace of Clubs Bangkok",               nameTh:"เอซ ออฟ คลับส์ กรุงเทพฯ",     district:"คลองเตย",  districtEn:"Khlong Toei",  zone:"สุขุมวิท",     address:"4182/5-8 ถ.พระราม 4 พระโขนง คลองเตย กรุงเทพฯ 10110",                type:"hard",  indoor:true,  aircon:false, nightLights:true,  courts:5,  priceMin:650, priceMax:750,  rating:4.8, reviews:134, bts:"BTS พร้อมพงษ์ / อ่อนนุช",   facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","ครูสอน","ล็อคเกอร์","ห้องน้ำ","ที่จอดรถ"], hours:"06:00–23:00", phone:"061-384-5555", featured:true,  lat:13.7128, lng:100.5822, googleMaps:"https://maps.app.goo.gl/D6mQp6x2WDmAaygz7", website:"https://aceofclubsbkk.com/" },
+  { id:29, name:"Grand Tennis Club",                  nameTh:"แกรนด์ เทนนิสคลับ",            district:"ทวีวัฒนา", districtEn:"Thawi Watthana",zone:"ฝั่งตะวันตก",  address:"271 ซ.อัญยมณี 22 (กฤษดานคร 18) สาลาธรรมสพ ทวีวัฒนา กรุงเทพฯ 10170", type:"hard", indoor:true, aircon:true,  nightLights:true,  courts:4,  priceMin:400, priceMax:600,  rating:4.5, reviews:57,  bts:null,                          facilities:["คอร์ตในร่ม","แอร์","ไฟส่องสว่าง","ที่จอดรถ","ห้องน้ำ"],              hours:"06:00–22:00", phone:"094-664-6649", featured:false, lat:13.7882, lng:100.3771 },
+  { id:30, name:"Rama IX Sports Complex",             nameTh:"สนามกีฬาพระราม 9",             district:"ห้วยขวาง", districtEn:"Huai Khwang",  zone:"ใจกลางกรุง",  address:"ถ.พระราม 9 ห้วยขวาง กรุงเทพฯ 10310",                                 type:"hard",  indoor:false, aircon:false, nightLights:true,  courts:6,  priceMin:40,  priceMax:60,   rating:4.2, reviews:198, bts:"MRT พระราม 9",               facilities:["ไฟส่องสว่าง","ราคาถูก","ที่จอดรถ","ห้องน้ำ"],                         hours:"05:30–22:00", phone:"02-248-2980", featured:false, lat:13.7564, lng:100.5674 },
+];
+
+const PICKLEBALL_COURTS = [
+  // ข้อมูลจริง ค้นหาจากเว็บ (thaicourts.com, bkmagazine.com, pickleheads.com) — ⚠️ rating เป็น mock data
+  { id:101, name:"Benjakitti Forest Park Pickleball",  nameTh:"สนาม Pickleball เบญจกิติ ฟอเรสต์ พาร์ค", district:"คลองเตย",   districtEn:"Khlong Toei",  zone:"ใจกลางกรุง",  address:"184 ถ.พระราม 4 คลองเตย กรุงเทพฯ 10110",                     type:"hard", indoor:true,  aircon:false,  nightLights:true,  courts:10, priceMin:0,   priceMax:0,   rating:4.7, reviews:312, bts:"Queen Sirikit MRT",          facilities:["ฟรีไม่เสียค่าใช้จ่าย","คอร์ตในร่ม","ไฟส่องสว่าง","ที่จอดรถ","ห้องน้ำ"],           hours:"05:00–21:00", phone:null,           featured:true,  lat:13.7325, lng:100.5543, googleMaps:"https://maps.app.goo.gl/o6fMVW3t6vbFwP5v8", website:"https://benchakittisportscenter.club/" },
+  { id:102, name:"Beat Discovery Pickleball",          nameTh:"บีท ดิสคัฟเวอรี พิคเคิลบอล",             district:"บางนา",     districtEn:"Bang Na",      zone:"ฝั่งใต้",      address:"2784 ซ.สุขุมวิท 66/1 บางนาเหนือ บางนา กรุงเทพฯ 10260",      type:"hard", indoor:true,  aircon:false,  nightLights:true,  courts:4,  priceMin:300, priceMax:400, rating:4.8, reviews:187, bts:"Udom Suk BTS",               facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","ให้เช่าอุปกรณ์","ร้านอาหาร","ที่จอดรถ"],             hours:"07:00–22:00", phone:null,           featured:true,  lat:13.6800, lng:100.6090, website:"https://www.beatdiscoverythailand.com/en" },
+  { id:103, name:"Club 46 Pickleball Courts",          nameTh:"คลับ 46 พิคเคิลบอล",                     district:"สวนหลวง",   districtEn:"Suan Luang",   zone:"ฝั่งตะวันออก", address:"110 ซ.อ่อนนุช 46 สวนหลวง กรุงเทพฯ 10250",                   type:"hard", indoor:true,  aircon:false,  nightLights:true,  courts:6,  priceMin:300, priceMax:400, rating:4.6, reviews:143, bts:"On Nut BTS",                  facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","ที่จอดรถฟรี","ห้องน้ำ"],                              hours:"09:00–22:00", phone:"061-596-2269", featured:false, lat:13.7098, lng:100.6346 },
+  { id:104, name:"Shot Selections Beach Café",          nameTh:"ช็อต เซเล็คชั่น บีช คาเฟ่",              district:"พญาไท",     districtEn:"Phaya Thai",   zone:"ฝั่งเหนือ",    address:"ซ.พหลโยธิน 7 พญาไท กรุงเทพฯ",                               type:"hard", indoor:false, aircon:false, nightLights:true,  courts:3,  priceMin:400, priceMax:450, rating:4.7, reviews:215, bts:"Ari BTS",                    facilities:["ไฟส่องสว่าง","ร้านอาหาร","เครื่องดื่ม","ให้เช่าอุปกรณ์"],                        hours:"08:00–20:00", phone:null,           featured:false, lat:13.7843, lng:100.5426 },
+  { id:105, name:"Santisuk Pickleball Courts",          nameTh:"สนาม Pickleball สันติสุข",                district:"บางกะปิ",   districtEn:"Bang Kapi",    zone:"ฝั่งตะวันออก", address:"3071 ถ.ลาดพร้าว บึงกุ่ม กรุงเทพฯ 10240",                    type:"hard", indoor:false, aircon:false, nightLights:true,  courts:3,  priceMin:200, priceMax:200, rating:4.5, reviews:98,  bts:"Bangkapi (Yellow Line)",      facilities:["ไฟส่องสว่าง","ให้เช่าอุปกรณ์","ฟรีครั้งแรก"],                                   hours:"เสาร์ 08:00–12:30 / อาทิตย์ 14:00–19:00", phone:"02-734-3797",  featured:false, lat:13.7723, lng:100.6339 },
+  { id:106, name:"Sterling Sport & Wellness",           nameTh:"สเตอร์ลิง สปอร์ต แอนด์ เวลเนส",         district:"คลองเตย",   districtEn:"Khlong Toei",  zone:"สุขุมวิท",     address:"109 ซ.สุขุมวิท 24 คลองตัน คลองเตย กรุงเทพฯ 10110",          type:"hard", indoor:true,  aircon:true,  nightLights:true,  courts:6,  priceMin:350, priceMax:500, rating:4.8, reviews:156, bts:"Phrom Phong BTS",             facilities:["คอร์ตในร่ม","ห้องอาบน้ำ","ล็อคเกอร์","ร้านอาหาร","ฟิตเนส","ที่จอดรถ"],           hours:"06:00–23:30", phone:"091-742-6222", featured:true,  lat:13.7253, lng:100.5643, website:"https://sterlingbkk.com/" },
+  { id:107, name:"Suk Space Pickleball",                nameTh:"ซัค สเปซ พิคเคิลบอล",                    district:"วัฒนา",     districtEn:"Watthana",     zone:"สุขุมวิท",     address:"14/1 ซ.สุขุมวิท 67 พระโขนงเหนือ วัฒนา กรุงเทพฯ 10110",   type:"hard", indoor:true,  aircon:false,  nightLights:true,  courts:8,  priceMin:300, priceMax:400, rating:4.6, reviews:89,  bts:"Phra Khanong BTS",           facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","ห้องน้ำ","ที่จอดรถ"],                                 hours:"09:00–18:00", phone:null,           featured:false, lat:13.7155, lng:100.5905, website:"https://sukspace.com/" },
+  { id:108, name:"Asoke Sports Club Pickleball",        nameTh:"อโศก สปอร์ตส คลับ พิคเคิลบอล",          district:"วัฒนา",     districtEn:"Watthana",     zone:"สุขุมวิท",     address:"48 ซ.สุขุมวิท 16 วัฒนา กรุงเทพฯ",                            type:"hard", indoor:true,  aircon:true,  nightLights:true,  courts:4,  priceMin:200, priceMax:250, rating:4.4, reviews:124, bts:"Asoke BTS / Sukhumvit MRT",   facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","ให้เช่าอุปกรณ์","ห้องน้ำ"],                          hours:"07:00–18:00", phone:null,           featured:false, lat:13.7327, lng:100.5609, website:"https://www.asokesports.club/" },
+  { id:109, name:"The Peninsula Bangkok Pickleball",    nameTh:"เดอะ เพนนินซูล่า แบงค็อก พิคเคิลบอล",   district:"คลองสาน",   districtEn:"Khlong San",   zone:"ริมแม่น้ำ",    address:"333 ถ.เจริญนคร คลองสาน กรุงเทพฯ 10600",                      type:"hard", indoor:false, aircon:false, nightLights:true,  courts:2,  priceMin:800, priceMax:1200,rating:4.9, reviews:67,  bts:"Krung Thon Buri BTS",         facilities:["ไฟส่องสว่าง","เทรนเนอร์","อุปกรณ์ครบ","วิวแม่น้ำ","ห้องน้ำพรีเมียม"],           hours:"07:00–20:00", phone:"02-020-2888", featured:false, lat:13.7263, lng:100.5113, website:"https://www.peninsula.com/en/bangkok/wellness/pickleball-court" },
+  { id:110, name:"Arise Pickleball Club",               nameTh:"อไรส์ พิคเคิลบอล คลับ",                  district:"ห้วยขวาง",  districtEn:"Huai Khwang",  zone:"ใจกลางกรุง",  address:"ห้วยขวาง กรุงเทพฯ",                                          type:"hard", indoor:true,  aircon:false,  nightLights:true,  courts:5,  priceMin:250, priceMax:350, rating:4.6, reviews:78,  bts:"Huai Khwang MRT",             facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","ให้เช่าอุปกรณ์","คลาสสอน","ที่จอดรถ"],              hours:"08:00–22:00", phone:null,           featured:false, lat:13.7722, lng:100.5737, website:"https://www.arisepickleball.com/" },
+  { id:111, name:"Sirisuk Sports & Social Club",        nameTh:"สิริสุข สปอร์ตส์ แอนด์ โซเชียล คลับ",   district:"ยานนาวา",   districtEn:"Yannawa",      zone:"ริมแม่น้ำ",    address:"ซ.นราธิวาสราชนครินทร์ 20 ยานนาวา กรุงเทพฯ 10120",            type:"hard", indoor:false, aircon:false, nightLights:true,  courts:2,  priceMin:200, priceMax:200, rating:4.5, reviews:64,  bts:"Chong Nonsi BTS",             facilities:["ไฟส่องสว่าง","ให้เช่าอุปกรณ์","ที่จอดรถ"],                                      hours:"06:00–23:00", phone:"081-924-8555", featured:false, lat:13.7047, lng:100.5369 },
+  { id:112, name:"Papaya Pickleball Club",              nameTh:"ปาปายา พิคเคิลบอล คลับ",                district:"สวนหลวง",   districtEn:"Suan Luang",   zone:"ฝั่งตะวันออก", address:"142/2 ซ.พัฒนาการ 44 สวนหลวง กรุงเทพฯ 10250",                type:"hard", indoor:true,  aircon:true,  nightLights:true,  courts:6,  priceMin:800, priceMax:1000,rating:4.7, reviews:112, bts:null,                          facilities:["คอร์ตในร่ม","แอร์","ไฟส่องสว่าง","ให้เช่าอุปกรณ์","ห้องน้ำ","ที่จอดรถ"],        hours:"06:00–00:00", phone:"099-619-2666", featured:true,  lat:13.7198, lng:100.6277 },
+  { id:113, name:"Siangpure Pickleball Club",           nameTh:"สนาม Pickleball เสียงพูร",               district:"บางกะปิ",   districtEn:"Bang Kapi",    zone:"ฝั่งตะวันออก", address:"127 ซ.โยธินพัฒนา 3 คลองจั่น บางกะปิ กรุงเทพฯ 10240",       type:"hard", indoor:false, aircon:false, nightLights:true,  courts:2,  priceMin:350, priceMax:350, rating:4.6, reviews:78,  bts:"Bangkapi (Yellow Line)",      facilities:["ไฟส่องสว่าง","ที่จอดรถ"],                                                        hours:"พุธ–จันทร์ 08:30–18:30 (หยุดอังคาร)", phone:"090-980-1368", featured:false, lat:13.7638, lng:100.6398 },
+  { id:114, name:"Panya Sport Complex",                 nameTh:"ปัญญา สปอร์ต คอมเพล็กซ์",              district:"คันนายาว",  districtEn:"Khan Na Yao",  zone:"ฝั่งตะวันออก", address:"9 ถ.ปัญญาอินทรา คันนายาว กรุงเทพฯ 10230",                  type:"hard", indoor:false, aircon:false, nightLights:true,  courts:6,  priceMin:250, priceMax:250, rating:4.5, reviews:143, bts:null,                          facilities:["ไฟส่องสว่าง","ที่จอดรถ","ห้องน้ำ","ร้านอาหาร"],                                  hours:"จ–ศ 12:00–21:00 / ส–อา 08:00–21:00", phone:"061-827-2773", featured:false, lat:13.8343, lng:100.6793 },
+  { id:115, name:"RSC Ratchaphruek Sports Club",        nameTh:"อาร์เอสซี ราชพฤกษ์ สปอร์ตส์ คลับ",    district:"ตลิ่งชัน",  districtEn:"Taling Chan",  zone:"ฝั่งตะวันตก",  address:"894 ถ.พรานนกตัดใหม่ บางพรม ตลิ่งชัน กรุงเทพฯ 10170",       type:"hard", indoor:true,  aircon:true,  nightLights:true,  courts:3,  priceMin:400, priceMax:500, rating:4.7, reviews:89,  bts:null,                          facilities:["คอร์ตในร่ม","แอร์","ไฟส่องสว่าง","ให้เช่าอุปกรณ์","ที่จอดรถ"],                  hours:"08:00–00:00", phone:"093-574-0371", featured:false, lat:13.7512, lng:100.4294, googleMaps:"https://maps.app.goo.gl/oeom7T4dgJ67Fsc2A", website:"https://www.rsportsclub.com/" },
+  { id:116, name:"Dink A Lot Pickleball",               nameTh:"ดิงก์ อะ ล็อต พิคเคิลบอล",             district:"ห้วยขวาง",  districtEn:"Huai Khwang",  zone:"ฝั่งตะวันออก", address:"ห้วยขวาง กรุงเทพฯ 10310",                                    type:"hard", indoor:true,  aircon:true,  nightLights:true,  courts:5,  priceMin:300, priceMax:400, rating:4.6, reviews:95,  bts:"Huai Khwang MRT",             facilities:["คอร์ตในร่ม","แอร์","ไฟส่องสว่าง","open play","ที่จอดรถ"],                       hours:"09:00–22:00", phone:null,           featured:false, lat:13.7748, lng:100.5872 },
+  { id:117, name:"SP Pickleball Club",                  nameTh:"เอสพี พิคเคิลบอล คลับ",                 district:"ลาดพร้าว",  districtEn:"Lat Phrao",    zone:"ฝั่งเหนือ",    address:"ลาดพร้าว กรุงเทพฯ",                                          type:"hard", indoor:true,  aircon:false, nightLights:true,  courts:6,  priceMin:300, priceMax:400, rating:4.5, reviews:67,  bts:"Lat Phrao (Yellow Line)",     facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","open play","ให้เช่าอุปกรณ์"],                        hours:"09:00–22:00", phone:null,           featured:false, lat:13.8012, lng:100.5678 },
+  { id:118, name:"Windfield Sports Complex Pickleball", nameTh:"วินด์ฟิลด์ สปอร์ต คอมเพล็กซ์ พิคเคิลบอล", district:"มีนบุรี", districtEn:"Min Buri",    zone:"ฝั่งตะวันออก", address:"ซ.มีนบุรี 23 มีนบุรี กรุงเทพฯ 10510",                       type:"hard", indoor:false, aircon:false, nightLights:true,  courts:4,  priceMin:250, priceMax:300, rating:4.4, reviews:54,  bts:"Min Buri (Pink Line)",        facilities:["ไฟส่องสว่าง","ที่จอดรถ","ห้องน้ำ"],                                              hours:"07:00–21:00", phone:null,           featured:false, lat:13.8148, lng:100.7498 },
+  { id:119, name:"Lat Phrao Pickleball Arena",          nameTh:"ลาดพร้าว พิคเคิลบอล อารีน่า",           district:"ลาดพร้าว",  districtEn:"Lat Phrao",    zone:"ฝั่งเหนือ",    address:"ซ.ลาดพร้าว 71 ลาดพร้าว กรุงเทพฯ 10230",                    type:"hard", indoor:true,  aircon:false, nightLights:true,  courts:4,  priceMin:300, priceMax:350, rating:4.5, reviews:82,  bts:"Lat Phrao 71 (Yellow Line)",  facilities:["คอร์ตในร่ม","ไฟส่องสว่าง","ให้เช่าอุปกรณ์","คลาสสอน","ที่จอดรถ"],              hours:"08:00–22:00", phone:null,           featured:false, lat:13.8042, lng:100.5812 },
+  { id:120, name:"Slowcombo Pickleball",                nameTh:"สโลว์คอมโบ พิคเคิลบอล",                  district:"ปทุมวัน",  districtEn:"Pathum Wan",   zone:"ใจกลางกรุง",  address:"126 ซ.จุฬาลงกรณ์ 50 วังใหม่ ปทุมวัน กรุงเทพฯ",             type:"hard", indoor:false, aircon:false, nightLights:false, courts:2,  priceMin:0,   priceMax:0,   rating:4.5, reviews:41,  bts:"Sam Yan MRT",                 facilities:["ไฟส่องสว่าง","ให้เช่าอุปกรณ์","ร้านอาหาร/คาเฟ่"],                              hours:"10:00–20:00", phone:"080-914-4565", featured:false, lat:13.7330, lng:100.5270 },
+];
+
+const ZONES = ["ทั้งหมด","ใจกลางกรุง","สุขุมวิท","ฝั่งตะวันออก","ฝั่งเหนือ","ริมแม่น้ำ","ฝั่งใต้","ฝั่งตะวันตก"];
+const TENNIS_TYPES = [{k:"all",th:"ทุกประเภท",en:"All Types"},{k:"hard",th:"ฮาร์ดคอร์ต",en:"Hard"},{k:"clay",th:"เคลย์",en:"Clay"},{k:"grass",th:"หญ้า",en:"Grass"}];
+const PB_TYPES    = [{k:"all",th:"ทุกประเภท",en:"All Types"},{k:"hard",th:"ฮาร์ดคอร์ต",en:"Hard"}];
+const TYPE_COLORS = { hard:"#3b82f6", clay:"#f97316", grass:"var(--green)" };
+const TYPE_LABELS = { hard:"ฮาร์ดคอร์ต", clay:"เคลย์", grass:"หญ้า" };
+
+function StarRating({rating}) {
+  return <span style={{color:"var(--yellow-dark)",fontWeight:600,fontSize:13}}>★ {rating.toFixed(1)}</span>;
+}
+
+function Badge({children, color="var(--green-light)", text="var(--green-dark)"}) {
+  return <span style={{background:color,color:text,padding:"3px 10px",borderRadius:20,fontSize:12,fontWeight:600,whiteSpace:"nowrap"}}>{children}</span>;
+}
+
+// ─── COURT SVG (correct tennis court layout) ─────────────────────────────────
+function CourtSVG({type}) {
+  const L = "rgba(255,255,255,0.55)";
+  const S = "rgba(255,255,255,0.32)";
+  const W = 130, H = 60;
+  const ml = 5, mr = W-5, mt = 4, mb = H-4;
+  const alley = (mb - mt) * (4.5/36);
+  const st = mt + alley, sb = mb - alley;
+  const net = W / 2;
+  const svcFrac = 21/39;
+  const svcL = net - (net - ml) * svcFrac;
+  const svcR = net + (mr - net) * svcFrac;
+  const cy = (mt + mb) / 2;
+  return (
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} fill="none">
+      <rect x={ml} y={mt} width={mr-ml} height={mb-mt} stroke={L} strokeWidth="1.8"/>
+      <line x1={ml} y1={st} x2={mr} y2={st} stroke={S} strokeWidth="1.1"/>
+      <line x1={ml} y1={sb} x2={mr} y2={sb} stroke={S} strokeWidth="1.1"/>
+      <line x1={net} y1={mt} x2={net} y2={mb} stroke={L} strokeWidth="2.2"/>
+      <circle cx={net} cy={mt} r="1.8" fill={L}/>
+      <circle cx={net} cy={mb} r="1.8" fill={L}/>
+      <line x1={svcL} y1={st} x2={svcL} y2={sb} stroke={S} strokeWidth="1.1"/>
+      <line x1={svcR} y1={st} x2={svcR} y2={sb} stroke={S} strokeWidth="1.1"/>
+      <line x1={svcL} y1={cy} x2={svcR} y2={cy} stroke={S} strokeWidth="1.1"/>
+      <line x1={ml} y1={cy-2.5} x2={ml} y2={cy+2.5} stroke={L} strokeWidth="1.6"/>
+      <line x1={mr} y1={cy-2.5} x2={mr} y2={cy+2.5} stroke={L} strokeWidth="1.6"/>
+    </svg>
+  );
+}
+
+function CourtCard({court, onClick, theme}) {
+  const [hov, setHov] = useState(false);
+  const darkTheme = theme === "dark";
+  return (
+    <div onClick={() => onClick(court)} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)} style={{
+      background: darkTheme ? (hov?"#1c2a1e":"#162018") : "var(--card-bg)",
+      border: darkTheme ? "1px solid #243228" : "1px solid var(--border)",
+      borderRadius:"var(--radius)", padding:0, cursor:"pointer",
+      transition:"all 0.2s cubic-bezier(0.2,0,0,1)",
+      transform: hov ? "translateY(-3px)" : "none",
+      boxShadow: hov ? "var(--shadow-hover)" : "var(--shadow)",
+      overflow:"hidden", display:"flex", flexDirection:"column",
+    }}>
+      <div style={{
+        height:130,
+        background: court.type==="clay" ? "linear-gradient(135deg,#c84b0a,#e0622a 40%,#b94008)"
+          : court.type==="grass" ? "linear-gradient(135deg,#1a5c2a,#2d8a42 40%,#145022)"
+          : "linear-gradient(135deg,#1e5fa8,#2b7ad4 40%,#174e8e)",
+        position:"relative", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0,
+      }}>
+        <CourtSVG type={court.type} />
+        {court.image && <img src={court.image} alt={court.nameTh} onError={e=>e.target.style.display="none"} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}/>}
+        {court.featured && <div style={{position:"absolute",top:10,left:10,background:"var(--yellow)",color:"#111",padding:"2px 8px",borderRadius:20,fontSize:11,fontWeight:700,zIndex:1}}>⭐ แนะนำ</div>}
+        <div style={{position:"absolute",bottom:10,right:10,display:"flex",gap:4,zIndex:1}}>
+          {court.indoor && <Badge color="rgba(0,0,0,0.5)" text="#fff">🏠 ในร่ม</Badge>}
+          {court.nightLights && <Badge color="rgba(0,0,0,0.5)" text="#fff">🌙 มีไฟ</Badge>}
+        </div>
+      </div>
+      <div style={{padding:"16px 18px", flex:1, display:"flex", flexDirection:"column", gap:7}}>
+        <div style={{display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:8}}>
+          <div>
+            <div style={{fontWeight:700,fontSize:15,color:darkTheme?"#ddeedd":"#1a2420",lineHeight:1.3,letterSpacing:"-0.01em"}}>{court.nameTh}</div>
+            <div style={{fontSize:12,color:darkTheme?"#6a9a6a":"var(--text-muted)",marginTop:2}}>{court.name}</div>
+          </div>
+          <StarRating rating={court.rating} />
+        </div>
+        <div style={{fontSize:12,color:darkTheme?"#7ab87a":"#555",display:"flex",alignItems:"center",gap:4}}>
+          <span>📍</span><span>{court.district}{court.bts ? ` • ${court.bts}` : ""}</span>
+        </div>
+        <div style={{display:"flex",gap:6,flexWrap:"wrap",marginTop:2}}>
+          <Badge color={darkTheme?"#1a3020":"#e8f5e8"} text={darkTheme?"#6ecf6e":"var(--green-dark)"}>{TYPE_LABELS[court.type]}</Badge>
+          <Badge color={darkTheme?"#1a1a30":"#eef2ff"} text={darkTheme?"#9090e0":"#4040b0"}>{court.courts} คอร์ด</Badge>
+        </div>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"auto",paddingTop:10,borderTop:darkTheme?"1px solid #243228":"1px solid var(--border)"}}>
+          <div>
+            {court.priceMin === 0
+              ? <span style={{fontWeight:800,fontSize:19,color:"var(--green)",letterSpacing:"-0.02em"}}>ฟรี</span>
+              : <><span style={{fontWeight:800,fontSize:19,color:"var(--green)",letterSpacing:"-0.02em"}}>฿{court.priceMin.toLocaleString()}</span>
+                 <span style={{fontSize:12,color:darkTheme?"#6a8a6a":"var(--text-muted)"}}>{court.priceMax>court.priceMin?`–${court.priceMax.toLocaleString()}`:""}/ชม.</span></>
+            }
+          </div>
+          <div style={{fontSize:11,color:darkTheme?"#6a8a6a":"#999"}}>{court.hours}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfoBox({label, value, darkTheme}) {
+  return (
+    <div style={{background:darkTheme?"#1a2c1e":"var(--green-light)",borderRadius:12,padding:"10px 14px"}}>
+      <div style={{fontSize:11,color:darkTheme?"#6a9a6a":"var(--green-dark)",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:4}}>{label}</div>
+      <div style={{fontWeight:700,fontSize:16,color:darkTheme?"#c0d8c0":"#1a2420"}}>{value}</div>
+    </div>
+  );
+}
+
+function CourtDetailModal({court, onClose, theme}) {
+  const darkTheme = theme === "dark";
+  useEffect(() => {
+    const h = e => { if (e.key==="Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, []);
+  return (
+    <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.55)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}}>
+      <div onClick={e=>e.stopPropagation()} style={{background:darkTheme?"#162018":"#fff",borderRadius:24,width:"100%",maxWidth:520,maxHeight:"90vh",overflow:"auto",boxShadow:"0 20px 60px rgba(0,0,0,0.3)"}}>
+        <div style={{height:180,position:"relative",background:court.type==="clay"?"linear-gradient(135deg,#c84b0a,#e0622a 60%,#b94008)":court.type==="grass"?"linear-gradient(135deg,#1a5c2a,#2d8a42 60%,#145022)":"linear-gradient(135deg,#1e5fa8,#2b7ad4 60%,#174e8e)",display:"flex",alignItems:"center",justifyContent:"center",borderRadius:"20px 20px 0 0"}}>
+          <CourtSVG type={court.type} />
+          {court.image && <img src={court.image} alt={court.nameTh} onError={e=>e.target.style.display="none"} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",borderRadius:"20px 20px 0 0"}}/>}
+          <div style={{position:"absolute",top:0,right:0,bottom:0,left:0,borderRadius:"20px 20px 0 0",background:"linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.4))",zIndex:1}}/>
+          <button onClick={onClose} style={{position:"absolute",top:12,right:12,background:"rgba(0,0,0,0.4)",border:"none",color:"#fff",width:32,height:32,borderRadius:"50%",cursor:"pointer",fontSize:16,display:"flex",alignItems:"center",justifyContent:"center",zIndex:2}}>✕</button>
+          {court.featured && <div style={{position:"absolute",top:12,left:12,background:"var(--yellow)",color:"#111",padding:"3px 10px",borderRadius:20,fontSize:12,fontWeight:700,zIndex:2}}>⭐ แนะนำ</div>}
+          <div style={{position:"absolute",bottom:14,left:16,right:16,zIndex:2}}>
+            <div style={{fontWeight:800,fontSize:22,color:"#fff",textShadow:"0 1px 4px rgba(0,0,0,0.5)"}}>{court.nameTh}</div>
+            <div style={{color:"rgba(255,255,255,0.8)",fontSize:13}}>{court.name}</div>
+          </div>
+        </div>
+        <div style={{padding:20,display:"flex",flexDirection:"column",gap:16}}>
+          <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+            <Badge color={TYPE_COLORS[court.type]+"22"} text={TYPE_COLORS[court.type]}>{TYPE_LABELS[court.type]}</Badge>
+            {court.indoor && <Badge>🏠 ในร่ม</Badge>}
+            {court.nightLights && <Badge>🌙 ไฟกลางคืน</Badge>}
+            <Badge color="#f0f0ff" text="#4040c0">{court.courts} คอร์ด</Badge>
+            <div style={{marginLeft:"auto"}}><StarRating rating={court.rating}/> <span style={{fontSize:12,color:"#999"}}>({court.reviews})</span></div>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
+            <InfoBox label="ราคา/ชม." value={court.priceMin===0 ? "ฟรี" : `฿${court.priceMin.toLocaleString()}${court.priceMax>court.priceMin?`–${court.priceMax.toLocaleString()}`:""}`} darkTheme={darkTheme}/>
+            <InfoBox label="เวลาเปิด" value={court.hours} darkTheme={darkTheme}/>
+          </div>
+          <div style={{background:darkTheme?"#1a2c1e":"var(--green-light)",borderRadius:14,padding:16}}>
+            <div style={{fontSize:12,fontWeight:600,color:darkTheme?"#6a9a6a":"var(--green-dark)",marginBottom:6,textTransform:"uppercase",letterSpacing:"0.06em"}}>ที่ตั้ง</div>
+            <div style={{fontSize:14,color:darkTheme?"#c0d8c0":"#333"}}>{court.address}</div>
+            {court.bts && <div style={{fontSize:13,color:darkTheme?"#7ab87a":"var(--green)",marginTop:4}}>🚌 {court.bts}</div>}
+          </div>
+          <div>
+            <div style={{fontSize:12,fontWeight:600,color:"#999",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:8}}>สิ่งอำนวยความสะดวก</div>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              {court.facilities.map(f => <Badge key={f} color={darkTheme?"#1e2820":"#f0f5f0"} text={darkTheme?"#a0c8a0":"#2d5a2d"}>✓ {f}</Badge>)}
+            </div>
+          </div>
+          <div>
+            <div style={{fontSize:12,fontWeight:600,color:"#999",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:8}}>ช่องทางติดต่อ</div>
+            <div style={{display:"flex",flexDirection:"column",gap:8}}>
+              {court.phone && (
+                <a href={`tel:${court.phone}`} style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",borderRadius:12,background:darkTheme?"#1e2820":"#f0f9f0",border:`1px solid ${darkTheme?"#2a4030":"#c8e8c8"}`,color:darkTheme?"#80c880":"var(--green-dark)",textDecoration:"none",fontSize:14,fontWeight:600}}>
+                  <span style={{fontSize:20}}>📞</span>
+                  <div><div style={{fontSize:12,color:"#999",marginBottom:1}}>โทรศัพท์</div><div>{court.phone}</div></div>
+                </a>
+              )}
+              {court.website && (
+                <a href={court.website} target="_blank" rel="noreferrer" style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",borderRadius:12,background:darkTheme?"#28201e":"#f9f5f0",border:`1px solid ${darkTheme?"#403028":"#e8d8c8"}`,color:darkTheme?"#d8a878":"#a06028",textDecoration:"none",fontSize:14,fontWeight:600}}>
+                  <span style={{fontSize:20}}>🌐</span>
+                  <div><div style={{fontSize:12,color:"#999",marginBottom:1}}>เว็บไซต์</div><div style={{fontSize:13,wordBreak:"break-all"}}>{court.website.replace(/^https?:\/\//,"").replace(/\/$/,"")}</div></div>
+                </a>
+              )}
+              <a href={court.googleMaps || `https://www.google.com/maps/search/${encodeURIComponent(court.nameTh+' '+court.address)}`} target="_blank" rel="noreferrer" style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",borderRadius:12,background:darkTheme?"#1e2028":"#f0f0f9",border:`1px solid ${darkTheme?"#2a2a40":"#c8c8e8"}`,color:darkTheme?"#8888e0":"#4040b0",textDecoration:"none",fontSize:14,fontWeight:600}}>
+                <span style={{fontSize:20}}>📍</span>
+                <div><div style={{fontSize:12,color:"#999",marginBottom:1}}>Google Maps{court.googleMaps ? "" : " (search)"}</div><div style={{fontSize:13}}>{court.address}</div></div>
+              </a>
+              {!court.phone && !court.website && <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",borderRadius:12,background:darkTheme?"#1e2820":"#f5f5f0",border:`1px solid ${darkTheme?"#2a3a2a":"#e0e0d8"}`,color:"#999",fontSize:13}}><span>ℹ️</span> ติดต่อผ่าน Facebook / LINE ของสนาม</div>}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MAP VIEW ────────────────────────────────────────────────────────────────
+function MapView({courts, onSelectCourt, theme, sport}) {
+  const darkTheme = theme === "dark";
+  const mapRef = useRef(null);
+  const leafletMap = useRef(null);
+  const markersRef = useRef([]);
+
+  // init map once
+  useEffect(() => {
+    if (!mapRef.current || leafletMap.current) return;
+    const L = window.L;
+    const map = L.map(mapRef.current, { center:[13.7563,100.5018], zoom:12 });
+    L.tileLayer(
+      darkTheme ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+      { attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>', maxZoom:19 }
+    ).addTo(map);
+    leafletMap.current = map;
+    return () => { map.remove(); leafletMap.current = null; delete window.__selectCourt; };
+  }, []);
+
+  // update markers whenever courts changes
+  useEffect(() => {
+    const map = leafletMap.current;
+    if (!map) return;
+    const L = window.L;
+    const icon = sport === "pickleball" ? "🏓" : "🎾";
+    // clear old markers
+    markersRef.current.forEach(m => m.remove());
+    markersRef.current = [];
+    // add new markers
+    courts.forEach(court => {
+      const m = L.marker([court.lat, court.lng], { icon: L.divIcon({
+        className:"",
+        html:`<div style="width:36px;height:36px;background:${court.featured?"oklch(0.90 0.16 96)":"var(--green)"};border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:16px;">${icon}</span></div>`,
+        iconSize:[36,36], iconAnchor:[18,36], popupAnchor:[0,-38],
+      })}).addTo(map).bindPopup(`
+        <div style="font-family:'Noto Sans Thai',sans-serif;min-width:200px;padding:4px 0">
+          <div style="font-weight:700;font-size:15px;margin-bottom:4px">${court.nameTh}</div>
+          <div style="font-size:12px;color:#666;margin-bottom:6px">${court.name}</div>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+            <span style="font-weight:700;color:oklch(0.52 0.15 150);font-size:16px">${court.priceMin===0?"ฟรี":"฿"+court.priceMin.toLocaleString()}</span>
+            <span style="font-size:11px;color:#999">${court.priceMin===0?"":"/ชม."}</span>
+            <span style="margin-left:auto;color:#f0a800;font-weight:600">★ ${court.rating}</span>
+          </div>
+          <div style="font-size:12px;color:#555;margin-bottom:8px">📍 ${court.district}${court.bts?` · ${court.bts}`:""}</div>
+          <button onclick="window.__selectCourt(${court.id})" style="width:100%;padding:8px;background:oklch(0.52 0.15 150);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">ดูข้อมูลติดต่อ →</button>
+        </div>`, { maxWidth:260 });
+      markersRef.current.push(m);
+    });
+    window.__selectCourt = id => {
+      const c = courts.find(c=>c.id===id);
+      if (c) onSelectCourt(c);
+    };
+  }, [courts, sport]);
+
+  return (
+    <div style={{display:"flex",gap:16,height:"calc(100vh - 160px)",minHeight:500}}>
+      <div ref={mapRef} style={{flex:1,borderRadius:"var(--radius)",overflow:"hidden",border:`1px solid ${darkTheme?"#243228":"#c8d8c8"}`,zIndex:0}}/>
+      <div style={{width:280,overflow:"auto",display:"flex",flexDirection:"column",gap:8}}>
+        {courts.map(court => (
+          <div key={court.id} onClick={()=>{onSelectCourt(court);leafletMap.current?.setView([court.lat,court.lng],15);}} style={{background:darkTheme?"#162018":"#fff",border:`1px solid ${darkTheme?"#243228":"var(--border)"}`,borderRadius:14,padding:"12px 14px",cursor:"pointer",transition:"all 0.15s"}}>
+            <div style={{fontWeight:700,fontSize:14,color:darkTheme?"#cce8cc":"var(--text)",letterSpacing:"-0.01em"}}>{court.nameTh}</div>
+            <div style={{fontSize:12,color:"var(--text-muted)",marginTop:2}}>📍 {court.district}</div>
+            <div style={{display:"flex",justifyContent:"space-between",marginTop:6,alignItems:"center"}}>
+              <span style={{fontWeight:700,color:"var(--green)",fontSize:14}}>{court.priceMin===0?"ฟรี":<>฿{court.priceMin.toLocaleString()}<span style={{fontSize:11,fontWeight:400,color:"#999"}}>/ชม.</span></>}</span>
+              <StarRating rating={court.rating}/>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── HERO ────────────────────────────────────────────────────────────────────
+function Hero({onSearch, theme, lang, sport, courtCount}) {
+  const [q, setQ] = useState("");
+  const heroBg = theme==="dark"
+    ? "linear-gradient(150deg,#081209 0%,#0e2414 50%,#08120a 100%)"
+    : theme==="bold"
+    ? "linear-gradient(150deg,#0a3018 0%,#1a5c2e 50%,#082814 100%)"
+    : "linear-gradient(150deg,#0d2410 0%,#174d20 50%,#0a1e0d 100%)";
+
+  const ACTIVE = sport==="pickleball" ? PICKLEBALL_COURTS : TENNIS_COURTS;
+
+  return (
+    <div style={{background:heroBg,position:"relative",overflow:"hidden",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"52px 24px 48px"}}>
+      <svg style={{position:"absolute",inset:0,width:"100%",height:"100%",opacity:0.07}} viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid slice">
+        <rect x="60" y="40" width="880" height="480" stroke="white" strokeWidth="6" fill="none"/>
+        <line x1="60" y1="100" x2="940" y2="100" stroke="white" strokeWidth="3"/>
+        <line x1="60" y1="460" x2="940" y2="460" stroke="white" strokeWidth="3"/>
+        <line x1="500" y1="40" x2="500" y2="520" stroke="white" strokeWidth="6"/>
+        <circle cx="500" cy="40" r="8" fill="white"/>
+        <circle cx="500" cy="520" r="8" fill="white"/>
+        <line x1="263" y1="100" x2="263" y2="460" stroke="white" strokeWidth="3"/>
+        <line x1="737" y1="100" x2="737" y2="460" stroke="white" strokeWidth="3"/>
+        <line x1="263" y1="280" x2="737" y2="280" stroke="white" strokeWidth="3"/>
+        <line x1="60" y1="265" x2="60" y2="295" stroke="white" strokeWidth="5"/>
+        <line x1="940" y1="265" x2="940" y2="295" stroke="white" strokeWidth="5"/>
+      </svg>
+      <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 70% 60% at 50% 50%,rgba(40,140,60,0.18) 0%,transparent 70%)",pointerEvents:"none"}}/>
+      <div style={{position:"absolute",top:-80,right:-60,width:320,height:320,background:"radial-gradient(circle,rgba(220,190,0,0.12) 0%,transparent 70%)",borderRadius:"50%",pointerEvents:"none"}}/>
+
+      <div style={{position:"relative",zIndex:1,maxWidth:680,width:"100%",textAlign:"center"}}>
+        <div style={{display:"inline-flex",alignItems:"center",gap:8,marginBottom:24,background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:40,padding:"6px 16px"}}>
+          <div style={{width:20,height:20,background:"var(--yellow)",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11}}>🎾</div>
+          <span style={{color:"rgba(255,255,255,0.75)",fontSize:12,fontWeight:600,letterSpacing:"0.12em",textTransform:"uppercase"}}>TennisFinder BKK</span>
+        </div>
+        <h1 style={{fontSize:"clamp(36px,6vw,72px)",fontWeight:900,color:"#fff",lineHeight:1.08,marginBottom:16,letterSpacing:"-0.02em"}}>
+          {lang==="en" ? <>Find Your Perfect<br/><span style={{color:"var(--yellow)"}}>Tennis Court</span></> : <>หาสนามเทนนิส<br/><span style={{color:"var(--yellow)"}}>ในกรุงเทพฯ ได้เลย</span></>}
+        </h1>
+        <p style={{color:"rgba(255,255,255,0.55)",fontSize:"clamp(14px,2vw,18px)",marginBottom:40,lineHeight:1.6}}>
+          {lang==="en"
+            ? `${courtCount} ${sport==="pickleball"?"pickleball":"tennis"} courts · all districts · compare prices`
+            : `รวม ${courtCount} สนาม${sport==="pickleball"?"พิกเคิลบอล":"เทนนิส"}ทั่วกรุงเทพฯ · เปรียบเทียบราคา · ดูข้อมูลติดต่อ`}
+        </p>
+        <div style={{display:"flex",background:"#fff",borderRadius:18,overflow:"hidden",boxShadow:"0 8px 40px rgba(0,0,0,0.4)",border:"2px solid rgba(255,255,255,0.1)",maxWidth:560,margin:"0 auto"}}>
+          <span style={{padding:"0 16px",display:"flex",alignItems:"center",color:"#aaa",fontSize:20}}>🔍</span>
+          <input placeholder={lang==="en"?"District, court name...":"ค้นหาเขต, ชื่อสนาม..."} value={q} onChange={e=>setQ(e.target.value)} onKeyDown={e=>e.key==="Enter"&&onSearch(q)} style={{flex:1,padding:"16px 0",border:"none",outline:"none",fontSize:16,fontFamily:"inherit",background:"transparent",color:"#111"}}/>
+          <button onClick={()=>onSearch(q)} style={{padding:"16px 28px",background:"var(--green)",color:"#fff",border:"none",cursor:"pointer",fontSize:16,fontWeight:700,fontFamily:"inherit"}}>{lang==="en"?"Search":"ค้นหา"}</button>
+        </div>
+        <div style={{display:"flex",gap:32,justifyContent:"center",marginTop:48}}>
+          {[
+            {n:courtCount, label:lang==="en"?"Courts":"สนาม"},
+            {n:`฿${Math.min(...ACTIVE.map(c=>c.priceMin))}`, label:lang==="en"?"From/hr":"เริ่มต้น/ชม."},
+            {n:ACTIVE.filter(c=>c.indoor).length, label:lang==="en"?"Indoor":"ในร่ม"},
+          ].map(({n,label})=>(
+            <div key={label} style={{textAlign:"center"}}>
+              <div style={{fontWeight:800,fontSize:28,color:"var(--yellow)",lineHeight:1}}>{n}</div>
+              <div style={{fontSize:12,color:"rgba(255,255,255,0.45)",marginTop:4,letterSpacing:"0.05em",textTransform:"uppercase"}}>{label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{position:"absolute",bottom:28,left:"50%",transform:"translateX(-50%)",color:"rgba(255,255,255,0.3)",display:"flex",flexDirection:"column",alignItems:"center",gap:6}}>
+        <span style={{fontSize:18,animation:"bounce 1.5s infinite"}}>↓</span>
+      </div>
+      <style>{`@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}`}</style>
+    </div>
+  );
+}
+
+// ─── MAIN APP ────────────────────────────────────────────────────────────────
+const TWEAK_DEFAULTS = { "theme":"dark", "lang":"th", "viewMode":"grid", "showFeaturedOnly":false };
+
+function App() {
+  const { useTweaks, TweaksPanel, TweakSection, TweakRadio, TweakToggle } = window;
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const { theme, lang, showFeaturedOnly } = tweaks;
+  const darkTheme = theme === "dark";
+
+  const [sport, setSport] = useState("tennis");
+  const [screen, setScreen] = useState("home");
+  const [filters, setFilters] = useState({zone:"ทั้งหมด",type:"all",maxPrice:2000,indoor:false,aircon:false,nightLights:false,hasBTS:false,openTime:"all"});
+  const [searchQ, setSearchQ] = useState("");
+  const [selectedCourt, setSelectedCourt] = useState(null);
+  const [sortBy, setSortBy] = useState("rating");
+
+  useEffect(() => {
+    const r = document.documentElement.style;
+    if (darkTheme) {
+      r.setProperty("--bg","#0f1a12"); r.setProperty("--card-bg","#162018");
+      r.setProperty("--text","#ddeedd"); r.setProperty("--text-muted","#6a8a72");
+      r.setProperty("--border","#243228");
+      r.setProperty("--shadow","0 1px 4px rgba(0,0,0,0.3),0 4px 16px rgba(0,0,0,0.2)");
+      r.setProperty("--shadow-hover","0 4px 8px rgba(0,0,0,0.4),0 12px 32px rgba(0,0,0,0.3)");
+      document.body.style.background = "#0f1a12";
+    } else if (theme==="bold") {
+      r.setProperty("--bg","#eef7f0"); r.setProperty("--card-bg","#fff");
+      r.setProperty("--text","#0e2016"); r.setProperty("--text-muted","#4a6a54");
+      r.setProperty("--border","#c0dcc8");
+      r.setProperty("--shadow","0 1px 4px rgba(0,60,20,0.08),0 4px 16px rgba(0,60,20,0.06)");
+      r.setProperty("--shadow-hover","0 4px 8px rgba(0,60,20,0.12),0 12px 32px rgba(0,60,20,0.1)");
+      document.body.style.background = "#eef7f0";
+    } else {
+      r.setProperty("--bg","#f7f9f7"); r.setProperty("--card-bg","#ffffff");
+      r.setProperty("--text","#1a2420"); r.setProperty("--text-muted","#6b7f78");
+      r.setProperty("--border","#e4ede8");
+      r.setProperty("--shadow","0 1px 4px rgba(0,40,20,0.06),0 4px 16px rgba(0,40,20,0.04)");
+      r.setProperty("--shadow-hover","0 4px 8px rgba(0,40,20,0.08),0 12px 32px rgba(0,40,20,0.08)");
+      document.body.style.background = "#f7f9f7";
+    }
+  }, [theme]);
+
+  const COURTS = sport==="tennis" ? TENNIS_COURTS : PICKLEBALL_COURTS;
+  const ACTIVE_TYPES = sport==="tennis" ? TENNIS_TYPES : PB_TYPES;
+
+  const filtered = COURTS.filter(c => {
+    if (showFeaturedOnly && !c.featured) return false;
+    if (filters.zone!=="ทั้งหมด" && c.zone!==filters.zone) return false;
+    if (filters.type!=="all" && c.type!==filters.type) return false;
+    if (c.priceMin>filters.maxPrice) return false;
+    if (filters.indoor && !c.indoor) return false;
+    if (filters.aircon && !c.aircon) return false;
+    if (filters.nightLights && !c.nightLights) return false;
+    if (filters.hasBTS && !c.bts) return false;
+    if (filters.openTime==="early" && !c.hours.startsWith("06")) return false;
+    if (filters.openTime==="late" && !c.hours.includes("22")) return false;
+    if (searchQ && !c.nameTh.includes(searchQ) && !c.name.toLowerCase().includes(searchQ.toLowerCase()) && !c.district.includes(searchQ) && !c.zone.includes(searchQ)) return false;
+    return true;
+  }).sort((a,b) => sortBy==="rating"?b.rating-a.rating:sortBy==="price"?a.priceMin-b.priceMin:sortBy==="name"?a.nameTh.localeCompare(b.nameTh,"th"):sortBy==="nameEn"?a.name.localeCompare(b.name,"en"):b.courts-a.courts);
+
+  const navBg = darkTheme ? "rgba(15,26,18,0.92)" : "rgba(255,255,255,0.88)";
+  const navBorder = darkTheme ? "#1e3022" : "#e4ede8";
+
+  return (
+    <div style={{minHeight:"100vh",color:"var(--text)",fontFamily:"'Noto Sans Thai','Space Grotesk',sans-serif"}}>
+      {/* NAV */}
+      <nav style={{background:navBg,borderBottom:`1px solid ${navBorder}`,position:"sticky",top:0,zIndex:100,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 24px",height:60,backdropFilter:"blur(12px)",boxShadow:darkTheme?"0 1px 0 #1e3022":"0 1px 0 #e4ede8"}}>
+        <button onClick={()=>setScreen("home")} style={{display:"flex",alignItems:"center",gap:8,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit"}}>
+          <div style={{width:28,height:28,background:"var(--green)",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14}}>🎾</div>
+          <span style={{fontWeight:800,fontSize:16,color:darkTheme?"#ddeedd":"#1a2420",letterSpacing:"-0.02em"}}>TennisFinder</span>
+        </button>
+        <div style={{display:"flex",gap:2}}>
+          {[{id:"home",label:lang==="en"?"Discover":"ค้นหา"},{id:"map",label:lang==="en"?"Map":"แผนที่"}].map(n=>(
+            <button key={n.id} onClick={()=>setScreen(n.id)} style={{padding:"6px 14px",borderRadius:8,background:screen===n.id?(darkTheme?"#1a2c1e":"var(--green-light)"):"none",color:screen===n.id?"var(--green)":"var(--text-muted)",border:"none",cursor:"pointer",fontSize:14,fontWeight:screen===n.id?700:400,fontFamily:"inherit"}}>{n.label}</button>
+          ))}
+        </div>
+        <div style={{display:"flex",alignItems:"center",background:darkTheme?"#162018":"#fff",border:`1px solid var(--border)`,borderRadius:20,padding:2,gap:0}}>
+          {[{v:"th",label:"ไทย"},{v:"en",label:"EN"}].map(o=>(
+            <button key={o.v} onClick={()=>setTweak("lang",o.v)} style={{padding:"4px 12px",borderRadius:18,border:"none",background:lang===o.v?"var(--green)":"transparent",color:lang===o.v?"#fff":"var(--text-muted)",fontSize:12,fontWeight:lang===o.v?700:500,cursor:"pointer",fontFamily:"inherit",transition:"all 0.15s"}}>{o.label}</button>
+          ))}
+        </div>
+      </nav>
+
+      {/* HERO */}
+      {screen==="home" && <Hero onSearch={q=>{setSearchQ(q);window.scrollTo({top:300,behavior:"smooth"});}} theme={theme} lang={lang} sport={sport} courtCount={COURTS.length}/>}
+
+      <div style={{maxWidth:1200,margin:"0 auto",padding:"0 16px"}}>
+        {(screen==="home"||screen==="list") && (
+          <div style={{paddingTop:screen==="home"?28:20}}>
+            {/* Sport tabs */}
+            <div style={{display:"flex",gap:6,marginBottom:12}}>
+              {[{id:"tennis",label:"เทนนิส",labelEn:"Tennis"},{id:"pickleball",label:"พิกเคิลบอล",labelEn:"Pickleball"}].map(s=>(
+                <button key={s.id} onClick={()=>{setSport(s.id);setFilters(f=>({...f,type:"all"}));}} style={{display:"flex",alignItems:"center",gap:6,padding:"7px 18px",borderRadius:40,background:sport===s.id?"var(--green)":(darkTheme?"#162018":"#fff"),border:`1.5px solid ${sport===s.id?"var(--green)":"var(--border)"}`,color:sport===s.id?"#fff":"var(--text-muted)",fontWeight:sport===s.id?700:400,fontSize:14,cursor:"pointer",fontFamily:"inherit",transition:"all 0.18s",boxShadow:sport===s.id?"0 2px 12px rgba(0,100,40,0.2)":"var(--shadow)"}}>
+                  {s.id==="tennis"
+                    ? <span style={{fontSize:16}}>🎾</span>
+                    : <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{flexShrink:0}}>
+                        {/* paddle head — rounded rect */}
+                        <rect x="5" y="1" width="11" height="12" rx="2.5" fill={sport===s.id?"#fff":"#1a1a1a"}/>
+                        {/* paddle face holes */}
+                        {[[8,3.5],[11,3.5],[8,6.5],[11,6.5],[8,9.5],[11,9.5]].map(([cx,cy],i)=>(
+                          <circle key={i} cx={cx} cy={cy} r="0.9" fill={sport===s.id?"var(--green)":"#fff"}/>
+                        ))}
+                        {/* handle */}
+                        <rect x="9" y="13" width="3" height="4.5" rx="1.5" fill={sport===s.id?"#fff":"#1a1a1a"}/>
+                        {/* ball */}
+                        <circle cx="3" cy="14.5" r="2.5" fill="#f97316"/>
+                        {[[3,13.3],[1.9,15],[4.1,15]].map(([cx,cy],i)=>(
+                          <circle key={i} cx={cx} cy={cy} r="0.55" fill="rgba(255,255,255,0.65)"/>
+                        ))}
+                      </svg>
+                  }
+                  {lang==="en"?s.labelEn:s.label}
+                  <span style={{background:sport===s.id?"rgba(255,255,255,0.25)":(darkTheme?"#243228":"var(--green-light)"),color:sport===s.id?"#fff":"var(--green-dark)",borderRadius:20,padding:"1px 7px",fontSize:11,fontWeight:600}}>{s.id==="tennis"?TENNIS_COURTS.length:PICKLEBALL_COURTS.length}</span>
+                </button>
+              ))}
+            </div>
+            {/* Inline filter bar */}
+            <div style={{display:"flex",gap:8,marginBottom:12,flexWrap:"wrap",alignItems:"center",background:darkTheme?"#162018":"#fff",border:`1px solid var(--border)`,borderRadius:20,padding:"8px 12px",boxShadow:"var(--shadow)",position:"sticky",top:68,zIndex:50}}>
+              <div style={{display:"flex",alignItems:"center",flex:1,minWidth:160,gap:4}}>
+                <span style={{color:"#aaa",fontSize:15}}>🔍</span>
+                <input placeholder={lang==="en"?"Search courts, district...":"ค้นหาสนาม, เขต..."} value={searchQ} onChange={e=>setSearchQ(e.target.value)} style={{flex:1,padding:"4px 0",border:"none",outline:"none",background:"transparent",fontSize:14,fontFamily:"inherit",color:"var(--text)"}}/>
+                {searchQ && <button onClick={()=>setSearchQ("")} style={{background:"none",border:"none",cursor:"pointer",color:"#aaa",fontSize:14,padding:0}}>✕</button>}
+              </div>
+              <div style={{width:1,height:24,background:"var(--border)",flexShrink:0}}/>
+              <div style={{display:"flex",gap:6}}>
+                {ACTIVE_TYPES.filter(t=>t.k!=="all").map(t=>(
+                  <button key={t.k} onClick={()=>setFilters(f=>({...f,type:f.type===t.k?"all":t.k}))} style={{padding:"5px 11px",borderRadius:20,border:"1.5px solid",borderColor:filters.type===t.k?TYPE_COLORS[t.k]:"var(--border)",background:filters.type===t.k?TYPE_COLORS[t.k]+"22":"transparent",color:filters.type===t.k?TYPE_COLORS[t.k]:"var(--text-muted)",fontSize:12,fontWeight:filters.type===t.k?600:400,cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit",transition:"all 0.15s"}}>{lang==="en"?t.en:t.th}</button>
+                ))}
+              </div>
+              <div style={{width:1,height:24,background:"var(--border)",flexShrink:0}}/>
+              <div style={{display:"flex",gap:6}}>
+                {[{k:"indoor",th:"ในร่ม",en:"Indoor"},{k:"aircon",th:"มีแอร์",en:"AC"},{k:"nightLights",th:"ไฟกลางคืน",en:"Night Lights"},{k:"hasBTS",th:"ใกล้ BTS",en:"Near BTS"}].map(({k,th,en})=>(
+                  <button key={k} onClick={()=>setFilters(f=>({...f,[k]:!f[k]}))} style={{padding:"5px 11px",borderRadius:20,border:"1.5px solid",borderColor:filters[k]?"var(--green)":"var(--border)",background:filters[k]?"var(--green)":"transparent",color:filters[k]?"#fff":"var(--text-muted)",fontSize:12,fontWeight:filters[k]?600:400,cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit",transition:"all 0.15s"}}>{lang==="en"?en:th}</button>
+                ))}
+              </div>
+              <select value={sortBy} onChange={e=>setSortBy(e.target.value)} style={{padding:"5px 10px",borderRadius:10,border:`1px solid var(--border)`,background:"transparent",color:"var(--text-muted)",fontSize:12,cursor:"pointer",fontFamily:"inherit",outline:"none"}}>
+                <option value="rating">★ {lang==="en"?"Top Rated":"คะแนน"}</option>
+                <option value="price">฿ {lang==="en"?"Cheapest":"ราคา"}</option>
+                <option value="courts">🎾 {lang==="en"?"Most Courts":"คอร์ด"}</option>
+                <option value="name">{lang==="en"?"ก–ฮ Thai A–Z":"ก–ฮ ตัวอักษร"}</option>
+                <option value="nameEn">{lang==="en"?"A–Z Alphabetical":"A–Z อังกฤษ"}</option>
+              </select>
+            </div>
+
+            <div style={{marginBottom:14,color:"var(--text-muted)",fontSize:13,paddingLeft:4}}>
+              {lang==="en"?`${filtered.length} courts`:`พบ ${filtered.length} สนาม`}
+              {(searchQ||filters.type!=="all"||filters.indoor||filters.aircon||filters.nightLights||filters.hasBTS) && (
+                <button onClick={()=>{setSearchQ("");setFilters({zone:"ทั้งหมด",type:"all",maxPrice:2000,indoor:false,aircon:false,nightLights:false,hasBTS:false,openTime:"all"});}} style={{marginLeft:10,color:"var(--green)",background:"none",border:"none",cursor:"pointer",fontSize:12,fontFamily:"inherit",fontWeight:600}}>{lang==="en"?"Reset ✕":"รีเซ็ต ✕"}</button>
+              )}
+            </div>
+
+            {filtered.length===0 ? (
+              <div style={{textAlign:"center",padding:60,color:"var(--text-muted)"}}>
+                <div style={{fontSize:48,marginBottom:16}}>🎾</div>
+                <div style={{fontSize:18,fontWeight:600,marginBottom:8}}>{lang==="en"?"No courts found":"ไม่พบสนามที่ตรงกัน"}</div>
+                <div style={{fontSize:14}}>{lang==="en"?"Try adjusting filters":"ลองปรับตัวกรองใหม่"}</div>
+              </div>
+            ) : (
+              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:14,paddingBottom:40}}>
+                {filtered.map(c=><CourtCard key={c.id} court={c} onClick={setSelectedCourt} theme={theme}/>)}
+              </div>
+            )}
+          </div>
+        )}
+
+        {screen==="map" && (
+          <div style={{paddingTop:20}}>
+            <div style={{marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+              <div style={{display:"flex",gap:6}}>
+                {[{id:"tennis",label:"เทนนิส",labelEn:"Tennis"},{id:"pickleball",label:"พิกเคิลบอล",labelEn:"Pickleball"}].map(s=>(
+                  <button key={s.id} onClick={()=>{setSport(s.id);}} style={{display:"flex",alignItems:"center",gap:6,padding:"7px 18px",borderRadius:40,background:sport===s.id?"var(--green)":(darkTheme?"#162018":"#fff"),border:`1.5px solid ${sport===s.id?"var(--green)":"var(--border)"}`,color:sport===s.id?"#fff":"var(--text-muted)",fontWeight:sport===s.id?700:400,fontSize:14,cursor:"pointer",fontFamily:"inherit",transition:"all 0.18s",boxShadow:sport===s.id?"0 2px 12px rgba(0,100,40,0.2)":"var(--shadow)"}}>
+                    {s.id==="tennis"
+                      ? <span style={{fontSize:16}}>🎾</span>
+                      : <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{flexShrink:0}}>
+                          <rect x="5" y="1" width="11" height="12" rx="2.5" fill={sport===s.id?"#fff":"#1a1a1a"}/>
+                          {[[8,3.5],[11,3.5],[8,6.5],[11,6.5],[8,9.5],[11,9.5]].map(([cx,cy],i)=>(
+                            <circle key={i} cx={cx} cy={cy} r="0.9" fill={sport===s.id?"var(--green)":"#fff"}/>
+                          ))}
+                          <rect x="9" y="13" width="3" height="4.5" rx="1.5" fill={sport===s.id?"#fff":"#1a1a1a"}/>
+                          <circle cx="3" cy="14.5" r="2.5" fill="#f97316"/>
+                          {[[3,13.3],[1.9,15],[4.1,15]].map(([cx,cy],i)=>(
+                            <circle key={i} cx={cx} cy={cy} r="0.55" fill="rgba(255,255,255,0.65)"/>
+                          ))}
+                        </svg>
+                    }
+                    {lang==="en"?s.labelEn:s.label}
+                    <span style={{background:sport===s.id?"rgba(255,255,255,0.25)":(darkTheme?"#243228":"var(--green-light)"),color:sport===s.id?"#fff":"var(--green-dark)",borderRadius:20,padding:"1px 7px",fontSize:11,fontWeight:600}}>{s.id==="tennis"?TENNIS_COURTS.length:PICKLEBALL_COURTS.length}</span>
+                  </button>
+                ))}
+              </div>
+              <span style={{fontSize:13,color:"var(--text-muted)"}}>{lang==="en"?"Click a pin to see details":"คลิกหมุดเพื่อดูรายละเอียด"}</span>
+            </div>
+            <MapView courts={COURTS} onSelectCourt={setSelectedCourt} theme={theme} sport={sport}/>
+          </div>
+        )}
+      </div>
+
+      {selectedCourt && <CourtDetailModal court={selectedCourt} onClose={()=>setSelectedCourt(null)} theme={theme}/>}
+
+      <TweaksPanel>
+        <TweakSection title="ธีม / Theme">
+          <TweakRadio id="theme" label="สีสัน" options={[{value:"light",label:"☀️ Light"},{value:"dark",label:"🌙 Dark"},{value:"bold",label:"🌿 Bold"}]}/>
+        </TweakSection>
+        <TweakSection title="ภาษา / Language">
+          <TweakRadio id="lang" label="ภาษา" options={[{value:"th",label:"ไทย"},{value:"en",label:"EN"}]}/>
+        </TweakSection>
+        <TweakSection title="การแสดงผล">
+          <TweakToggle id="showFeaturedOnly" label="แสดงสนามแนะนำเท่านั้น"/>
+        </TweakSection>
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
