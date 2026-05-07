@@ -7,7 +7,9 @@
 - `index.html` — ไฟล์เดียวทั้งหมด (React + Babel in-browser, Leaflet map)
 - ไม่มี build process, ไม่มี dependency ต้องติดตั้ง — เปิด browser ได้เลย
 - tweaks-panel code ถูก inline ไว้ใน index.html แล้ว (ไม่มีไฟล์ .jsx แยก)
-- Hosted on GitHub Pages: https://poohriss.github.io/TennisFinderBkk/
+- **Hosted:** https://poohriss.github.io/TennisFinderBkk/ (GitHub Pages, auto-deploy on push)
+- **Repo:** https://github.com/poohriss/TennisFinderBkk (public, main branch)
+- **Git identity (local):** TennisFinder BKK <poohris@gmail.com>
 
 ## สถานะปัจจุบัน
 
@@ -74,15 +76,16 @@ Claude จะ:
 
 - **Sport tabs:** Tennis / Pickleball — อยู่เหนือ filter bar (ไม่ใช่ standalone bar), มีทั้งในหน้า list และ map
 - **Layout:** Merged home + list view (single-page scroll ไม่มี Home tab แยก)
-- **Inline filter bar:** Sticky bar ใต้ hero — type pills, text toggles (ในร่ม, มีแอร์, ไฟกลางคืน, ใกล้ BTS), sort select (ไม่มี zone pills)
+- **Inline filter bar:** Sticky bar ใต้ hero — type pills, text toggles (ในร่ม, มีแอร์, ไฟกลางคืน, ใกล้ BTS), sort select (ไม่มี zone pills); **bilingual** — pills/labels เปลี่ยนตาม `lang` state
 - **Sort options:** ★ คะแนน / ฿ ราคา / 🎾 คอร์ด / ก–ฮ ตัวอักษร (Thai) / A–Z ตัวอักษร (English)
 - **aircon field:** boolean ใน COURTS data — confirmed: Sterling Court (tennis), Asoke Pickleball (pickleball)
 - **Map view:** Leaflet + OpenStreetMap, custom pin markers, sidebar list, popup; sport tabs ใน map header; markers update reactive ตาม sport (split useEffect + markersRef pattern)
 - **Detail modal:** ข้อมูลติดต่อ, facilities, ราคา, เวลา, Google Maps link
 - **Free court display:** `priceMin===0` → แสดง "ฟรี" ในทุก context (card, modal, map popup, sidebar)
 - **Themes:** dark / light / bold via CSS vars (oklch color palette)
-- **Language:** ไทย / English toggle
+- **Language:** ไทย / EN toggle — pill buttons ใน nav bar (ขวาบน) + ใน tweaks panel (sync กัน, share `lang` state เดียว)
 - **Tweaks panel:** Floating draggable panel (theme, lang, show-featured-only)
+- **Website button:** ปุ่ม 🌐 ใน detail modal — แสดงเมื่อ `court.website` มี (ระหว่างปุ่มโทรศัพท์กับ Google Maps); สีส้ม-น้ำตาล แยกจากปุ่มอื่น
 - **Pickleball icon:** Custom SVG — ไม้สีดำ (เหลี่ยม), ลูกสีส้ม (ไม่ใช่ emoji)
 - **CourtSVG:** Landscape orientation — net เป็นเส้นตั้ง, service lines เป็นเส้นตั้ง, center service line เป็นเส้นนอน
 
@@ -90,6 +93,9 @@ Claude จะ:
 
 - [ ] เพิ่มรูปภาพสนามที่เหลือ — มี id:1 แล้ว, ที่เหลือ 46 สนาม (ดู Workflow ด้านล่าง)
 - [x] ระบบรูปภาพ — `image:` field + fallback (CourtCard + Modal)
+- [x] เพิ่ม website field + ปุ่ม 🌐 ใน modal — 26 สนามมีแล้ว (Tennis 18, Pickleball 8)
+- [x] ปุ่ม TH/EN ใน nav bar + bilingual filter bar (type pills, text toggles, sort, reset)
+- [x] Git + GitHub Pages — auto-deploy on push
 - [ ] อัพเดต rating/reviews + googleMaps link ทุกสนาม — ส่ง format นี้ให้ Claude: `id:X ชื่อ → https://maps.app.goo.gl/xxx (rating: 4.x, NNN reviews)`
 - [ ] Verify aircon สนามที่ยังไม่แน่ใจ (Beat Discovery, Club 46, Suk Space, Arise, Windfield Tennis, CV Sport)
 - [ ] Verify / แก้ไข ids 110, 118, 119 (pickleball) — ดูส่วน "สนามที่ต้องตรวจสอบ" ด้านบน
@@ -167,6 +173,20 @@ Claude จะ:
 ## Zones ที่ใช้
 
 `ใจกลางกรุง` / `สุขุมวิท` / `ฝั่งตะวันออก` / `ฝั่งเหนือ` / `ริมแม่น้ำ` / `ฝั่งใต้` / `ฝั่งตะวันตก`
+
+## Git workflow
+
+```bash
+git status
+git add <files>
+git commit -m "message"
+git push                    # auto-deploy ขึ้น GitHub Pages ใน ~10-30 วิ
+```
+
+- Branch: `main` (track `origin/main`)
+- ทุก push GitHub Pages rebuild + deploy ใหม่อัตโนมัติ
+- `.gitignore` ครอบคลุม OS files, IDE, `.claude/` (user-specific)
+- Repo เป็น **public** — ห้าม commit secrets/API keys
 
 ## Map markers pattern (Leaflet + React)
 
