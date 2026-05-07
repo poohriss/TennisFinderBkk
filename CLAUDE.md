@@ -4,9 +4,10 @@
 
 ## ไฟล์
 
-- `TennisFinder.html` — ไฟล์เดียวทั้งหมด (React + Babel in-browser, Leaflet map)
+- `index.html` — ไฟล์เดียวทั้งหมด (React + Babel in-browser, Leaflet map)
 - ไม่มี build process, ไม่มี dependency ต้องติดตั้ง — เปิด browser ได้เลย
-- tweaks-panel code ถูก inline ไว้ใน TennisFinder.html แล้ว (ไม่มีไฟล์ .jsx แยก)
+- tweaks-panel code ถูก inline ไว้ใน index.html แล้ว (ไม่มีไฟล์ .jsx แยก)
+- Hosted on GitHub Pages: https://poohriss.github.io/TennisFinderBkk/
 
 ## สถานะปัจจุบัน
 
