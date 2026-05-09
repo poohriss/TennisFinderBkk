@@ -13,15 +13,14 @@
 
 ## สถานะปัจจุบัน
 
-- **สนาม Tennis:** 27 สนามจริงในกรุงเทพฯ (ids 1–30 ยกเว้น 3, 4, 10 ที่เป็น duplicate) — ข้อมูลจาก primaltennis.com / betweenthelinesbkk.com / tennisbangkok.com / asiafirms.com / เว็บสนามโดยตรง; GPS verified (12 หมุดถูกแก้ไข: ids 1,6,8,11,12,14,20,22,25,26,27,29)
-- **สนาม Pickleball:** 20 สนามในกรุงเทพฯ (ids 101–120) — GPS verified รอบ 2 (แก้ไข: 101,102,103,108,111,114,115); id:120 เปลี่ยนจากสนามปลอม → Slowcombo (จุฬา); 3 สนามยังต้องตรวจสอบ (110, 118, 119)
-- **Rating/Reviews:** Google Maps rating — ตอนนี้ใส่ค่าประมาณไว้ก่อน รอเจ้าของ project มา verify และอัพเดตทีหลัง
-- **googleMaps field:** มีแล้วใน courts บางสนาม (ids 1, 14, 28, 101, 115) — ใช้สำหรับ redirect ตรงจาก detail modal
-- **website field:** มีแล้ว 26 สนาม — Tennis: ids 1, 2, 6, 7, 8, 9, 12, 16, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 (18 สนาม) | Pickleball: ids 101, 102, 106, 107, 108, 109, 110, 115 (8 สนาม) — สนามที่เหลือใช้แค่ Facebook/Instagram
-- **Google Places enrichment (2026-05-08):** Merged ข้อมูลจาก `bangkok_tennis_courts.json` (46 entries) + `bangkok_pickleball_courts.json` (31 entries) เข้ากับ data เดิม — Tennis: 27→62 (matched 11, added 35), Pickleball: 20→39 (matched 12, added 19); ได้ field ใหม่: `place_id`, `photos[]`, `notes` ส่วนใหญ่
-- **รูปภาพ:** Photos จาก Google Places (มีใน `photos[]` field เกือบทุก court) + local override ด้วย `image:` field; priority: `image` > `photos[0]` > gradient+SVG; CourtCard ใช้ thumbnail (=w600-h400), Modal ใช้ full (=w1200-h900); attribution บังคับแสดงตาม Google ToS
-- **รูปภาพ:** ระบบพร้อมแล้ว — `image:` field ใน COURTS, fallback อัตโนมัติเป็น gradient+SVG ถ้าไม่ใส่หรือโหลดไม่ได้ (onError); ตอนนี้มีรูปแล้ว 1 สนาม (id:1 CozyTennis)
-- **ระบบจอง:** ไม่มี ใช้ช่องทางติดต่อ (โทรศัพท์ / Google Maps) แทน
+- **สนาม Tennis:** 62 สนาม — original 27 (ids 1–30 ยกเว้น 3, 4, 10 dup) + 35 ใหม่จาก Google Places enrichment (ids 31–66); GPS verified สำหรับ original 27 หมุด
+- **สนาม Pickleball:** 39 สนาม — original 20 (ids 101–120) + 19 ใหม่จาก Google Places (ids 121+); 3 สนามใน original ยังต้องตรวจสอบ (110, 118, 119)
+- **Google Places enrichment (2026-05-08):** Merged จาก `bangkok_tennis_courts.json` (46 entries) + `bangkok_pickleball_courts.json` (31) — Tennis matched 11/added 35, Pickleball matched 12/added 19; เพิ่ม field: `place_id`, `photos[]`, `notes`; ส่วนใหญ่ของ photo data + rating/review counts มาจากตรงนี้ (ไม่ใช่ค่าประมาณอีกแล้ว)
+- **Rating/Reviews:** สนามที่ matched ใหม่ใช้ Google Places ของจริง; original ที่ไม่ matched ยังเป็นค่าประมาณ
+- **googleMaps field:** original 5 ตัว (ids 1, 14, 28, 101, 115) + เพิ่ม place_id ใน 23 สนามจาก enrichment (เปิด Google Maps ผ่าน place_id ก็ได้)
+- **website field:** มีแล้ว 26 จาก hand-research + เพิ่มอีก ~30 จาก Google Places enrichment
+- **รูปภาพ:** Photos จาก Google Places (มีใน `photos[]` field เกือบทุก court ที่ matched/added) + local override ด้วย `image:` field; priority: `image` > `photos[0]` > gradient+SVG; CourtCard ใช้ thumbnail (=w600-h400), Modal ใช้ full (=w1200-h900) + gallery + attribution (บังคับตาม Google ToS); ตอนนี้ local image มีแค่ id:1 CozyTennis
+- **ระบบจอง:** ไม่มี ใช้ช่องทางติดต่อ (โทรศัพท์ / website / Google Maps) แทน
 
 ## สนามที่ต้องตรวจสอบเพิ่มเติม
 
@@ -93,7 +92,7 @@ Claude จะ:
 
 ## สิ่งที่วางแผนจะทำ
 
-- [ ] เพิ่มรูปภาพสนามที่เหลือ — มี id:1 แล้ว, ที่เหลือ 46 สนาม (ดู Workflow ด้านล่าง)
+- [ ] เพิ่ม local รูปภาพ override (`image:` field) — มี id:1 แล้ว; courts ส่วนใหญ่ใช้ Google Places photos อัตโนมัติ ไม่จำเป็นต้องเพิ่ม local เว้นจะอัปเกรดคุณภาพ
 - [x] ระบบรูปภาพ — `image:` field + fallback (CourtCard + Modal)
 - [x] เพิ่ม website field + ปุ่ม 🌐 ใน modal — 26 สนามมีแล้ว (Tennis 18, Pickleball 8)
 - [x] ปุ่ม TH/EN ใน nav bar + bilingual filter bar (type pills, text toggles, sort, reset)
@@ -113,7 +112,7 @@ Claude จะ:
 
 ## โครงสร้าง COURTS data
 
-### Tennis (TENNIS_COURTS — ids 1-30)
+### Tennis (TENNIS_COURTS — ids 1–66)
 ```js
 {
   id, name, nameTh, district, districtEn, zone,
@@ -142,7 +141,7 @@ Claude จะ:
 }
 ```
 
-### Pickleball (PICKLEBALL_COURTS — ids 101-120)
+### Pickleball (PICKLEBALL_COURTS — ids 101+)
 ```js
 {
   id, name, nameTh, district, districtEn, zone,
@@ -219,6 +218,25 @@ git push                    # auto-deploy ขึ้น GitHub Pages ใน ~10-3
 - ทุก push GitHub Pages rebuild + deploy ใหม่อัตโนมัติ
 - `.gitignore` ครอบคลุม OS files, IDE, `.claude/` (user-specific)
 - Repo เป็น **public** — ห้าม commit secrets/API keys
+
+## Debugging white-screen / runtime errors (headless Edge)
+
+ถ้าเปิดเว็บแล้วเห็นจอขาว (Babel ไม่ throw แต่ React render ไม่ขึ้น) — capture console errors แบบ headless:
+
+```powershell
+$msedge = 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+$logFile = "$env:TEMP\edge-log.txt"
+$tmpProfile = "$env:TEMP\edge-test-$(Get-Random)"
+& $msedge --headless --disable-gpu --user-data-dir=$tmpProfile `
+  --allow-file-access-from-files --enable-logging "--log-file=$logFile" --v=0 `
+  "file:///C:/Users/poohr/Desktop/TennisFinderBkk/index.html" `
+  --virtual-time-budget=15000 --dump-dom > $null
+Get-Content $logFile | Select-String 'Uncaught|Error|TypeError' | Where-Object { $_ -notmatch 'GetGpuDriver|task_manager|extensions|oneauth' }
+Remove-Item -Recurse -Force $tmpProfile
+```
+
+`--virtual-time-budget=15000` รอ 15 วินาทีให้ JS รัน; console.error/Uncaught errors จะอยู่ใน log file
+- ใช้แก้ปัญหา id:1 case (StarRating crash บน rating=null) — debug ภายใน 1 รอบ
 
 ## Map markers pattern (Leaflet + React)
 
