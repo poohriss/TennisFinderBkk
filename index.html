@@ -312,6 +312,7 @@ const TYPE_COLORS = { hard:"#3b82f6", clay:"#f97316", grass:"var(--green)" };
 const TYPE_LABELS = { hard:"ฮาร์ดคอร์ต", clay:"เคลย์", grass:"หญ้า" };
 
 function StarRating({rating}) {
+  if (rating == null) return <span style={{color:"#aaa",fontWeight:500,fontSize:13}}>★ —</span>;
   return <span style={{color:"var(--yellow-dark)",fontWeight:600,fontSize:13}}>★ {rating.toFixed(1)}</span>;
 }
 
