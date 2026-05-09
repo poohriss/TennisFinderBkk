@@ -1,0 +1,1501 @@
+{
+  "source": "Google Places API",
+  "last_updated": "2026-05-08",
+  "city": "Bangkok",
+  "total_courts": 46,
+  "courts": [
+    {
+      "name": "Noah BKK@26",
+      "name_th": "Noah BKK@26",
+      "zone": "Sukhumvit",
+      "district": "Khlong Toei",
+      "lat": 13.7183626,
+      "lng": 100.57127,
+      "address": "12, 74 Soi Attha Kawi 1, Khlong Tan, Khlong Toei, Bangkok 10110",
+      "rating": 4.4,
+      "rating_count": 161,
+      "phone": "+66 2 259 8425",
+      "website": "https://noahbkk.com/",
+      "place_id": "ChIJAZHWAwmf4jARo-bMp3grBkY",
+      "indoor": false,
+      "notes": "Outdoor court, shaded until 12:30pm. Online booking. English-speaking coaches available with advance booking.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMOoliLO6_gb1dYQUcYQU3sxIf6AC9trKXyvCDF4lUQ1afyxlMv7FLuMx1SjF08u_ymlJy43YXh82aA3KgLXVo1ltOcDVC6uWnZPGzDoUAhxmNGll51pshLTXQsnLN2Lq5DTzmVzYrzfj3zVQ=s4800-w800-h600",
+          "attribution": {
+            "name": "Paul Smith",
+            "profile_url": "https://maps.google.com/maps/contrib/111160452285277378274"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMyGVkqvHzPDG30XN-kYUyCz3e-NQta9eg0YTQ0D8zfQ-oBzMLP7tsZvLEWLn2CGb-Nv1hrY8UqHPeD0Vuu_N_FFkecgDwEvrJagfCuqovQizCFAJOQ3mGuuEGSlRSLv809BIlSMTWABJWLXw=s4800-w800-h600",
+          "attribution": {
+            "name": "Angel",
+            "profile_url": "https://maps.google.com/maps/contrib/107842323659425922952"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZN7XWNE2nUQ8LoS1Rdjz9BXtsIChmzEODwSw6jHa34VdwW32QA6AxC2hnI9o0eMk3S0q_-6dkePXefbP4dKZySqcinNGl4XEGGmvZh8ob0DLnEv3992s0DSwsTUM8BP_Qwj7Cr8hCf9lHIXlQ=s4800-w800-h600",
+          "attribution": {
+            "name": "chocoicemonaka",
+            "profile_url": "https://maps.google.com/maps/contrib/107427979646372854191"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sterling Sport and Wellness",
+      "name_th": "Sterling Sport and Wellness",
+      "zone": "Sukhumvit",
+      "district": "Khlong Toei",
+      "lat": 13.7243934,
+      "lng": 100.5681332,
+      "address": "109 Soi Sukhumvit 24, Khlong Tan, Khlong Toei, Bangkok 10110",
+      "rating": 4.9,
+      "rating_count": 126,
+      "phone": "+66 91 742 6222",
+      "website": "https://sterlingbkk.com/",
+      "place_id": "ChIJjYuCUPCf4jARqORpYBT47Yk",
+      "indoor": true,
+      "notes": "New complex with tennis, padel, pickleball, Muay Thai, gym, wellness center, co-working.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZP-1JYCyqn2Bgb2k1qeLLNQFhT0ksiX-QBy8bJZ98-EPUOjC3rK4wfJ_oR2xz2XSoXBpKw3g_L7W92Z8ZJu7UtksH5pC0pd-LTY0s7LybPET9_VTG5c4rR5ZAcWZVCWQlmzeoUbaCsBKNP8dn1mRCEY=s4800-w800-h600",
+          "attribution": {
+            "name": "Ravissara Sarutyapong",
+            "profile_url": "https://maps.google.com/maps/contrib/114588462262844615162"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNE9KejVKeYt93DzWeQ6464NuOLyAAv1TnFLQlVcduO25nhHLm-rOdvJYmAGCmrM6t1T2RN38CDQpIsPK1ZUdc44JE0pk4tp52d_jhDa8Q2GgPRhpqcQ5_ize5E41AO74w1_A9nyxHpjo-my69RrZdX5Q=s4800-w800-h600",
+          "attribution": {
+            "name": "Mean Phengphinit",
+            "profile_url": "https://maps.google.com/maps/contrib/106102561595176345784"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMmbqnJ7vao-40U4Bu5G8FCpVGMDUfbWhaVMmy_4WOq1yfiuvWMS_4eF1mJP-l66oAbaWcWk8LMhVQKpYrObL-MlHM2RcE9X5BoU-xVVu_yZVZeH3PEFyhVynqs5oqZAGG75rthL7Grm1LGL2viwPCG=s4800-w800-h600",
+          "attribution": {
+            "name": "Follow Fauzia",
+            "profile_url": "https://maps.google.com/maps/contrib/112521623485742296033"
+          }
+        }
+      ]
+    },
+    {
+      "name": "The Racquet Club (RQ49)",
+      "name_th": "เดอะ แร็กเกตคลับ",
+      "zone": "Sukhumvit",
+      "district": "Watthana",
+      "lat": 13.736351,
+      "lng": 100.5762939,
+      "address": "8 Soi Sukhumvit 49/9, Khlong Tan Nuea, Watthana, Bangkok 10110",
+      "rating": 4.2,
+      "rating_count": 772,
+      "phone": "+66 2 119 7200",
+      "website": "https://www.rqclub.com/",
+      "place_id": "ChIJq6qqqg6f4jARxu_ydl7SpXU",
+      "indoor": false,
+      "notes": "Multi-sport: tennis (7 courts), badminton, squash, climbing, swimming, gym.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPN1oIvLCbBDagYv7UbR-f8K4NrqK99x_mz-eACrSI_Z4dJBlPld7-_CqW2zIFekIprmGutcixen80ZesYKU1zla0IhDo65vYsUjPuWJS4g0KYfBYuZBVxZPDhYRafFeIL8H01j1FNQ-efP_SRI1KxsVw=s4800-w800-h600",
+          "attribution": {
+            "name": "Franco Marinari Acciani",
+            "profile_url": "https://maps.google.com/maps/contrib/105138663410003190766"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZP5KGMjek6H0xLxgn5FYboCyRG6OwIUGhj1oxTSOoqwh3yyjg5hyEY6lcO4f8VJwVSJQkBOcLK-fcskSOTV7CiRYY_ggmdRDAu8c1CmO4mJGkY814erJ8mNp6yRt7QFWHHibRGd_DxDimUasQ=s4800-w800-h600",
+          "attribution": {
+            "name": "The Racquet Club",
+            "profile_url": "https://maps.google.com/maps/contrib/108657806926706428759"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMLWT5xluwtXinptMQ--DyBovV26iepVYS6lBEumKP6qUKH9AHr9U6LULx0WMF3EU6gF7K9voj9wzGPNAJfqcGPspCfO2ZroK8A7Y2wt0EiIIWdrkixlLxcoysB7MpU02r_5vnO3e15AftYV6ML-J8OpQ=s4800-w800-h600",
+          "attribution": {
+            "name": "Kaz Σ3",
+            "profile_url": "https://maps.google.com/maps/contrib/115546575544863457098"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Simoorgh Tennis Academy",
+      "name_th": "Simoorgh Tennis Academy",
+      "zone": "Sukhumvit",
+      "district": "Phra Khanong",
+      "lat": 13.6993768,
+      "lng": 100.5995543,
+      "address": "140 Soi Sukhumvit 56, Phra Khanong Tai, Phra Khanong, Bangkok 10260",
+      "rating": 4.6,
+      "rating_count": 150,
+      "phone": "+66 2 311 3842",
+      "website": null,
+      "place_id": "ChIJ3yomD-2f4jARn8u0nkES2SM",
+      "indoor": false,
+      "notes": "Highly-rated coaches. Basic English sufficient.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPFe2qXvob-G0rCIjV2yPzU1UvbJPY7w71gXxf2ndPSVha9ksLVCcwxVNESYBPKXpnEL_pnx-Z-TF_-FGGp9yazONHVIyaQMygwmpmxL_SfoyyvlINVsPrINKtVn8DxtQEs6P9_IZ31E2LYSQ=s4800-w800-h600",
+          "attribution": {
+            "name": "Michael Toh",
+            "profile_url": "https://maps.google.com/maps/contrib/103920493021280153503"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZOM8TeNH_qkWGuPHA50qXd6SC_loS47zXMjq5Ew3CnY6dxk7ObIBNhMR3526Cid1n01XDbMJtysukBPLckG9c_UtsoYSZXaDwRH5Kc6eW4BFIVQI6QA2Kygyf3Bq0tXdyHmMC8BL7jEA0vDvA=s4800-w800-h600",
+          "attribution": {
+            "name": "Simoorgh Tennis Academy",
+            "profile_url": "https://maps.google.com/maps/contrib/114304752621245326040"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sun Tennis Court",
+      "name_th": "Sun Tennis Court",
+      "zone": "Sukhumvit",
+      "district": "Khlong Toei",
+      "lat": 13.7161885,
+      "lng": 100.5812022,
+      "address": "Soi Sukhumvit 40, Phra Khanong, Khlong Toei, Bangkok 10110",
+      "rating": 4.4,
+      "rating_count": 34,
+      "phone": "+66 81 875 9285",
+      "website": null,
+      "place_id": "ChIJ2U1HEqSf4jARQbtcnbm79aw",
+      "indoor": false,
+      "notes": "2 cement courts, 350THB/hr. Phone booking.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPAaUTmmmExBRtmtS5bSNxo8QohnU7di6FHFAihAvs_Dr-yAGnsYAwxWDpE-b47OgaDMjH-6X4mt4ybJDhMB1zG-RWPWOIbVIzvhYHbQkfb87A3EgZRx74SNt65tcsoFURxQw0gYRcf42AEPg=s4800-w800-h600",
+          "attribution": {
+            "name": "Bondan Tangguh",
+            "profile_url": "https://maps.google.com/maps/contrib/110764813037105097658"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZN3rHU5EyKqLIFIllSHdlhOgUT82Oav63_AdgZv_gSYZo2OpdjDOKPORxL1-5gznYHk0dv-kc8m65GdrGh14AficnkuixHSeTJN0YrGPO0LQ6a_9Z5PcnfvuV2p1qIVe_jea2f0B4xfNP0O57Y=s4800-w800-h600",
+          "attribution": {
+            "name": "Teeratouch Wangnitivong",
+            "profile_url": "https://maps.google.com/maps/contrib/104421227088178615899"
+          }
+        }
+      ]
+    },
+    {
+      "name": "APF International Tennis Academy",
+      "name_th": "APF International Tennis Academy",
+      "zone": "Sukhumvit",
+      "district": "Khlong Toei",
+      "lat": 13.7187101,
+      "lng": 100.5712456,
+      "address": "Soi Attakavee 1, Khlong Toei, Bangkok",
+      "rating": 4.7,
+      "rating_count": 77,
+      "phone": "+66 2 665 6278",
+      "website": "http://apfacademies.net/",
+      "place_id": "ChIJKaI68Aif4jARUaMF0oCo5-A",
+      "indoor": true,
+      "notes": "Australian Open-grade indoor courts, primarily Japanese coaches.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqE_G_9O3fWdka1oiavZCuu2CmIawcclIxc0XHb8lSXbyM0cbJ-BtPChndtQRskEl9hwAy5wIkS1GNsGpewiwTLsJyg0zhh0r68=s4800-w800-h600",
+          "attribution": {
+            "name": "APF International tennis academy",
+            "profile_url": "https://maps.google.com/maps/contrib/105626949720446900367"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPQqfGecv3YMe3_YKm3OJWdi89nyVYCvDCivn1iUHFFkKC4h62ixRDbn00231gda4FUUGtgWjSYsDXoOErR6IPyVFeCdTE2oisguxppUcKQCXYIE4DiIz1b-06tf34WeJ7fsFBa3zDQ7lwI=s4800-w800-h600",
+          "attribution": {
+            "name": "FX-EA LABO",
+            "profile_url": "https://maps.google.com/maps/contrib/114763094204559328412"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Troops Tennis Academy",
+      "name_th": "Troops Tennis Academy",
+      "zone": "Sukhumvit",
+      "district": "Phra Khanong",
+      "lat": 13.7051977,
+      "lng": 100.5927962,
+      "address": "1050/8 Soi Roem Charoen, Phra Khanong, Bangkok 10260",
+      "rating": 3.9,
+      "rating_count": 73,
+      "phone": null,
+      "website": "https://www.facebook.com/troopstennisacademy/",
+      "place_id": "ChIJh67vJIKf4jARvtoOK9eG9Ng",
+      "indoor": false,
+      "notes": "7 hard courts, gym, physio, tennis shop, locker rooms.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqFKmT9FTkVo07W6rIuhbHMi_pMFdwRrGcxMOyhO0GaVku7oz62Z-lx1mL7E9ETXpfU71_YzovDG7FCUkYzWV9v4_oLr8Pw8xUY=s4800-w800-h600",
+          "attribution": {
+            "name": "Troops Tennis Academy",
+            "profile_url": "https://maps.google.com/maps/contrib/105198088264881834210"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPaaqZF3tzk906mo3W3WpU_jZAEmTMnOwF96LclRxf2Qo442GdVH5PJdxPw_jroiO6GlRZ7mRBZAXOvXcUz7yUv5-BGw44V5X7L2M6srmnaDm-SfHCUoBa7r7Rq4sLWEVEHESXcS58nn4W5NQ=s4800-w800-h600",
+          "attribution": {
+            "name": "Ruslan Khakimov",
+            "profile_url": "https://maps.google.com/maps/contrib/101494835168785822138"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Spin & Slice",
+      "name_th": "Spin & Slice",
+      "zone": "Sukhumvit",
+      "district": "Phra Khanong",
+      "lat": 13.7051977,
+      "lng": 100.5927962,
+      "address": "1050/8 Soi Roem Charoen, Phra Khanong, Bangkok 10260",
+      "rating": 4.5,
+      "rating_count": 46,
+      "phone": "+66 2 742 8889",
+      "website": null,
+      "place_id": "ChIJ8zTQP5Sf4jARbhyXIN2uQfM",
+      "indoor": false,
+      "notes": "Open to public, no membership required. Adult & kids classes.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPtXaW9xnvJFLSjgTGzud8mORpLs5HBflbZbyg-qMW8-VKjImXdSY3nfXB-FmYSVvp5IbbSlyWWRhNTrhm5ky_94qfMkl97R7avgQJ3x1ZFgglMJmK-t6sa9hkTpox_S3f5wpW-4VZV0UNc1ew=s4800-w800-h600",
+          "attribution": {
+            "name": "FX-EA LABO",
+            "profile_url": "https://maps.google.com/maps/contrib/114763094204559328412"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMOAjAsT0Q0CX7I_H9dSPowYjs81XSEB8GF2LeVINV3bYbpV8ro76ALy1SOWZ7_I246gWiT7yPZj6afd4ye3DsMAj-JhsL8j4VQvfSA2EmabDr5pYNgOkXF7L48ESTfpSkSVzQJzjAtHEMq=s4800-w800-h600",
+          "attribution": {
+            "name": "Geoffrey",
+            "profile_url": "https://maps.google.com/maps/contrib/112264555311718303089"
+          }
+        }
+      ]
+    },
+    {
+      "name": "KS Sport Club",
+      "name_th": "KS Sport Club",
+      "zone": "Sukhumvit",
+      "district": "Watthana",
+      "lat": 13.736781,
+      "lng": 100.6006533,
+      "address": "271 Soi Pridi Banomyong 42, Khlong Tan Nuea, Watthana, Bangkok 10110",
+      "rating": 3.9,
+      "rating_count": 74,
+      "phone": "+66 2 391 8993",
+      "website": null,
+      "place_id": "ChIJfVfyJTSe4jARHLV3qid5XAA",
+      "indoor": false,
+      "notes": "Multiple courts, deep into a narrow soi.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqG7bxEKIrvcXNx32mJhSBbw_9DaLZ903OYc1dPz34UEZXHdSxF9hy5CEJQTV5sy7IQ0OQRv75u5qxrB7Qg2dcEGAVx22Z2UXIk=s4800-w800-h600",
+          "attribution": {
+            "name": "KS Sport Club",
+            "profile_url": "https://maps.google.com/maps/contrib/115506392833758523702"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMISz33GakSZP4qG6GnL_McKtPFtfciIRO9LC-u_oCrlLDLx1DeJnjuq3js2OdRULK5E95sJfj_q3LTibhaO4XeOXAL1jm9_y5_X3GeGvjUHMMP0zq_VrKV8PPQhHA82ZsRFpAE4BBXpv-uk00=s4800-w800-h600",
+          "attribution": {
+            "name": "You Kyung Shim",
+            "profile_url": "https://maps.google.com/maps/contrib/107312054445324490315"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cozy Tennis Court",
+      "name_th": "สนามเทนนิสในร่ม Cozy Tennis Court",
+      "zone": "East Bangkok",
+      "district": "Prawet",
+      "lat": 13.6971474,
+      "lng": 100.6799754,
+      "address": "Soi Lek 24 Chaloem Phrakiat Ratchakan Thi 9 Soi 46, Dok Mai, Prawet, Bangkok 10250",
+      "rating": 4.4,
+      "rating_count": 102,
+      "phone": "+66 88 297 2124",
+      "website": "https://www.cozytennis.com/",
+      "place_id": "ChIJP47LRN5hHTER3VZThXXaBUc",
+      "indoor": true,
+      "notes": "4 covered courts, ~350-400THB/hr. LINE booking.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqEAUUUG6qpDIexKy9qSZd8g3DQYpdWlGgx1SrRosmL7jsOyVBMMWmcQBkssAl4A7MZS10HwKdcBHrEGF8CrF2LsSstJSgToV30=s4800-w800-h600",
+          "attribution": {
+            "name": "Cozy Tennis Court",
+            "profile_url": "https://maps.google.com/maps/contrib/114455539665071104713"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZOvoxjiSEzCre-09_pfb6kWHJ2MLxhjbNUDuC4uhKh07gIYrL9pay1vJQcoPylP7-cDQMtm3ZwycVnNvdS-sKOW09ivXHatEk2cM80Poc8fXjJgKZycXJ3W_RbyrHGvlsvXvhTxu0l2jezIHaU=s4800-w800-h600",
+          "attribution": {
+            "name": "Coach Wong Thailand",
+            "profile_url": "https://maps.google.com/maps/contrib/103369440205590396355"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tennis Courts (Prawet)",
+      "name_th": "Tennis Courts ประเวศ",
+      "zone": "East Bangkok",
+      "district": "Prawet",
+      "lat": 13.6813969,
+      "lng": 100.6596067,
+      "address": "314/1-4 Chaloem Phrakiat Ratchakan Thi 9 Rd, Nong Bon, Prawet, Bangkok 10250",
+      "rating": 4.2,
+      "rating_count": 45,
+      "phone": null,
+      "website": null,
+      "place_id": "ChIJ8VXgjX1gHTERoZh3Mia4geg",
+      "indoor": false,
+      "notes": "LED lighting, in a park. Affordable.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZM-tRLgp_O3MhfxcuLuzoa21FJa9s6ll_HboIP4OFF08D8flbP9-YBbEQKNxQLJkU57jjbNygak_AGanqWHAB08pINY8DS1Kn6xG5sQ0-jwx-Nuuq7BrRYjT6BuNZrFIR2XF_rt9VI_5geNSX1BgWChXw=s4800-w800-h600",
+          "attribution": {
+            "name": "nopadol muenthong",
+            "profile_url": "https://maps.google.com/maps/contrib/103191009943733118738"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNPwXIo3DRR_krQFq9zVwZ9AxGcZ_ylHJz2aZ3B5GUGnioj__amOI9HSFL3rfGqPX9aXbhBUp8TmGI28SJgmXPKZzGfKlqrJqRZ8PNzKvTT5jq75mlZvP5zZP18c3usMLpuIk2kjZkz3Ww2C6k=s4800-w800-h600",
+          "attribution": {
+            "name": "FX-EA LABO",
+            "profile_url": "https://maps.google.com/maps/contrib/114763094204559328412"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Le Smash Club & Tennis Academy",
+      "name_th": "Le Smash Club",
+      "zone": "Central",
+      "district": "Yan Nawa",
+      "lat": 13.6988917,
+      "lng": 100.5472394,
+      "address": "499 Soi Rama III 64, Chong Nonsi, Yan Nawa, Bangkok 10120",
+      "rating": 4.3,
+      "rating_count": 118,
+      "phone": "+66 2 285 2553",
+      "website": "http://www.lesmashclub.com/",
+      "place_id": "ChIJzUilulyf4jARGStfbP8zix8",
+      "indoor": false,
+      "notes": "Family-style club with skilled coaches and knockers. WhatsApp booking option.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZOv7x45Ahce2KwB_5V2w1a_sHG4AJZFR8PHk7X46SdamvZiTymOjyfTYa6A9AnfEWwg-wlSCktOjCmlExOv840SF-pZNEY9CRdojVEIK5F-R6F9C9c2xZwfvGEyp257aOjohnFeOKcGhpv8yKZNk33Lvg=s4800-w800-h600",
+          "attribution": {
+            "name": "yipwf",
+            "profile_url": "https://maps.google.com/maps/contrib/101587643605071347191"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMQKQsKIUjTivztMv1FS2UhA6yM3pcpX7PSkhS6SZsw33_OPkR4fVkkBJj2PVPZpmr9Q6YmzeUWOy8RAT_V93jgcc03KIV-_v2yLfYwqjIofoaeEPYL01LDPldPl_88ppzdQXR5BrMIYDB27tI=s4800-w800-h600",
+          "attribution": {
+            "name": "Kevin HE",
+            "profile_url": "https://maps.google.com/maps/contrib/116921247330949154545"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sirisuk Tennis Court",
+      "name_th": "สนามเทนนิสศิริสุข",
+      "zone": "Central",
+      "district": "Yan Nawa",
+      "lat": 13.704745,
+      "lng": 100.5368904,
+      "address": "81 Soi Olarik, Chong Nonsi, Yan Nawa, Bangkok 10120",
+      "rating": 3.9,
+      "rating_count": 112,
+      "phone": null,
+      "website": "https://www.facebook.com/sirisukclub/",
+      "place_id": "ChIJ5R24xk6f4jARBcbva2Ybydc",
+      "indoor": false,
+      "notes": "4 tennis + 2 pickleball courts. ~300-400THB/hr.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqEX0CreCayBztK35KsrNVozBrB8QeqZhZroC6KInCIU7OIMw5cWlqbJaUyhXolfUPSnO3CP2mRIMOuW9OOZ_H9vBeMXORTZBek=s4800-w562-h421",
+          "attribution": {
+            "name": "Sirisuk club",
+            "profile_url": "https://maps.google.com/maps/contrib/106650995620940588476"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqEK6tv61iq5chZWpzrNlYDWWbAfrsBFTc0i3qwbn86_Ui11i85HdUXt4g0LlIfKqkoXG1NN7B7K0pKHzipGWni8relZ_N37xxY=s4800-w800-h600",
+          "attribution": {
+            "name": "Sirisuk club",
+            "profile_url": "https://maps.google.com/maps/contrib/106650995620940588476"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqGUetb6zJ5Irl47rwtCGIolFbMeHVcbFiKXkOsGRzi0kFoIRj2oexlEkMl6cxylzmI6YLsu_-kGp1w79ObNkI86LE6dGgJqUwc=s4800-w800-h600",
+          "attribution": {
+            "name": "Sirisuk club",
+            "profile_url": "https://maps.google.com/maps/contrib/106650995620940588476"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chulalongkorn Tennis Courts",
+      "name_th": "สนามเทนนิสจุฬาฯ",
+      "zone": "Central",
+      "district": "Pathum Wan",
+      "lat": 13.7407569,
+      "lng": 100.5256423,
+      "address": "254 Wang Mai, Pathum Wan, Bangkok 10330",
+      "rating": 3.9,
+      "rating_count": 34,
+      "phone": "+66 2 218 2839",
+      "website": "http://www.cusc.chula.ac.th/wordpress/tennis-sports-center-chula/",
+      "place_id": "ChIJsyrkjyuZ4jAROH1ua2Y0HuY",
+      "indoor": false,
+      "notes": "10 hard courts. ~200-300THB/hr. Book in Thai, often full a week ahead.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMr2vKHwN-vUOC8PD-CWEiqZTJhffoK4hUtxXaLJvNeULypT3e_2QvNKlJoXMYmf5Nhkre09dT5urRybu5a8d4mviXCW0yz0NtDVmHxWjqdGTTyfkNq1eOkmgnJ8ausUjvvsESYdZ_D7pnvDQ=s4800-w800-h600",
+          "attribution": {
+            "name": "FX-EA LABO",
+            "profile_url": "https://maps.google.com/maps/contrib/114763094204559328412"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMuKLCn2W9tCdj0KaflUbaL7Eik18PML4GGLgE6xvD8zxlFEkMNHdkGGXyb2LGeKQunWWGsdJfxG-8Fv0slVYXYrLyt7LRt6ntDtvnT-5SXvTAgOxhc-s4m7jHvFt5C5TPvx3owP558aNfsN74=s4800-w800-h600",
+          "attribution": {
+            "name": "Pramote Suewirojanakul",
+            "profile_url": "https://maps.google.com/maps/contrib/112467697873648092461"
+          }
+        }
+      ]
+    },
+    {
+      "name": "The British Club",
+      "name_th": "British Club",
+      "zone": "Central",
+      "district": "Bang Rak",
+      "lat": 13.7266389,
+      "lng": 100.5234378,
+      "address": "189 Soi Phanitchayakan Silom, Suriya Wong, Bang Rak, Bangkok 10500",
+      "rating": 4.5,
+      "rating_count": 632,
+      "phone": "+66 2 234 0247",
+      "website": "http://www.britishclubbangkok.org/",
+      "place_id": "ChIJVXEqgNGY4jAROiaMO05hhn0",
+      "indoor": false,
+      "notes": "Members & reciprocal members only.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZOmPJsocOfQQZv3Uxbq0GleZY2LI-Bi9-zjy8V42fAt63wzw6ciV7XnoufgAX6x92pmALGHYp-KIP3wwFXsjg3z29a0pg1CDE_DDhqd9oa59uwpWQBtv0mpEJl6hsdq4yNVMmbGG8Y-TvKFmg=s4800-w800-h600",
+          "attribution": {
+            "name": "Lynnette Tay",
+            "profile_url": "https://maps.google.com/maps/contrib/114448567443219483226"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZP1ALw5oGJ1w_GpjkOv4OIj8GVkMAo6VvDvaxHjqqhHBMnVa0TpxOTWDApGNVC-mG7Ljsa7M3bNnUG7FuuKR9TCXLkX8fbU1ao_kRxURdk7Jbw3-qdhHy-4S-dUH4EvFaw0vBmM5IaUsyhl=s4800-w800-h600",
+          "attribution": {
+            "name": "Bruce Hemmingsen",
+            "profile_url": "https://maps.google.com/maps/contrib/104870131924771463880"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public Relations Department Tennis Courts",
+      "name_th": "สนามเทนนิสกรมประชาสัมพันธ์",
+      "zone": "Central",
+      "district": "Phaya Thai",
+      "lat": 13.7824012,
+      "lng": 100.5393098,
+      "address": "Phaya Thai, Bangkok 10400",
+      "rating": 4.5,
+      "rating_count": 40,
+      "phone": null,
+      "website": null,
+      "place_id": "ChIJh3Hb5gKc4jARSJW2gl6QOC8",
+      "indoor": false,
+      "notes": "Free public courts near Ari BTS. Hitting walls available.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZP1vQDLa3DBMl_zsY2Vet5rsgdkAcAuPQtlgQ_S8YuFFpXUYlnsxcOWWrUyNBXBlgTTPd37j03PwkrP02ZfvdlKLTOVL2Ab9pwVdlV8CSncgIVaweSnTQIOEl3hiv_5bRLWtrv6_zMVHEMdidw=s4800-w800-h600",
+          "attribution": {
+            "name": "นัฐพล อรุณกิจชัย",
+            "profile_url": "https://maps.google.com/maps/contrib/101761777364487408039"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZOXNGa7aVn81qayiG_1e4rnVtq8PvshfqwFI6iyFl8a0YikRXXz8HLyEl8MQLwoPhA66UmLdkIJpcSt7nK3GQxyQOYPZz_Pk_3h79oDlAMH74PrgD8zVdz25O3MkFwk5Fr0T5fJrNzDhtthiPw=s4800-w800-h600",
+          "attribution": {
+            "name": "FX-EA LABO",
+            "profile_url": "https://maps.google.com/maps/contrib/114763094204559328412"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crystal Tennis Center",
+      "name_th": "Crystal Tennis Center",
+      "zone": "North Bangkok",
+      "district": "Lat Phrao",
+      "lat": 13.8100253,
+      "lng": 100.6177106,
+      "address": "Soi Pradit Manutham 21, Lat Phrao, Bangkok 10230",
+      "rating": 4.8,
+      "rating_count": 110,
+      "phone": "+66 2 101 5995",
+      "website": "https://crystalsports.kegroup.co.th/",
+      "place_id": "ChIJP4gecaid4jARG1MKWluoAx4",
+      "indoor": false,
+      "notes": "Premium facility, books up extremely fast.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZP0Deo22NxB8-r-uR5Nkk4m7Pnn6lXiLbyBNZDWW5IbSleD6PDTfxnEIG0gve5APTxCE0kMG6lzY0bm5l6D8jTVZG4KmGaNnsKmYmLCFaddAZsmZL5MGlecY1kHh6GhoN6TW71vrxyChjQMj0Fh63ApyQ=s4800-w800-h600",
+          "attribution": {
+            "name": "December19",
+            "profile_url": "https://maps.google.com/maps/contrib/105653193674124068156"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMOrZ3G2UiPXLj8ZNq9OXeZj8Pu4E_Ym-WR33qdRUETx6fWIp7OKYeWTmPDh7re110JXL2dD8mQl8m9TMGALNBLoeM_22bSoxUjQgZC8oY6zxt6e6T2TGS7ruyAuU7Q_1c5TlWdcc8JRwJINJbBMboDsA=s4800-w800-h600",
+          "attribution": {
+            "name": "JT13 Techatkan",
+            "profile_url": "https://maps.google.com/maps/contrib/115354172518924185362"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crystal Sports",
+      "name_th": "Crystal Sports",
+      "zone": "North Bangkok",
+      "district": "Lat Phrao",
+      "lat": 13.810125,
+      "lng": 100.6176274,
+      "address": "18-19 Pradit Manutham 19, Lat Phrao, Bangkok 10230",
+      "rating": 4.9,
+      "rating_count": 109,
+      "phone": "+66 2 101 5995",
+      "website": "https://crystalsports.kegroup.co.th/",
+      "place_id": "ChIJ50VO3mid4jAR0d9GyaPHVDI",
+      "indoor": false,
+      "notes": "Top-rated, hard to book.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNs825lvlv05RyThCPMobo5wpbA4zGG9q9LmhXhcTWVfM7j3xBhpkCIiLv7PekzWhInRfH7bptpB2AexACdUfN1X593eAkdfT1Dj4aHB4IVIgUYn4VQ5eScgaek0U4fQ5xnl8UWhJf8PjEKzNc=s4800-w800-h600",
+          "attribution": {
+            "name": "TOYSTOWN THECRYSTAL",
+            "profile_url": "https://maps.google.com/maps/contrib/109613081142254261855"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPzTGZKw64uYJcy2VsIYP625I6nH7tYlGgZB96XHd6ArDVMqCZXEKzHX05prf5hWNT6eQcw8tGOnaFYOiCrmx6kXGgzQuH0_CtoX_813v09zQRuCtQPQ1eV2z4RT0Ckb3gVA_eF7ZMMeB1hQw=s4800-w800-h600",
+          "attribution": {
+            "name": "Crystal Sports",
+            "profile_url": "https://maps.google.com/maps/contrib/106055541521197833027"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crystal Sports G",
+      "name_th": "Crystal Sports G",
+      "zone": "North Bangkok",
+      "district": "Wang Thonglang",
+      "lat": 13.7988108,
+      "lng": 100.6152233,
+      "address": "828 Pradit Manutham Rd, Khlong Chaokhun Sing, Wang Thonglang, Bangkok 10310",
+      "rating": 4.6,
+      "rating_count": 47,
+      "phone": "+66 2 101 5998",
+      "website": "https://crystalsports.kegroup.co.th/",
+      "place_id": "ChIJgefcKgCd4jARFwQYGZNmD2I",
+      "indoor": false,
+      "notes": "Newer Crystal branch.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNS25EkXPWrCTD68MhMEqdE6bEZgvS6sn-gEu0_yYBky_u1ZzqcWBdTlUTnrq7woyalAYO07oK7CW2MHPEr_3DpGq0Fee0MrLvuARg2ETYntKd1-3NGgozDrvv1Bcr1VDC7wiQvZl1sGsa1QIMRdgPT=s4800-w800-h600",
+          "attribution": {
+            "name": "EDWARD OWLMAN",
+            "profile_url": "https://maps.google.com/maps/contrib/114098352167781259479"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPK9vrz8n8awG3odf-GD8-MRU9vGTk9rUtFVFgVGzNenq2Pa0gqePmF1vIlaYYvMYz6wtET0gHjdwUWists_4nw5WZ8r07-sXFMyqsBI23p4pNhyAgxepar_g0_HnscGjBjSjrnfXI8PcSAYMcZZ-aO8w=s4800-w800-h600",
+          "attribution": {
+            "name": "Jarukan Vichiasan",
+            "profile_url": "https://maps.google.com/maps/contrib/100356464476096745409"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alpine Tennis Club",
+      "name_th": "อัลไพน์ เทนนิส คลับ (รามอินทรา)",
+      "zone": "North Bangkok",
+      "district": "Khan Na Yao",
+      "lat": 13.8191799,
+      "lng": 100.6696799,
+      "address": "77 Soi Nawamin 74 Yeak 3, Ram Inthra, Khan Na Yao, Bangkok 10230",
+      "rating": 4.5,
+      "rating_count": 154,
+      "phone": "+66 63 650 9949",
+      "website": null,
+      "place_id": "ChIJK-rftT9jHTERdVDH9o_cvfY",
+      "indoor": true,
+      "notes": "4 indoor courts with US Open-certified surface, ventilation. Book 2 weeks ahead. Coaching by former world #9 Paradorn available.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqFMZkWBATUzg10VO2Dw2HmvBOwZ371rGVG4hPC7r7GeQXzVUMxvn_JshwKHBwKtw2eUhYXK4OwEVNtJJCsfUCCeOucVeL0EvSg=s4800-w800-h600",
+          "attribution": {
+            "name": "Alpine Tennis Club Bangkok",
+            "profile_url": "https://maps.google.com/maps/contrib/100572924510180981447"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqFUTWgULb_aJZJs-wiE4YtongdGwDzUfhCqJFfZox75TnHceEkfsBYGufZXN2swtVAjmKHX1WNm6lLc81kBBC8BRrIkc7lW1MY=s4800-w800-h600",
+          "attribution": {
+            "name": "Alpine Tennis Club Bangkok",
+            "profile_url": "https://maps.google.com/maps/contrib/100572924510180981447"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Siangpure Tennis & Pickleball Club",
+      "name_th": "Siangpure Tennis Club",
+      "zone": "North Bangkok",
+      "district": "Lat Phrao",
+      "lat": 13.8163426,
+      "lng": 100.6291792,
+      "address": "127 Soi Yothin Phattana 3, Khlong Chan, Lat Phrao, Bangkok 10230",
+      "rating": 4.9,
+      "rating_count": 81,
+      "phone": "+66 90 980 1368",
+      "website": "https://www.bertram1958.com/siangpure-tennis-club-th/",
+      "place_id": "ChIJJy5E94NjHTERojQXWOParfo",
+      "indoor": false,
+      "notes": "Outdoor, 350THB/hr, equipment rental 100THB. Closed Tuesdays.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZOAnX1lMcvXRrCFYntIaWUX-h4G3LDAqkSyuMm53SHe8hES9EKx4vFkqmQuW7t6Qf0S-ajSYN_Ovj4w5ZyfBd5h7aqtvoCRik_LaHEQQMnkxCQ3b5CEdhlu1G29FhLN7LhkoQvZ-xfuOFcgWQ=s4800-w800-h600",
+          "attribution": {
+            "name": "Jirayut Kaewtabtim",
+            "profile_url": "https://maps.google.com/maps/contrib/105102363235918333935"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqHJIPrLW_Q2aqz0CHSLjEqWlRp-j9F-aI8cHisdHDQ0LPkfhOOMCRVRNSIVfePBFEJnsYvnwweHncvw3h9W5LAj_upJDd5O3ys=s4800-w800-h600",
+          "attribution": {
+            "name": "Siangpure Tennis Club",
+            "profile_url": "https://maps.google.com/maps/contrib/110436806958976370701"
+          }
+        }
+      ]
+    },
+    {
+      "name": "สนามเทนนิส ปัญจบุตร",
+      "name_th": "สนามเทนนิสปัญจบุตร",
+      "zone": "North Bangkok",
+      "district": "Lat Phrao",
+      "lat": 13.796239,
+      "lng": 100.607235,
+      "address": "36 Thanon Nak Niwat, Lat Phrao, Bangkok 10230",
+      "rating": 3.6,
+      "rating_count": 38,
+      "phone": "+66 2 538 7498",
+      "website": null,
+      "place_id": "ChIJ2WkXl-2d4jARjW6Oqsp6_rM",
+      "indoor": false,
+      "notes": "170THB/hr day, 250THB/hr night. Basic shower.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZM9ZMaG6BJOiScnqotywN44OnNj0kKufbeMvychEkxCmSOP9YRzOze5BNIEffduTDVAwPM-tSA436Fh4xldYWrEBrah9WsYS80E1ZUKrmytnnZezz2mDunlP1h2gZfkgkA8WpDtGrmyXWbHDg=s4800-w800-h600",
+          "attribution": {
+            "name": "konohajo",
+            "profile_url": "https://maps.google.com/maps/contrib/115085081065894984300"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZP3VmwR6TkArxCH2mhGP2Rzf2ByytSrE63l4YC48tRQFFz0t59yByCsOyVlKrB6e8ULWCzxIVGY4vJqTSLisulAgnn2SPzpQYMf6IkuXEaGm1Id05jHIaB873pcjOhNclp4meXATucPuAZ4og=s4800-w800-h600",
+          "attribution": {
+            "name": "Chaow Su",
+            "profile_url": "https://maps.google.com/maps/contrib/111790205480990230038"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ultra Tennis Studio",
+      "name_th": "Ultra Tennis Studio",
+      "zone": "North Bangkok",
+      "district": "Wang Thonglang",
+      "lat": 13.7786165,
+      "lng": 100.620938,
+      "address": "Omni Business Mall, Soi Chit Kanchana, Phlabphla, Wang Thonglang, Bangkok 10310",
+      "rating": 5.0,
+      "rating_count": 8,
+      "phone": "+66 64 964 9222",
+      "website": "https://lin.ee/5Snetv0",
+      "place_id": "ChIJ7ZmwMQ9jHTER9oe18uvVjts",
+      "indoor": true,
+      "notes": "Half-court air-conditioned practice studio. Free racket rental.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqGLASpkFd5ZCyOdIlrqK0afYaMUM-8RiZAYUcH58EV_1QmFJ6us92FvbRRpcS3a5K9TJ8Ubv-J0E48n2CD2JPUT6kOcjggmgSY=s4800-w800-h567",
+          "attribution": {
+            "name": "Ultra Tennis Studio",
+            "profile_url": "https://maps.google.com/maps/contrib/110228798454332644315"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMG9seP_8YKHebFX8o9904ZbNOX43B4Oe3H04sW7jQsvrWC3JInKpEmGT_MXV8ASgUTS7tlWE5eKuEUPoszHT6UqxqY8jvtz0VBGDc-F3mcJSfoCay376_MuXKfN6LbFybvm2hym5tPBkQ6a1zi-tDhzg=s4800-w800-h600",
+          "attribution": {
+            "name": "Asama Kumban",
+            "profile_url": "https://maps.google.com/maps/contrib/116583549409075929813"
+          }
+        }
+      ]
+    },
+    {
+      "name": "SAT Tennis Court",
+      "name_th": "สนามเทนนิส SAT",
+      "zone": "East Bangkok",
+      "district": "Bang Kapi",
+      "lat": 13.7591988,
+      "lng": 100.6228553,
+      "address": "286 Ramkhamhaeng Rd, Hua Mak, Bang Kapi, Bangkok 10240",
+      "rating": 4.3,
+      "rating_count": 205,
+      "phone": null,
+      "website": "http://www.sat.or.th/",
+      "place_id": "ChIJz9cjf-FhHTERj--ovc2KlI4",
+      "indoor": false,
+      "notes": "Sports Authority of Thailand. ~6 courts.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMpUzVe-5fG2GgjwfNx8cWOtM8opuPKA7O3zGx480QA5uxx05WnuHFSF8vXsSiYIu6QC-wIsodSIa_U8k2gxrgfiT26BIyw-tRXmBdU_Qon-Xi-qhc67sIoaGY2O2Qqyzv97E3GkInQ0ce-y2Q=s4800-w800-h600",
+          "attribution": {
+            "name": "Pemika JEAN",
+            "profile_url": "https://maps.google.com/maps/contrib/115866145132894236443"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPYT6nPP-sZlW2aM81PU4hVS--GfFMULv-IbpGJ_t6H5x2PorHfappNT1u2xZvgCN9Ib8zr6XEZMCLCIVgbm_yPp2bXeVZlbuzRZeSBMUg_DCX9VxUMELbdwgI8ul-8b83O94zYaKoFQwnaf54=s4800-w800-h600",
+          "attribution": {
+            "name": "Maple Phimnara",
+            "profile_url": "https://maps.google.com/maps/contrib/103821128063695576429"
+          }
+        }
+      ]
+    },
+    {
+      "name": "สนามเทนนิส มหาวิทยาลัยรามคำแหง",
+      "name_th": "สนามเทนนิส ม.รามคำแหง",
+      "zone": "East Bangkok",
+      "district": "Bang Kapi",
+      "lat": 13.7542986,
+      "lng": 100.6157937,
+      "address": "282 Ramkhamhaeng Rd, Hua Mak, Bang Kapi, Bangkok 10240",
+      "rating": 4.0,
+      "rating_count": 21,
+      "phone": "+66 2 310 8302",
+      "website": "http://www.sport.ru.ac.th/",
+      "place_id": "ChIJN1AjZB-e4jAR5YRzqgOQOe4",
+      "indoor": false,
+      "notes": "6 courts, 200-220THB/hr. LINE booking.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMJV68Lb4strtJZDgX8D5MlvA2Bl31CtzNIvIE3qKy97Omhjq_RRwpRCT2ukdv9IElWnsOGgQ-MmuTfijkZJKBWa8vfysbNnAzaj4lv_F74C731kcXhoFZRMcoRpUqiUQbljb24SfJmvOaB0l6mLtdgWA=s4800-w800-h600",
+          "attribution": {
+            "name": "Makrob",
+            "profile_url": "https://maps.google.com/maps/contrib/109792656368121319609"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNtrSTF_lqm16ufT35M08wLfcr_cUxN7pYHBWlyMZpH9wEmt6GNzjalmVEKy1T_5pOrN5RPTUQaowzZJaTU-fR5RciS_XZCkz9n9W-jAGwKCdiVzjwqbGOHmOIaABOS6gRKdTyFq78DNOZRPJRDIJHpiQ=s4800-w800-h600",
+          "attribution": {
+            "name": "Jackie Yim",
+            "profile_url": "https://maps.google.com/maps/contrib/103720108006650713194"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Siripot Tennis Court",
+      "name_th": "ศิริพจน์ เทนนิส",
+      "zone": "North Bangkok",
+      "district": "Chatuchak",
+      "lat": 13.8309642,
+      "lng": 100.586582,
+      "address": "1178/108 Sena Nikhom 1, Chan Kasem, Chatuchak, Bangkok 10900",
+      "rating": 4.8,
+      "rating_count": 42,
+      "phone": "+66 2 579 2452",
+      "website": null,
+      "place_id": "ChIJD_a_Vuqd4jARxCPPTVhqWYo",
+      "indoor": false,
+      "notes": "4 courts, well-maintained, with showers and equipment shop.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZN-7JML6BBtOzK6nDECJGscrW0noc6bEKTNb_X-E0M_NhGGG_86b13b8MzMayzQFvDbRPQL8rzF7sRjT2_gy9KoR2ARtkmT4B9W-4Nj3kAuFBEaiU9P2Vl1PxZHCMiTtfLdWQmauIuKmB40hww62qfcJg=s4800-w800-h600",
+          "attribution": {
+            "name": "Ancha T.",
+            "profile_url": "https://maps.google.com/maps/contrib/111264317134925931812"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNJouatypEoecVwNe26BUOJPcKaBAclPSJODzjpZDvSityQeiOJbWYa1odeXANWOWDhvU5wuFWrux0soUx7atUseYCFgoaKpKX9FY2kk4KgJT9_smGQ09o01C4Pr3sr5mCsQ-2SAfVvQNxVeg=s4800-w800-h600",
+          "attribution": {
+            "name": "Montree Manojutaboon",
+            "profile_url": "https://maps.google.com/maps/contrib/112795670956497162399"
+          }
+        }
+      ]
+    },
+    {
+      "name": "P21 Rooftop Tennis Club",
+      "name_th": "P21 Rooftop Tennis Club",
+      "zone": "North Bangkok",
+      "district": "Chatuchak",
+      "lat": 13.8225815,
+      "lng": 100.5639405,
+      "address": "21 Phahon Yothin Rd, Chatuchak, Bangkok 10900",
+      "rating": 4.9,
+      "rating_count": 20,
+      "phone": "+66 81 981 6858",
+      "website": null,
+      "place_id": "ChIJ3VVmx9Wd4jAR38DzegTifF8",
+      "indoor": false,
+      "notes": "2 rooftop courts on parking building. BTS accessible.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqHxE9pKAdlcatupuHLuDQJlzLsHWylHl1p78CWTqgZcYEACoCJfej1eooyu-WCM3pn5oDWSN_xGZyjprWaDLzqfi1xpWvFoMaE=s4800-w800-h600",
+          "attribution": {
+            "name": "P21 Rooftop Tennis Club",
+            "profile_url": "https://maps.google.com/maps/contrib/111834410992783295407"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqGAykcnDuqY-6yf1WMcC23FNgEeTvzFStDxEuPZZAfqY5KDcAFGFkcEMDOoPsjxja5wrYqbpStxmHCj6UqOZMTrOn5o7c74xE0=s4800-w800-h600",
+          "attribution": {
+            "name": "P21 Rooftop Tennis Club",
+            "profile_url": "https://maps.google.com/maps/contrib/111834410992783295407"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wachirabenchathat Sports Center",
+      "name_th": "ศูนย์กีฬาวชิรเบญจทัศ",
+      "zone": "North Bangkok",
+      "district": "Chatuchak",
+      "lat": 13.8119331,
+      "lng": 100.5561198,
+      "address": "Chatuchak, Bangkok 10900",
+      "rating": 4.6,
+      "rating_count": 123,
+      "phone": "+66 2 272 4844",
+      "website": "https://www.facebook.com/Wachirabenchathat/",
+      "place_id": "ChIJh_dAFEOc4jARSTKjwb838-Y",
+      "indoor": false,
+      "notes": "Public sports center in Suan Rot Fai. 80THB/hr. CSTD Smart app.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMZHDNV2tIxZiyK47Qe0Nfw08b2bdTaGQ9BoInf4tVkjJE4txWTQiNvTag5JQF26ej-4vaD9F4gv1bnuOiQ8mkRqJzesf7X4rKqovM0OwNNYQ7vhRc9_QxrVtIxhOBWyFGObjt7eCUMLx56MQ=s4800-w800-h600",
+          "attribution": {
+            "name": "Yotanut Maliwan",
+            "profile_url": "https://maps.google.com/maps/contrib/114610764682315737187"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNVhQ76jXsf9W1trJ72ERwwJEC_D_vhh40mKmSmRGjG7f3xGdU2sA3GoVF-NvIVxlSG7bCjYZJbP6qQpfBS_nRV0GCEJccEQr1DT4a_L65_epNqrDBzpmvZhjjp10v3MLv8UlYJAwsIh1Z0x3y43yY5lg=s4800-w800-h600",
+          "attribution": {
+            "name": "GiZMo",
+            "profile_url": "https://maps.google.com/maps/contrib/115292914960829823301"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tennis Court วชิรเบญจทัศ",
+      "name_th": "สนามเทนนิส วชิรเบญจทัศ",
+      "zone": "North Bangkok",
+      "district": "Chatuchak",
+      "lat": 13.814473,
+      "lng": 100.556988,
+      "address": "Suan Rot Fai, Chatuchak, Bangkok 10900",
+      "rating": 4.8,
+      "rating_count": 4,
+      "phone": null,
+      "website": null,
+      "place_id": "ChIJy-mpRgCd4jARMmncPrDO3q0",
+      "indoor": false,
+      "notes": "7 courts in Suan Rot Fai Park, 80THB/hr. With knock board.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPButDw44p6C7GZcYsoPGanFf1G3cet9s3bvG7_Fa0XsLxHFHg2zPUxEzixqsj8WbDPcQ6XxLlxvuLzc8DVU8wn6JBUc8u0uXOthGRMI5WvOdwk9ipJhOb5NpqB7VLPi2QWRiZ7j16BIdM8mQ=s4800-w800-h600",
+          "attribution": {
+            "name": "ภักดีนาถ สุประดิษฐ์ ณ อยุธยา",
+            "profile_url": "https://maps.google.com/maps/contrib/117700737594110092778"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMJjiXcSF3adWZ8ny-vboHrTbrhJbA4Jv0IBrI2EipB5sRBAaIMaHHFTLoZA-2oHtUeb1_djkSlLsKauGlgf1k5B4jpux-Kwafj-9f0IVusS6G0emiFIUj5Kap5pEHU9xoXBp1ZqzfH0_Pukg=s4800-w800-h600",
+          "attribution": {
+            "name": "Nitikorn Poosri",
+            "profile_url": "https://maps.google.com/maps/contrib/108995538486136819701"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tennis Courts (Suan Rot Fai)",
+      "name_th": "Tennis Courts สวนรถไฟ",
+      "zone": "North Bangkok",
+      "district": "Chatuchak",
+      "lat": 13.8163537,
+      "lng": 100.5515997,
+      "address": "Chatuchak, Bangkok 10900",
+      "rating": 5.0,
+      "rating_count": 4,
+      "phone": null,
+      "website": null,
+      "place_id": "ChIJVS6cg2ec4jARUJfIX2GeNQs",
+      "indoor": false,
+      "notes": "3 public courts next to basketball, with parking.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNjgskM6gcEgrrSC-rEkyWeu7ukpSTpmkivoMZz0erU765BknFn-eHOpZ7PSjXMt5hVRebaLc6FFp-5pDaXC2LhTm3G47UYRclzgOZIqA4CZmg7m_F9zbB3OXFF0-zzyyTPlYNOJ5wuHJSL6Ko=s4800-w800-h600",
+          "attribution": {
+            "name": "Priyatat Orm",
+            "profile_url": "https://maps.google.com/maps/contrib/110149203592066353991"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZP2ddK6wBM6-pLQyIvPRLsrSSgU7sC2G2jwsxxcC3xUzQnHEKUN-BV81F4puPoxfm6YVzTyzb0ea5t7K2XU-5Ge7viTZ4N4AkK2GBwW-eT_QI4L_Kg_CDFBZSMBmYHoQ0VfqUJSvb9qjLXB-g=s4800-w800-h600",
+          "attribution": {
+            "name": "Priyatat Orm",
+            "profile_url": "https://maps.google.com/maps/contrib/110149203592066353991"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Supalai Park Sports Club",
+      "name_th": "Supalai Park Sports Club",
+      "zone": "North Bangkok",
+      "district": "Chatuchak",
+      "lat": 13.822563,
+      "lng": 100.5649092,
+      "address": "5 Soi Phahon Yothin 21, Chatuchak, Bangkok 10900",
+      "rating": 4.2,
+      "rating_count": 14,
+      "phone": "+66 2 966 2445",
+      "website": null,
+      "place_id": "ChIJk_0pvFec4jAR64BCR2TC-p4",
+      "indoor": false,
+      "notes": "Multi-sport: tennis, squash, gym, Muay Thai. ~200THB/hr.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqEHnuVuOJKP9IniziZo-nTpQJ6rGMCKgSkoRxykhFhVeooewinrdhRNOG5hgnNyAKXCL9jA4BzUzX2GcjHYeB-DkwmdwkxEIHo=s4800-w800-h600",
+          "attribution": {
+            "name": "Supalai Park Sport Club",
+            "profile_url": "https://maps.google.com/maps/contrib/110579912852394135652"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMa2IhPv0qy3-uCa_cXh9zvXkAixgFvTzQb-mb_M6OSduchnrnfQRN7bWdNuhtbz_eSSzglxmGKRhIFHrFgFdeGbvpyrXY4FaAWRSzO1cyFOmW5KWUCE6mvr_AWtTkQA75tUx0sWHSymPvX7Q=s4800-w800-h600",
+          "attribution": {
+            "name": "มวยไทย แฟมิลี่",
+            "profile_url": "https://maps.google.com/maps/contrib/108665976399496404091"
+          }
+        }
+      ]
+    },
+    {
+      "name": "สโมสรอยู่เจริญ",
+      "name_th": "สโมสรอยู่เจริญ",
+      "zone": "North Bangkok",
+      "district": "Chatuchak",
+      "lat": 13.8024898,
+      "lng": 100.5664443,
+      "address": "Vibhavadi Rangsit Frontage Rd, Chom Phon, Chatuchak, Bangkok 10900",
+      "rating": 3.9,
+      "rating_count": 16,
+      "phone": "+66 2 277 0648",
+      "website": null,
+      "place_id": "ChIJhaUz50ec4jARReyY5_cLxWw",
+      "indoor": false,
+      "notes": "250THB/hr. Older courts with cracks. Has tennis, fitness, pool.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMZ_X4LEgF15akqRDEFLHJJiJ9FmqiT8NoXRYJec7Qttzv7xKBxIM_Ji9HMfJyCWuFzEpppxQy4kUiOBv4ZsKBIgATzmapfgWlGRzbgDTc_-j0NY-qYnB3mM-dK5Sl0Owlo7Y3jxT0D-lzU=s4800-w800-h600",
+          "attribution": {
+            "name": "CoolDiving Scuba diving",
+            "profile_url": "https://maps.google.com/maps/contrib/101466890958478271974"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZM8TahoxfBLHsGulLI20NOl_LaI-Mr6hEvAzzQYxsL0yZ9cVAEtcuTtJOlwQMOyA-ZUtfXYOZ_f4Ohm-vopast94LrkvKtJ2F0By_L6fw68z0V3W5L8O02xfEK7XA2NGqamtglFkdSrRJRY=s4800-w800-h600",
+          "attribution": {
+            "name": "Mhor Shirt",
+            "profile_url": "https://maps.google.com/maps/contrib/116871380244483209515"
+          }
+        }
+      ]
+    },
+    {
+      "name": "DK Tennis Court",
+      "name_th": "DK Tennis Court สนามเทนนิสดาวคะนอง",
+      "zone": "Thonburi",
+      "district": "Thon Buri",
+      "lat": 13.6976397,
+      "lng": 100.4811899,
+      "address": "Soi Somdet Phra Chao Tak, Dao Khanong, Thon Buri, Bangkok 10600",
+      "rating": 4.8,
+      "rating_count": 11,
+      "phone": "+66 65 031 5515",
+      "website": "https://lin.ee/UbhScD7",
+      "place_id": "ChIJIXmyzRqZ4jARXz9sOwb4VQE",
+      "indoor": false,
+      "notes": "2 courts, pastel pink (Instagram-friendly). 280THB/hr, knocker 300-400THB/hr.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPSs1m0mt4gJGDzZqVHZZLLmC_kGcNx2o1LNzh49TxX4_ocXoaUDH_tB_4kPqQVDLEP2NEC3GWsCJ7F7ZYjWjrg84SREpZLBn_7E8dnpoGDZ0DH43TespSGtyj5BTcZRWeFEuleQ6n26Dt2CQ=s4800-w800-h600",
+          "attribution": {
+            "name": "DK TENNIS COURT",
+            "profile_url": "https://maps.google.com/maps/contrib/105135322145781106802"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMg_cac-8x6PZZAq9CPJzD54umH3xzpq3rfmKh_43mYpR-9KA0_YVuriAz-fzY3MaPcUekCZwf5QGKSIbQmFEG33QT26rB8fWG5u2MOVGBp6Gv6r2tc12ZdsoNBen5BmmR9NFx-OayqIKWhl2kFBmpoYw=s4800-w800-h600",
+          "attribution": {
+            "name": "Wei Wei",
+            "profile_url": "https://maps.google.com/maps/contrib/103144395120958413102"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Momo Tennis Club",
+      "name_th": "Momo Tennis Club",
+      "zone": "Thonburi",
+      "district": "Rat Burana",
+      "lat": 13.6931391,
+      "lng": 100.4862524,
+      "address": "778 Thanon Rat Burana, Bang Pakok, Rat Burana, Bangkok 10140",
+      "rating": 4.7,
+      "rating_count": 15,
+      "phone": "+66 82 451 6061",
+      "website": "https://lin.ee/s8NSUrw",
+      "place_id": "ChIJDzUuKO6Z4jARTm8YJaVmY8Q",
+      "indoor": true,
+      "notes": "Indoor in converted warehouse. 600THB/hr. Premium surface. Book via LINE.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqEoptQaIsugN6Y2GoxjDjJqnWPHxNDJHAurCnBPjGdXTfHAa2YXk-YlyPRCM6qJj0VsTWAjNpzCeDG-To0ZN5V7LX6DIbtJZFo=s4800-w800-h600",
+          "attribution": {
+            "name": "Momo Tennis Club",
+            "profile_url": "https://maps.google.com/maps/contrib/112683363092567751180"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMg8rmi7gW7EMc-Z-woiTjlAbncEyAvwC59KneOFL_7nnARZZ9UQJCgyQ_BxtSkYmPYCt5QkACPAL6VXvMf3Ys0fxIjLb87BsDUXSDeyWWxt-j2booF_HHvN7QZZzheluj7cYhyD2C118A-Ag8XfeoS=s4800-w800-h600",
+          "attribution": {
+            "name": "ohm ohm slowlife",
+            "profile_url": "https://maps.google.com/maps/contrib/111048446471534279624"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Itsaraphap Sport Club",
+      "name_th": "อิสรภาพ Sport Club",
+      "zone": "Thonburi",
+      "district": "Khlong San",
+      "lat": 13.7286329,
+      "lng": 100.4975433,
+      "address": "Lat Ya Rd, Somdet Chao Phraya, Khlong San, Bangkok 10600",
+      "rating": 3.6,
+      "rating_count": 119,
+      "phone": "+66 2 437 7316",
+      "website": null,
+      "place_id": "ChIJIcne6OSY4jARwQGS-Bt_knY",
+      "indoor": false,
+      "notes": "6 tennis courts + swimming pool.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNOD-ytq00MxoApnuNrrcaccOkAMVN8jfTAsCAPN0hB1lJG8dyLrdgxSkVQaYO8dySTbxWuE1zkt0AyuPTDwcVBxekXNNtinXUf3fOYfkZ_HZP0FJ6sOyxeunNf1AWvwdo3xtjR9Cx5CXeZBQ=s4800-w800-h600",
+          "attribution": {
+            "name": "Phairuch Chaiyakul",
+            "profile_url": "https://maps.google.com/maps/contrib/102015351161608767977"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZOf57JrsMkHiF3spsxgbfPadosYM4aNvHjjEmRqV1s8fJ6IlpC7pKVmK6KH6XfY0nilM8_Ujar_s6Y1Ox2J6MonPeWEmbzAtMjyo3EwXN2yP-AyfkGuxE69PkiC_QabrZqwlq_mgqKqAZegxw=s4800-w800-h600",
+          "attribution": {
+            "name": "นัทธพงศ์",
+            "profile_url": "https://maps.google.com/maps/contrib/111509178134104968582"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sivalai Clubhouse",
+      "name_th": "Sivalai Clubhouse (สระโอโซน + เทนนิส)",
+      "zone": "Thonburi",
+      "district": "Bangkok Yai",
+      "lat": 13.7427225,
+      "lng": 100.4769617,
+      "address": "168 Soi Isaraphab 33, Thapra, Bangkok Yai, Bangkok 10600",
+      "rating": 4.3,
+      "rating_count": 97,
+      "phone": "+66 2 412 4000",
+      "website": "http://www.sivalaiclubhouse.com/",
+      "place_id": "ChIJmwQNna6Z4jAR2sc0a7CdIIw",
+      "indoor": false,
+      "notes": "Tennis + ozone swimming pool. Pool entry 150THB.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqFlTtjdoy2NffBU3EGYohpZP7CwfUu1ofPjGi7rZvGWxivKSBdALcOetT6GrGryuIybYI9Xy6vEuQTGk-xzbdPFgsSetj4CHg0=s4800-w512-h600",
+          "attribution": {
+            "name": "Sivalai Clubhouse",
+            "profile_url": "https://maps.google.com/maps/contrib/117573780908675353331"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZOcl8xjPgpovktAMCDFQcGDQ0QMlNWdi7s0PQUb3A4y27TupBZNqj8SChqi53r9YxowfVsKBJSeQc-ujuSjFuskIOn116hRlNjO-mhr--s91pzcFrNHguRTJOoMPBc06dZDvXiDHiubN7CD8A=s4800-w800-h600",
+          "attribution": {
+            "name": "Snail pace But a unicorn at heart",
+            "profile_url": "https://maps.google.com/maps/contrib/111140747277944175837"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wang Nantauttayan Sport Center (Royal Thai Navy)",
+      "name_th": "ศูนย์กีฬาวังนันทอุทยาน (ทร.)",
+      "zone": "Thonburi",
+      "district": "Bangkok Noi",
+      "lat": 13.7476895,
+      "lng": 100.4799145,
+      "address": "8-34 Itsaraphap Rd, Ban Chang Lo, Bangkok Noi, Bangkok 10700",
+      "rating": 4.6,
+      "rating_count": 113,
+      "phone": null,
+      "website": "https://m.facebook.com/wungnunthasport",
+      "place_id": "ChIJR1ebr6iZ4jARlfPgb14XX5s",
+      "indoor": false,
+      "notes": "Royal Thai Navy facility. Cheap for members.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZM-XNkDo-n6sgAp33cvzEuQZs16N_84pn_D7_J0iGKyCoc3ECl4fwvc6bF0EjHtZJ4L3cpENwnG9_jYpN6KmtwH4SnNNfE-q9iG6N9rfBkP1O6n3F0I04ArpTIccvZ8Jedd768omyTbdxloqQ=s4800-w800-h600",
+          "attribution": {
+            "name": "Arnatt Klinsong",
+            "profile_url": "https://maps.google.com/maps/contrib/105188955606241836844"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNPNKQWMNp_U5uBxeGz0is6O6NNIMU2urTmBQlmaJ7d7Lks4zDIiTk5ds_tE_o03NypzJQC5sfLNsDkQ5H8L_ml5C_AS9swGApKagby08vJQI14kAsrwINB2ANqvNvc8S_PHJFa66hWRxQQ=s4800-w800-h600",
+          "attribution": {
+            "name": "Rattie Buathong",
+            "profile_url": "https://maps.google.com/maps/contrib/105790213807897116948"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PuunPlus Sport Club",
+      "name_th": "PuunPlus Sport Club",
+      "zone": "Thonburi",
+      "district": "Thon Buri",
+      "lat": 13.7156161,
+      "lng": 100.4773898,
+      "address": "157/2 Thanon Ratchaphruek, Talat Phlu, Thon Buri, Bangkok 10600",
+      "rating": 3.9,
+      "rating_count": 62,
+      "phone": "+66 95 419 5188",
+      "website": null,
+      "place_id": "ChIJK9O-BK2Z4jARI8srNewBmhk",
+      "indoor": false,
+      "notes": "Newer multi-sport complex with parking.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqGVN0MWou3jWH7gi_WuPyf1jojSM-p59jCUIn0GWAbkpchAQXj5GL2pVOZn-6JYMrgYogMPNBg2IwTz-bFVuvLbSoQWG8m3R3c=s4800-w800-h600",
+          "attribution": {
+            "name": "PuunPlus Sport Club",
+            "profile_url": "https://maps.google.com/maps/contrib/100627349585564383855"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMPkxNdc5e2RAXc_G_cJcMqJi8XOy_Zp-8k-wtQw3wt_i08WpfFvuaWw81ToQRl-7sTV8tPtEfQS5ahnOtszDiPDyV1TP833jp4WMbf_edLz_OyFcWTNpwPE43C24bfZWH0eDdQVFNTSpRhkjg=s4800-w800-h600",
+          "attribution": {
+            "name": "Pudit",
+            "profile_url": "https://maps.google.com/maps/contrib/102620434808964093558"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Al Fort Tennis & Fitness",
+      "name_th": "Al Fort Tennis & Fitness",
+      "zone": "Thonburi",
+      "district": "Rat Burana",
+      "lat": 13.6895158,
+      "lng": 100.4891508,
+      "address": "234 Soi Rat Burana 11, Bang Pakok, Rat Burana, Bangkok 10140",
+      "rating": null,
+      "rating_count": null,
+      "phone": null,
+      "website": null,
+      "place_id": "ChIJv5GUJwCj4jARFciqns3IGqU",
+      "indoor": false,
+      "notes": "Limited public info.",
+      "photos": []
+    },
+    {
+      "name": "Hatch Tennis Club",
+      "name_th": "Hatch Tennis Club",
+      "zone": "Thonburi",
+      "district": "Rat Burana",
+      "lat": 13.6897725,
+      "lng": 100.4892498,
+      "address": "486 Thanon Rat Burana, Bang Pakok, Rat Burana, Bangkok 10140",
+      "rating": null,
+      "rating_count": null,
+      "phone": null,
+      "website": null,
+      "place_id": "ChIJE6O7EACj4jARJyk5g2DE8d4",
+      "indoor": false,
+      "notes": "New club, limited info available.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPWR0gD7SFGdq00dicMpvsZ6uWu-6YUJM_ICzZYVkvFc29qSPOoSBNoQ-MQib414RTHMYz7XHC7gj0UOfMC8_45gkyvdU4OdIkQ5EbNsjKVjZoOxx-WwzyzXq8A1vZzKVysPyFOXoYCUzUtgNGnywmMiw=s4800-w800-h600",
+          "attribution": {
+            "name": "Andrin Renz",
+            "profile_url": "https://maps.google.com/maps/contrib/101295032358284276763"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNenvr4tHg5EOsuuabjsDk7KgmdKbsrqcuUx1zbD0BJu000_yBYFAt8r4bFeK9Q2NwSBCrHEI4VzyWhWY4oe1KatKvRoPfAMqY4K7nNRD6ROJL4jEQcQcDLojbwjZX4DchaFEjDjNkEyUNjwY_VXKSTiA=s4800-w800-h600",
+          "attribution": {
+            "name": "Andrin Renz",
+            "profile_url": "https://maps.google.com/maps/contrib/101295032358284276763"
+          }
+        }
+      ]
+    },
+    {
+      "name": "CV Sport Club Tennis Court",
+      "name_th": "CV Sport Club",
+      "zone": "West Bangkok",
+      "district": "Thawi Watthana",
+      "lat": 13.7989273,
+      "lng": 100.347557,
+      "address": "11/10 Mu 8 Salathammasop, Thawi Watthana, Bangkok 10170",
+      "rating": 4.4,
+      "rating_count": 160,
+      "phone": "+66 81 562 2622",
+      "website": "https://www.facebook.com/cvsportclub/",
+      "place_id": "ChIJqZe-XUWR4jARpdqR3m7HaMI",
+      "indoor": false,
+      "notes": "High ceiling, 400THB/hr. Tennis shop with stringing service.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZOZaWZL_M8sfS_bhh-cADZtgHCUNOEWT8cUL6Quq_mNXCKetL46JIOe5sqenCABAIDWyJ8MYv_dq52WEUqN4oMXrE9vMX7mkNRvMHR8kk6blG0hgZlWxKpZBsgZ-3LoBkq9cYej4_HP637gofqVhZ0pKg=s4800-w800-h600",
+          "attribution": {
+            "name": "soujun park",
+            "profile_url": "https://maps.google.com/maps/contrib/109073193427486512830"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNFBTMUhuRY_NGef0GP0UBcUYu8s9_xvaLIwpuHjpcOUXQpMoh3q833UZuwBK9LCZXA7v3XpXxRTTDfVydqaVtIS3JxTrBaCO7tEgOhD2Ga3YCXkACF8ug_j7-ATAdQuFiwk49JTZecG99YdA=s4800-w800-h600",
+          "attribution": {
+            "name": "ecobkk",
+            "profile_url": "https://maps.google.com/maps/contrib/107736470792413095653"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Beat Discovery Thailand",
+      "name_th": "Beat Discovery",
+      "zone": "South Bangkok",
+      "district": "Bang Na",
+      "lat": 13.6797783,
+      "lng": 100.6084052,
+      "address": "2784 Soi Sukhumvit 66, Bang Na Nuea, Bang Na, Bangkok 10260",
+      "rating": 4.3,
+      "rating_count": 258,
+      "phone": "+66 80 205 2527",
+      "website": "https://www.beatdiscoverythailand.com/en",
+      "place_id": "ChIJRUPu1FCh4jARVivj6qyOjXM",
+      "indoor": true,
+      "notes": "Tennis + 4 indoor pickleball + badminton. Near Udom Suk.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqHYKIqc8mO7vgEHlzS_7WDJHIk4ozq4tNVgmR1SGFiR4XrL6aGTkTVb4tSwh57tDnThxuitJfTdiiL_RF8P7aD6daCLNlpazkU=s4800-w800-h600",
+          "attribution": {
+            "name": "Beat Discovery Thailand",
+            "profile_url": "https://maps.google.com/maps/contrib/117444351317257981088"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZOjgS8Bx8m497Uax6EsPbE1vdWd1AjbIJ_L1thttehVzdxO22JDFOR-NG7lH3YEuDkzJGFEDQZgAZFFwePlCfAyAc-9ZYed_S7XI4JRXHt5VJHxg5vZBzyBp8KgSvzLZ1NDGb7gb7tm42IgFw=s4800-w800-h600",
+          "attribution": {
+            "name": "Danai Piyawatananan",
+            "profile_url": "https://maps.google.com/maps/contrib/102690440543695807325"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPyg07HdnRWwutwAWTXfsNdyWBaew4gO4Gf_YvMxB2P7pctFpG3cI38ubje4ityFAO0HReiuNx4q0g6LzdcdVdnale6D6UODuevU4aYaxwGlVsb62vzDK3_uXv42rvJ2zvihR107Wv42OkGgA=s4800-w800-h600",
+          "attribution": {
+            "name": "BEAT Discovery",
+            "profile_url": "https://maps.google.com/maps/contrib/102859288118838489729"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rungsang Tennis Courts",
+      "name_th": "Rungsang Tennis Courts",
+      "zone": "South Bangkok",
+      "district": "Bang Na",
+      "lat": 13.6756504,
+      "lng": 100.6154152,
+      "address": "57/147 Soi Phanitchayakan Bang Na, Bang Na Nuea, Bang Na, Bangkok 10260",
+      "rating": 3.9,
+      "rating_count": 68,
+      "phone": "+66 92 626 5005",
+      "website": null,
+      "place_id": "ChIJrxfuagag4jARDzeD4aWweyg",
+      "indoor": false,
+      "notes": "Older courts, 350THB/hr. Reports of poor maintenance recently.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNIVI2m1IZUTFxpM7lYtCjuZyKLAHsn62S16Wxf0xD7rLCgoL-0kzSimt7nAsFSL8bD0g35A78X8OkP5ZA9dyAA9qbyK0UcXkYk6aFaAWfxQAF9P7c1jaQlkBy2Qc5pKb10mqBeFedWOxZoaQo=s4800-w720-h600",
+          "attribution": {
+            "name": "Wardaddy",
+            "profile_url": "https://maps.google.com/maps/contrib/118204950916378372049"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZP0m8VN2_lOa7648kwE7b_FtyeFUWmmu79SBL1Q9WeUJef9MeR95a1Et-0-vQWvWnCDjQpYs4frz2TTTB-AYAMb1zP8xl5_h6_bc2JXKS55cqbqw7oDDlDQSQycge8viPEAJRdDQPy-bGAXZzc=s4800-w800-h600",
+          "attribution": {
+            "name": "มนต์ชัย ยั่งยืน",
+            "profile_url": "https://maps.google.com/maps/contrib/108625350219496653151"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Simoorgh Tennis Academy Bang Na 12",
+      "name_th": "Simoorgh Tennis Academy Bang Na 12",
+      "zone": "South Bangkok",
+      "district": "Bang Na",
+      "lat": 13.6674889,
+      "lng": 100.6192195,
+      "address": "Soi Bang Na-Trat 12, Bang Na, Bangkok 10260",
+      "rating": 4.3,
+      "rating_count": 54,
+      "phone": "+66 95 968 8585",
+      "website": null,
+      "place_id": "ChIJ-y3FvYGh4jAR7HmTuqiY--Y",
+      "indoor": false,
+      "notes": "Sister branch of Simoorgh Sukhumvit 56.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/places/ANXAkqGIA6aHrLLwSg3vd_9R_jAi_GCJToIHbBPGwVqJNlsVsyqNnXNlBCsTP1rnpGINANx0S751T6o5jOEEeU06AVkUu5N00ETKxBc=s4800-w800-h600",
+          "attribution": {
+            "name": "Simoorgh Tennis Academy Bang Na 12",
+            "profile_url": "https://maps.google.com/maps/contrib/110202489018449024208"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZP_5FKrLjUMN6aZFQ1lYgK8RguLYWY4lqJ7fGTMpE2a_wyijDSMQT4M3wlgkCJuv-f61N4tmceQxPRdegkvLe0H0lhPS8sXRw1IFUKpaysDSMLD7D5D_-b87F659gAH7LqH0UOz5dNQLa9LPpI=s4800-w800-h600",
+          "attribution": {
+            "name": "Sandra Liu",
+            "profile_url": "https://maps.google.com/maps/contrib/115760935845192176748"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Spinning J International Tennis Academy",
+      "name_th": "Spinning J Tennis Academy",
+      "zone": "South Bangkok",
+      "district": "Bang Na",
+      "lat": 13.6585769,
+      "lng": 100.6292114,
+      "address": "Soi Lasan 42, Bang Na, Bangkok 10260",
+      "rating": 4.5,
+      "rating_count": 15,
+      "phone": "+66 99 193 6356",
+      "website": "https://www.facebook.com/tennissociety",
+      "place_id": "ChIJUUVy3iBfHTER9Bz1lPBdd7Q",
+      "indoor": true,
+      "notes": "2 covered courts, 500THB/hr night.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZMH-AKqEoXd6izl6TZHI4UnLOJwdTETaXNcEmqJj5Z84UlX-k5OlBaoI-LagPc7CEHhOtr-hPYf9R9T65CNxH8u6YsOEZvl_2bTwraaU1W5ZRvw0zy9uUmRFk-UW8GQ2_3dM8rZfUoQgApt4A=s4800-w800-h600",
+          "attribution": {
+            "name": "Spinning J International Tennis Academy",
+            "profile_url": "https://maps.google.com/maps/contrib/115607058454019198323"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPOdSJ6aSboOSk3VNGKynE0wUDUSqUlBEVHsR8LU6tzTQguYe6wKIjSI5dgAZzBcTCtAEMOrDrZE659aWta7_UgobsWvWd3qYpe0tL8hSjMOp_ok4qW3DxV-crvoJL-KDRACVF02SFM_X28czIdD3z4Gg=s4800-w800-h600",
+          "attribution": {
+            "name": "khomwit khumpasano",
+            "profile_url": "https://maps.google.com/maps/contrib/105029398069189972838"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phuti Anant Sports Club",
+      "name_th": "ภูติอนันต์ สปอร์ตคลับ บางนา",
+      "zone": "South Bangkok",
+      "district": "Bang Na",
+      "lat": 13.6640472,
+      "lng": 100.6118341,
+      "address": "Soi Sukhumvit 105, Bang Na, Bangkok 10260",
+      "rating": 4.3,
+      "rating_count": 297,
+      "phone": "+66 2 475 9013",
+      "website": null,
+      "place_id": "ChIJjROM5wyg4jARhb8uCqkTzOk",
+      "indoor": false,
+      "notes": "Multi-sport: tennis, badminton, swimming, futsal, golf range.",
+      "photos": [
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZNjoDOOiolFAf7bjnJIDWKwaS8QCfEeQAgyxW58bMKfCwoC8eFzmd9hflxZN7Qs0ox65y8pAUiaD4ZW9PH6KiACpdYQeA2shWFuKceUuSCqFT7qWM9E10FneyD1ZZSboBSrO9y_1G8oNHHivrDT1Hvi=s4800-w780-h585",
+          "attribution": {
+            "name": "Konstant van Huyssteen",
+            "profile_url": "https://maps.google.com/maps/contrib/103261701066753758856"
+          }
+        },
+        {
+          "url": "https://lh3.googleusercontent.com/place-photos/AJRVUZPG9WdE4be8CnN9o9O-O2qGOphpUBSlG4-ae6MqNEJ9ZX5bI1LaEhDJp2sGe3ZAjTCHERPthKOFtFJi7hdr0MifLXsxZXR3DKGfK8Y7zifSsRXonhHT4Q-iSPfY6x8DzcpC6IV2UDplzPH7VA=s4800-w800-h600",
+          "attribution": {
+            "name": "Panithan Thuamphet",
+            "profile_url": "https://maps.google.com/maps/contrib/105276680506042113460"
+          }
+        }
+      ]
+    }
+  ],
+  "photos_attribution_required": "Photos are sourced from Google Places. Display attribution name + profile_url with each photo per Google's terms. URLs may expire over time."
+}

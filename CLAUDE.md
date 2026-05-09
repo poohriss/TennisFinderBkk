@@ -18,6 +18,8 @@
 - **Rating/Reviews:** Google Maps rating — ตอนนี้ใส่ค่าประมาณไว้ก่อน รอเจ้าของ project มา verify และอัพเดตทีหลัง
 - **googleMaps field:** มีแล้วใน courts บางสนาม (ids 1, 14, 28, 101, 115) — ใช้สำหรับ redirect ตรงจาก detail modal
 - **website field:** มีแล้ว 26 สนาม — Tennis: ids 1, 2, 6, 7, 8, 9, 12, 16, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28 (18 สนาม) | Pickleball: ids 101, 102, 106, 107, 108, 109, 110, 115 (8 สนาม) — สนามที่เหลือใช้แค่ Facebook/Instagram
+- **Google Places enrichment (2026-05-08):** Merged ข้อมูลจาก `bangkok_tennis_courts.json` (46 entries) + `bangkok_pickleball_courts.json` (31 entries) เข้ากับ data เดิม — Tennis: 27→62 (matched 11, added 35), Pickleball: 20→39 (matched 12, added 19); ได้ field ใหม่: `place_id`, `photos[]`, `notes` ส่วนใหญ่
+- **รูปภาพ:** Photos จาก Google Places (มีใน `photos[]` field เกือบทุก court) + local override ด้วย `image:` field; priority: `image` > `photos[0]` > gradient+SVG; CourtCard ใช้ thumbnail (=w600-h400), Modal ใช้ full (=w1200-h900); attribution บังคับแสดงตาม Google ToS
 - **รูปภาพ:** ระบบพร้อมแล้ว — `image:` field ใน COURTS, fallback อัตโนมัติเป็น gradient+SVG ถ้าไม่ใส่หรือโหลดไม่ได้ (onError); ตอนนี้มีรูปแล้ว 1 สนาม (id:1 CozyTennis)
 - **ระบบจอง:** ไม่มี ใช้ช่องทางติดต่อ (โทรศัพท์ / Google Maps) แทน
 
@@ -128,10 +130,15 @@ Claude จะ:
   googleMaps,           // string | undefined — Google Maps short link (maps.app.goo.gl/xxx)
                         //   ถ้ามี → redirect ตรงไปสนาม | ถ้าไม่มี → fallback search by nameTh+address
                         //   ใช้อัพเดต GPS + rating พร้อมกันได้: format "id:X → link (rating: 4.x, NNN reviews)"
-  image,                // string | undefined — path เช่น "images/court-1.jpg"
-                        //   ถ้ามี + โหลดได้ → แสดงรูป (cover) | ถ้าไม่มี/404 → fallback gradient+CourtSVG
+  image,                // string | undefined — local override path เช่น "images/court-1.jpg"
+                        //   ถ้ามี + โหลดได้ → แสดงรูป (cover) | ถ้าไม่มี/404 → fallback ไป photos[0] หรือ gradient+CourtSVG
   website,              // string | undefined — URL เว็บไซต์ของสนาม เช่น "https://www.cozytennis.com/"
                         //   ถ้ามี → แสดงปุ่ม 🌐 เว็บไซต์ ใน detail modal (ระหว่างปุ่มโทรศัพท์กับ Google Maps)
+  place_id,             // string | undefined — Google Places ID (จาก enrichment); ใช้ match ใน merge ครั้งหน้า
+  photos,               // [{url, attribution:{name, profile_url}}] | undefined — รูปจาก Google Places
+                        //   URL มี size suffix `=s4800-w800-h600` — ใช้ resizeGooglePhoto() เปลี่ยนเป็น =wXXX-hYYY
+                        //   Attribution บังคับแสดงใต้รูปทุกรูป (ตาม Google ToS)
+  notes,                // string | undefined — หมายเหตุภาษาอังกฤษจาก Google enrichment
 }
 ```
 
@@ -173,6 +180,31 @@ Claude จะ:
 ## Zones ที่ใช้
 
 `ใจกลางกรุง` / `สุขุมวิท` / `ฝั่งตะวันออก` / `ฝั่งเหนือ` / `ริมแม่น้ำ` / `ฝั่งใต้` / `ฝั่งตะวันตก`
+
+## Workflow: re-merge enriched JSON (Google Places refresh)
+
+ถ้ามี JSON enrichment ใหม่ (`bangkok_tennis_courts.json` / `bangkok_pickleball_courts.json` regenerated):
+
+```powershell
+# จาก project root (Windows PowerShell 5.1)
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+& .\merge.ps1
+```
+
+`merge.ps1` จะ:
+1. Read existing arrays จาก `index.html` (UTF-8) — extract via regex
+2. Read JSON enrichment files
+3. Match: name (normalized) → GPS proximity (<150m strong, 150–500m + shared keyword)
+4. Merge: JSON wins on overlap fields; existing-only fields (priceMin, hours, bts, etc.) preserved
+5. Add unmatched JSON courts as new entries (Tennis id starts 31, Pickleball id starts 121)
+6. Re-write `TENNIS_COURTS` / `PICKLEBALL_COURTS` arrays in `index.html` (single-line per court)
+
+Outputs intermediate `merged_*.json` for debugging (not committed).
+
+**หมายเหตุ:**
+- Script reads/writes UTF-8 explicitly; Thai characters preserved
+- Null fields skipped in JS literal output (keeps file lean) — UI must handle missing fields
+- Re-running is idempotent: matches already-merged courts via `place_id` (after first run)
 
 ## Git workflow
 

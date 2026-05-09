@@ -19,3 +19,6 @@ desktop.ini
 # Temp files
 *.tmp
 *.bak
+
+# Merge intermediate output (regenerable from merge.ps1)
+merged_*.json
