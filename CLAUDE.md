@@ -82,6 +82,7 @@ Claude จะ:
 - **aircon field:** boolean ใน COURTS data — confirmed: Sterling Court (tennis), Asoke Pickleball (pickleball)
 - **Map view:** Leaflet + OpenStreetMap, custom pin markers, sidebar list, popup; sport tabs ใน map header; markers update reactive ตาม sport (split useEffect + markersRef pattern)
 - **Detail modal:** ข้อมูลติดต่อ, facilities, ราคา, เวลา, Google Maps link
+- **Featured (⭐ แนะนำ):** คำนวณอัตโนมัติจาก `rating >= 4.6 && reviews >= 100` ผ่าน `isFeatured(court)` helper — ไม่ใช้ `featured` field ในข้อมูลแล้ว (field ยังอยู่แต่ ignored); ปัจจุบัน 9 tennis + 3 pickleball = 12 สนาม
 - **Free court display:** `priceMin===0` → แสดง "ฟรี" ในทุก context (card, modal, map popup, sidebar)
 - **Themes:** dark / light / bold via CSS vars (oklch color palette)
 - **Language:** ไทย / EN toggle — pill buttons ใน nav bar (ขวาบน) + ใน tweaks panel (sync กัน, share `lang` state เดียว)
