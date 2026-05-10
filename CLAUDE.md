@@ -13,7 +13,7 @@
 
 ## สถานะปัจจุบัน
 
-- **สนาม Tennis:** 62 สนาม — original 27 (ids 1–30 ยกเว้น 3, 4, 10 dup) + 35 ใหม่จาก Google Places enrichment (ids 31–66); GPS verified สำหรับ original 27 หมุด
+- **สนาม Tennis:** 63 สนาม — original 27 (ids 1–30 ยกเว้น 3, 4, 10 dup) + 35 จาก Google Places (ids 31–65) + 1 manual (id:66 Let's Play Tennis Rama 2); GPS verified สำหรับ original 27 หมุด
 - **สนาม Pickleball:** 39 สนาม — original 20 (ids 101–120) + 19 ใหม่จาก Google Places (ids 121+); 3 สนามใน original ยังต้องตรวจสอบ (110, 118, 119)
 - **Google Places enrichment (2026-05-08):** Merged จาก `bangkok_tennis_courts.json` (46 entries) + `bangkok_pickleball_courts.json` (31) — Tennis matched 11/added 35, Pickleball matched 12/added 19; เพิ่ม field: `place_id`, `photos[]`, `notes`; ส่วนใหญ่ของ photo data + rating/review counts มาจากตรงนี้ (ไม่ใช่ค่าประมาณอีกแล้ว)
 - **Rating/Reviews:** สนามที่ matched ใหม่ใช้ Google Places ของจริง; original ที่ไม่ matched ยังเป็นค่าประมาณ
@@ -78,7 +78,9 @@ Claude จะ:
 - **Sport tabs:** Tennis / Pickleball — อยู่เหนือ filter bar (ไม่ใช่ standalone bar), มีทั้งในหน้า list และ map
 - **Layout:** Merged home + list view (single-page scroll ไม่มี Home tab แยก)
 - **Inline filter bar:** Sticky bar ใต้ hero — type pills, text toggles (ในร่ม, มีแอร์, ไฟกลางคืน, ใกล้ BTS), sort select (ไม่มี zone pills); **bilingual** — pills/labels เปลี่ยนตาม `lang` state
-- **Sort options:** ★ คะแนน / ฿ ราคา / 🎾 คอร์ด / ก–ฮ ตัวอักษร (Thai) / A–Z ตัวอักษร (English)
+- **Sort options:** ⭐ แนะนำ (default — featured ขึ้นบนแล้วเรียงตาม rating, ที่เหลือเรียงตาม rating) / ★ คะแนน / ฿ ราคา / 🎾 คอร์ด / ก–ฮ (Thai) / A–Z (English)
+- **Bilingual name swap:** CourtCard + Modal — เมื่อ `lang==="en"` ชื่ออังกฤษอยู่บน, ชื่อไทยอยู่ล่าง (และกลับกันเมื่อ `lang==="th"`)
+- **Review count display:** CourtCard แสดง `★ 4.5 (NNN)` — เลข reviews ในวงเล็บถัดจาก rating (ถ้า reviews > 0)
 - **aircon field:** boolean ใน COURTS data — confirmed: Sterling Court (tennis), Asoke Pickleball (pickleball)
 - **Map view:** Leaflet + OpenStreetMap, custom pin markers, sidebar list, popup; sport tabs ใน map header; markers update reactive ตาม sport (split useEffect + markersRef pattern)
 - **Detail modal:** ข้อมูลติดต่อ, facilities, ราคา, เวลา, Google Maps link
@@ -110,10 +112,14 @@ Claude จะ:
 - [x] GPS verify + แก้ไข 12 หมุดผิด + ลบ 3 duplicate courts (tennis)
 - [x] Sort ตัวอักษร — ก–ฮ (Thai) และ A–Z (English)
 - [x] googleMaps field — ถ้ามี link จะ redirect ตรง, ถ้าไม่มี fallback เป็น search by name+address
+- [x] Default sort = ⭐ แนะนำ (featured ขึ้นบนเรียงตาม rating, ที่เหลือเรียงตาม rating)
+- [x] Bilingual name swap — `lang==="en"` ชื่ออังกฤษอยู่บนใน CourtCard + Modal
+- [x] Review count ใน CourtCard — แสดง `(NNN)` ถัดจาก rating
+- [x] เพิ่ม id:66 Let's Play Tennis Court Rama 2 (บางขุนเทียน, ฟรี/350฿, 06:00–22:00)
 
 ## โครงสร้าง COURTS data
 
-### Tennis (TENNIS_COURTS — ids 1–66)
+### Tennis (TENNIS_COURTS — ids 1–66, total 63 courts)
 ```js
 {
   id, name, nameTh, district, districtEn, zone,
