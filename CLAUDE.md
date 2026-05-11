@@ -13,7 +13,7 @@
 
 ## สถานะปัจจุบัน
 
-- **สนาม Tennis:** 63 สนาม — original 27 (ids 1–30 ยกเว้น 3, 4, 10 dup) + 35 จาก Google Places (ids 31–65) + 1 manual (id:66 Let's Play Tennis Rama 2); GPS verified สำหรับ original 27 หมุด
+- **สนาม Tennis:** 62 สนาม — original 26 (ids 1–30 ยกเว้น 3, 4, 10, 25 dup) + 35 จาก Google Places (ids 31–65) + 1 manual (id:66 Let's Play Tennis Rama 2); GPS verified สำหรับ original 27 หมุด; **id:25 Crystal Tennis Center merged into id:40 Crystal Sports G (2026-05-12)** — same physical place, รวม operational data (8 courts, 500-600฿, 06:00-22:00, rating 4.8/110) เข้า id:40
 - **สนาม Pickleball:** 39 สนาม — original 20 (ids 101–120) + 19 ใหม่จาก Google Places (ids 121+); 3 สนามใน original ยังต้องตรวจสอบ (110, 118, 119)
 - **Google Places enrichment (2026-05-08):** Merged จาก `bangkok_tennis_courts.json` (46 entries) + `bangkok_pickleball_courts.json` (31) — Tennis matched 11/added 35, Pickleball matched 12/added 19; เพิ่ม field: `place_id`, `photos[]`, `notes`; ส่วนใหญ่ของ photo data + rating/review counts มาจากตรงนี้ (ไม่ใช่ค่าประมาณอีกแล้ว)
 - **Rating/Reviews:** สนามที่ matched ใหม่ใช้ Google Places ของจริง; original ที่ไม่ matched ยังเป็นค่าประมาณ
@@ -116,10 +116,12 @@ Claude จะ:
 - [x] Bilingual name swap — `lang==="en"` ชื่ออังกฤษอยู่บนใน CourtCard + Modal
 - [x] Review count ใน CourtCard — แสดง `(NNN)` ถัดจาก rating
 - [x] เพิ่ม id:66 Let's Play Tennis Court Rama 2 (บางขุนเทียน, ฟรี/350฿, 06:00–22:00)
+- [x] Sterling pricing update (2026-05-12) — Tennis id:31: 1,100–1,400฿ + hours + BTS + facilities; Pickleball id:106: 890–990฿ (Club tier จาก sterlingbkk.com/privilege-tiers)
+- [x] Crystal Sports G — merge id:25 Crystal Tennis Center → id:40 (เป็นสถานที่เดียวกัน), keep operational data จาก id:25 (8 courts, 500–600฿, 06:00–22:00, rating 4.8/110, 4 photos รวม)
 
 ## โครงสร้าง COURTS data
 
-### Tennis (TENNIS_COURTS — ids 1–66, total 63 courts)
+### Tennis (TENNIS_COURTS — ids 1–66 ยกเว้น 3, 4, 10, 25, total 62 courts)
 ```js
 {
   id, name, nameTh, district, districtEn, zone,
