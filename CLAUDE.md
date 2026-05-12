@@ -13,13 +13,13 @@
 
 ## สถานะปัจจุบัน
 
-- **สนาม Tennis:** 62 สนาม — original 26 (ids 1–30 ยกเว้น 3, 4, 10, 25 dup) + 35 จาก Google Places (ids 31–65) + 1 manual (id:66 Let's Play Tennis Rama 2); GPS verified สำหรับ original 27 หมุด; **id:25 Crystal Tennis Center merged into id:40 Crystal Sports G (2026-05-12)** — same physical place, รวม operational data (8 courts, 500-600฿, 06:00-22:00, rating 4.8/110) เข้า id:40
+- **สนาม Tennis:** 61 สนาม — original 26 (ids 1–30 ยกเว้น 3, 4, 10, 25 dup) + 34 จาก Google Places (ids 31–65 ยกเว้น 44 deleted) + 1 manual (id:66 Let's Play Tennis Rama 2); GPS verified สำหรับ original 27 หมุด; **id:25 Crystal Tennis Center merged into id:40 Crystal Sports G (2026-05-12)** — same physical place; **id:44 Ultra Tennis Studio deleted (2026-05-13)**
 - **สนาม Pickleball:** 39 สนาม — original 20 (ids 101–120) + 19 ใหม่จาก Google Places (ids 121+); 3 สนามใน original ยังต้องตรวจสอบ (110, 118, 119)
 - **Google Places enrichment (2026-05-08):** Merged จาก `bangkok_tennis_courts.json` (46 entries) + `bangkok_pickleball_courts.json` (31) — Tennis matched 11/added 35, Pickleball matched 12/added 19; เพิ่ม field: `place_id`, `photos[]`, `notes`; ส่วนใหญ่ของ photo data + rating/review counts มาจากตรงนี้ (ไม่ใช่ค่าประมาณอีกแล้ว)
 - **Rating/Reviews:** สนามที่ matched ใหม่ใช้ Google Places ของจริง; original ที่ไม่ matched ยังเป็นค่าประมาณ
 - **googleMaps field:** original 5 ตัว (ids 1, 14, 28, 101, 115) + เพิ่ม place_id ใน 23 สนามจาก enrichment (เปิด Google Maps ผ่าน place_id ก็ได้)
 - **website field:** มีแล้ว 26 จาก hand-research + เพิ่มอีก ~30 จาก Google Places enrichment
-- **รูปภาพ:** Photos จาก Google Places (มีใน `photos[]` field เกือบทุก court ที่ matched/added) + local override ด้วย `image:` field; priority: `image` > `photos[0]` > gradient+SVG; CourtCard ใช้ thumbnail (=w600-h400), Modal ใช้ full (=w1200-h900) + gallery + attribution (บังคับตาม Google ToS); ตอนนี้ local image มีแค่ id:1 CozyTennis
+- **รูปภาพ:** Photos จาก Google Places (มีใน `photos[]` field เกือบทุก court ที่ matched/added) + local override ด้วย `image:` field; priority: `image` > `photos[0]` > gradient+SVG; CourtCard ใช้ thumbnail (=w600-h400), Modal ใช้ full (=w1200-h900) + gallery + attribution (บังคับตาม Google ToS); ตอนนี้ไม่มี local image (โฟลเดอร์ `images/` ว่าง); manual photo URL จาก Google Maps `/p/` หรือ `gps-cs-s` paths ก็ใส่ลง `photos[]` ได้ตรงๆ — strip trailing flag suffix (`-k-no`, `-rw`) แล้วใช้ `=w1600-h1200` เพื่อให้ `resizeGooglePhoto()` ทำงาน
 - **ระบบจอง:** ไม่มี ใช้ช่องทางติดต่อ (โทรศัพท์ / website / Google Maps) แทน
 
 ## สนามที่ต้องตรวจสอบเพิ่มเติม
@@ -81,6 +81,8 @@ Claude จะ:
 - **Sort options:** ⭐ แนะนำ (default — featured ขึ้นบนแล้วเรียงตาม rating, ที่เหลือเรียงตาม rating) / ★ คะแนน / ฿ ราคา / 🎾 คอร์ด / ก–ฮ (Thai) / A–Z (English)
 - **Bilingual name swap:** CourtCard + Modal — เมื่อ `lang==="en"` ชื่ออังกฤษอยู่บน, ชื่อไทยอยู่ล่าง (และกลับกันเมื่อ `lang==="th"`)
 - **Review count display:** CourtCard แสดง `★ 4.5 (NNN)` — เลข reviews ในวงเล็บถัดจาก rating (ถ้า reviews > 0)
+- **Live search:** Hero search (ด้านบน) ใช้ `searchQ` state เดียวกับ filter bar (ด้านล่าง) — พิมพ์ใน hero → filter list ทันที (ไม่ต้องกด Enter); ปุ่ม **ค้นหา** / Enter → scroll ไปดูผลลัพธ์
+- **Multi-type courts:** `type` field รับได้ทั้ง string (`"hard"`) และ array (`["hard","clay"]`) — courts ที่มีหลายพื้นผิวใช้ array; helpers `courtTypes(c)`, `primaryType(c)`, `courtHasType(c,t)`; filter จะ match ถ้า type ใดประเภทหนึ่งตรง; card/modal badge แสดงทุก type; gradient/SVG ใช้ primary (ตัวแรก)
 - **aircon field:** boolean ใน COURTS data — confirmed: Sterling Court (tennis), Asoke Pickleball (pickleball)
 - **Map view:** Leaflet + OpenStreetMap, custom pin markers, sidebar list, popup; sport tabs ใน map header; markers update reactive ตาม sport (split useEffect + markersRef pattern)
 - **Detail modal:** ข้อมูลติดต่อ, facilities, ราคา, เวลา, Google Maps link
@@ -118,14 +120,21 @@ Claude จะ:
 - [x] เพิ่ม id:66 Let's Play Tennis Court Rama 2 (บางขุนเทียน, ฟรี/350฿, 06:00–22:00)
 - [x] Sterling pricing update (2026-05-12) — Tennis id:31: 1,100–1,400฿ + hours + BTS + facilities; Pickleball id:106: 890–990฿ (Club tier จาก sterlingbkk.com/privilege-tiers)
 - [x] Crystal Sports G — merge id:25 Crystal Tennis Center → id:40 (เป็นสถานที่เดียวกัน), keep operational data จาก id:25 (8 courts, 500–600฿, 06:00–22:00, rating 4.8/110, 4 photos รวม)
+- [x] Hero search live-filter (2026-05-13) — Hero ใช้ `searchQ` state เดียวกับ filter bar, พิมพ์แล้ว filter ทันที, ปุ่ม/Enter → scroll
+- [x] Multi-type schema (2026-05-13) — `type` รับ array `["hard","clay"]`, รองรับสนามที่มีหลายพื้นผิว (เช่น ALM x IMPACT มีทั้ง hard + clay)
+- [x] id:7 IMPACT rebrand → **ALM x IMPACT Tennis & Sport Center** (2026-05-13) — multi-type, GPS verified, ราคา 300–1,500฿ (US Open hard / Australian Open hard / Center Court / Clay), hours 08:00–22:00, photo, googleMaps
+- [x] id:39 Crystal Sports detailed update (2026-05-13) — 8 courts, 400–600฿, 06:00–00:00, indoor + aircon, Laykold surface (US Open grade), ITF certified
+- [x] Photo updates (2026-05-13) — id:6 Peninsula (เว็บไซต์ peninsula.com), id:24 FBT Pyramid (Photo Sphere + GPS corrected), id:28 Ace of Clubs (Google /p/), id:7 ALM x IMPACT (Photo Sphere)
+- [x] Delete id:44 Ultra Tennis Studio (2026-05-13) — tennis count 62 → 61
+- [x] Delete `images/court-1.jpg` + ลบ field `image:` ใน id:1 — ใช้ `photos[0]` (Google Places) แทน, โฟลเดอร์ `images/` ว่าง
 
 ## โครงสร้าง COURTS data
 
-### Tennis (TENNIS_COURTS — ids 1–66 ยกเว้น 3, 4, 10, 25, total 62 courts)
+### Tennis (TENNIS_COURTS — ids 1–66 ยกเว้น 3, 4, 10, 25, 44, total 61 courts)
 ```js
 {
   id, name, nameTh, district, districtEn, zone,
-  address, type,        // "hard" | "clay" | "grass"
+  address, type,        // "hard" | "clay" | "grass" | array เช่น ["hard","clay"] สำหรับสนามหลายพื้นผิว
   indoor, nightLights, aircon,  // boolean
   courts,               // จำนวนคอร์ด
   priceMin, priceMax,   // บาท/ชั่วโมง
