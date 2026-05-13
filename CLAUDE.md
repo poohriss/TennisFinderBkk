@@ -13,7 +13,7 @@
 
 ## สถานะปัจจุบัน
 
-- **สนาม Tennis:** 61 สนาม — original 26 (ids 1–30 ยกเว้น 3, 4, 10, 25 dup) + 34 จาก Google Places (ids 31–65 ยกเว้น 44 deleted) + 1 manual (id:66 Let's Play Tennis Rama 2); GPS verified สำหรับ original 27 หมุด; **id:25 Crystal Tennis Center merged into id:40 Crystal Sports G (2026-05-12)** — same physical place; **id:44 Ultra Tennis Studio deleted (2026-05-13)**
+- **สนาม Tennis:** 60 สนาม — original 25 (ids 1–30 ยกเว้น 3, 4, 5, 10, 25 dup/closed) + 33 จาก Google Places (ids 31–65 ยกเว้น 44, 59 deleted) + 2 manual (id:66 Let's Play Tennis Rama 2, id:67 Charcoal Court Tennis Club); GPS verified สำหรับ original หมุดทั้งหมด + photos updated (ids 6, 7, 9, 12, 14, 16, 17, 18, 20, 22, 24, 27, 28, 29, 30); **id:25 Crystal Tennis Center merged into id:40 Crystal Sports G (2026-05-12)** — same physical place; **id:44 Ultra Tennis Studio deleted (2026-05-13)**; **id:5 Santisuk Tennis Court + id:59 Al Fort Tennis & Fitness deleted (2026-05-14)** — ปิดไปแล้ว; **id:30 renamed → Suan Luang Rama IX Sport Center (Prawet)** — verified (เดิม misclassified as Huai Khwang)
 - **สนาม Pickleball:** 39 สนาม — original 20 (ids 101–120) + 19 ใหม่จาก Google Places (ids 121+); 3 สนามใน original ยังต้องตรวจสอบ (110, 118, 119)
 - **Google Places enrichment (2026-05-08):** Merged จาก `bangkok_tennis_courts.json` (46 entries) + `bangkok_pickleball_courts.json` (31) — Tennis matched 11/added 35, Pickleball matched 12/added 19; เพิ่ม field: `place_id`, `photos[]`, `notes`; ส่วนใหญ่ของ photo data + rating/review counts มาจากตรงนี้ (ไม่ใช่ค่าประมาณอีกแล้ว)
 - **Rating/Reviews:** สนามที่ matched ใหม่ใช้ Google Places ของจริง; original ที่ไม่ matched ยังเป็นค่าประมาณ
@@ -25,8 +25,7 @@
 ## สนามที่ต้องตรวจสอบเพิ่มเติม
 
 ### Tennis
-- **id:29 Grand Tennis Club** — GPS 13.7997/100.377 อาจไกลตะวันตกเกินไป รอ verify
-- **id:30 คอร์ตรามาเก้า** — district ห้วยขวาง อาจเป็น Prawet จริงๆ รอ verify
+- (none)
 
 ### Pickleball
 - **id:110 Arise Pickleball** (ห้วยขวาง) — อาจไม่มีสนามประจำที่ รอ verify
@@ -105,7 +104,7 @@ Claude จะ:
 - [ ] อัพเดต rating/reviews + googleMaps link ทุกสนาม — ส่ง format นี้ให้ Claude: `id:X ชื่อ → https://maps.app.goo.gl/xxx (rating: 4.x, NNN reviews)`
 - [ ] Verify aircon สนามที่ยังไม่แน่ใจ (Beat Discovery, Club 46, Suk Space, Arise, Windfield Tennis, CV Sport)
 - [ ] Verify / แก้ไข ids 110, 118, 119 (pickleball) — ดูส่วน "สนามที่ต้องตรวจสอบ" ด้านบน
-- [ ] Verify ids 29, 30 (tennis GPS/district) — ดูส่วน "สนามที่ต้องตรวจสอบ" ด้านบน
+- [x] Verify ids 29, 30 (tennis GPS/district) — id:29 Grand Tennis GPS verified, id:30 renamed → Suan Luang Rama IX (Prawet)
 - [x] Verify และเพิ่มข้อมูล Pickleball courts (20 สนาม, ids 101–120)
 - [x] GPS verify รอบ 2 — แก้ pickleball 7 หมุด, เปลี่ยน id:120 เป็น Slowcombo
 - [x] Filter bar redesign — เอา zone pills ออก, เพิ่ม aircon/indoor เป็น text pills
@@ -127,10 +126,15 @@ Claude จะ:
 - [x] Photo updates (2026-05-13) — id:6 Peninsula (เว็บไซต์ peninsula.com), id:24 FBT Pyramid (Photo Sphere + GPS corrected), id:28 Ace of Clubs (Google /p/), id:7 ALM x IMPACT (Photo Sphere)
 - [x] Delete id:44 Ultra Tennis Studio (2026-05-13) — tennis count 62 → 61
 - [x] Delete `images/court-1.jpg` + ลบ field `image:` ใน id:1 — ใช้ `photos[0]` (Google Places) แทน, โฟลเดอร์ `images/` ว่าง
+- [x] Delete id:5 Santisuk + id:59 Al Fort (2026-05-14) — สนามปิดไปแล้ว
+- [x] Add id:67 Charcoal Court Tennis Club (2026-05-14) — บางกรวย Nonthaburi, 3 tennis + 2 pickleball, 24-hour, 250–690฿, GPS 13.8094/100.4376
+- [x] id:30 rename → **Suan Luang Rama IX Sport Center** (2026-05-14) — เปลี่ยน district: ห้วยขวาง → ประเวศ, GPS corrected to 13.6819/100.6600, zone: ใจกลางกรุง → ฝั่งตะวันออก
+- [x] Photo batch update (2026-05-14) — 11 courts: ids 9, 12, 14, 16, 17, 18, 20, 22, 27, 29, 30 (Google Maps Photo Spheres)
+- [x] Remove broken website (id:19 Simoorgh — bkktennis.com offline)
 
 ## โครงสร้าง COURTS data
 
-### Tennis (TENNIS_COURTS — ids 1–66 ยกเว้น 3, 4, 10, 25, 44, total 61 courts)
+### Tennis (TENNIS_COURTS — ids 1–67 ยกเว้น 3, 4, 5, 10, 25, 44, 59, total 60 courts)
 ```js
 {
   id, name, nameTh, district, districtEn, zone,
