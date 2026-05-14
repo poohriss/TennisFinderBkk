@@ -397,19 +397,45 @@ function Badge({children, color="var(--green-light)", text="var(--green-dark)"})
   return <span style={{background:color,color:text,padding:"3px 10px",borderRadius:20,fontSize:12,fontWeight:600,whiteSpace:"nowrap"}}>{children}</span>;
 }
 
-// ─── COURT SVG (correct tennis court layout) ─────────────────────────────────
-function CourtSVG({type}) {
+// ─── COURT SVG (tennis or pickleball layout) ─────────────────────────────────
+function CourtSVG({type, sport="tennis"}) {
   const L = "rgba(255,255,255,0.55)";
   const S = "rgba(255,255,255,0.32)";
   const W = 130, H = 60;
   const ml = 5, mr = W-5, mt = 4, mb = H-4;
+  const net = W / 2;
+  const cy = (mt + mb) / 2;
+
+  if (sport === "pickleball") {
+    // 20×44 ft court, net middle, kitchen extends 7ft each side of net
+    const kFrac = 7 / 22; // kitchen depth / half-court length
+    const kL = net - (net - ml) * kFrac;
+    const kR = net + (mr - net) * kFrac;
+    return (
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} fill="none">
+        <rect x={ml} y={mt} width={mr-ml} height={mb-mt} stroke={L} strokeWidth="1.8"/>
+        {/* kitchen (non-volley zone) — filled lightly */}
+        <rect x={kL} y={mt} width={kR-kL} height={mb-mt} fill="rgba(255,255,255,0.08)"/>
+        {/* kitchen lines */}
+        <line x1={kL} y1={mt} x2={kL} y2={mb} stroke={L} strokeWidth="1.2"/>
+        <line x1={kR} y1={mt} x2={kR} y2={mb} stroke={L} strokeWidth="1.2"/>
+        {/* centerline in service area (does NOT cross kitchen) */}
+        <line x1={ml} y1={cy} x2={kL} y2={cy} stroke={S} strokeWidth="1.1"/>
+        <line x1={kR} y1={cy} x2={mr} y2={cy} stroke={S} strokeWidth="1.1"/>
+        {/* net */}
+        <line x1={net} y1={mt} x2={net} y2={mb} stroke={L} strokeWidth="2.2" strokeDasharray="3 2"/>
+        <circle cx={net} cy={mt} r="1.8" fill={L}/>
+        <circle cx={net} cy={mb} r="1.8" fill={L}/>
+      </svg>
+    );
+  }
+
+  // Tennis layout
   const alley = (mb - mt) * (4.5/36);
   const st = mt + alley, sb = mb - alley;
-  const net = W / 2;
   const svcFrac = 21/39;
   const svcL = net - (net - ml) * svcFrac;
   const svcR = net + (mr - net) * svcFrac;
-  const cy = (mt + mb) / 2;
   return (
     <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} fill="none">
       <rect x={ml} y={mt} width={mr-ml} height={mb-mt} stroke={L} strokeWidth="1.8"/>
@@ -462,7 +488,7 @@ function CourtCard({court, onClick, theme, lang, featured}) {
         color: dark ? "#f5f5f7" : "var(--near-black)",
       }}>
       <div style={{height:headerH, background:typeBg(primaryType(court)), position:"relative", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden"}}>
-        <CourtSVG type={primaryType(court)} />
+        <CourtSVG type={primaryType(court)} sport={court.id >= 100 ? "pickleball" : "tennis"} />
         {cardImageSrc && <img src={cardImageSrc} alt={court.nameTh} loading="lazy" onError={()=>setImgErr(true)} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}/>}
         {isFeatured(court) && (
           <span style={{position:"absolute", top:14, right:14, display:"inline-flex", alignItems:"center", gap:4, color:"#000", background:"var(--accent)", padding:"3px 9px", borderRadius:980, fontSize:11, fontWeight:600, zIndex:2}}>
@@ -556,7 +582,7 @@ function CourtDetailModal({court, onClose, theme, lang}) {
         <button onClick={onClose} style={{position:"absolute", top:18, right:18, zIndex:10, width:34, height:34, borderRadius:"50%", background:"rgba(0,0,0,0.55)", color:"#fff", border:"none", display:"flex", alignItems:"center", justifyContent:"center"}}>{I.close}</button>
 
         <div style={{height:280, background:typeBg(primaryType(court)), position:"relative", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden"}}>
-          <CourtSVG type={primaryType(court)} />
+          <CourtSVG type={primaryType(court)} sport={court.id >= 100 ? "pickleball" : "tennis"} />
           {heroSrc && <img key={heroSrc} src={heroSrc} alt={court.nameTh} loading="lazy" onError={()=>{ if (activePhotoOriginalIdx >= 0) setPhotoErrIdx(s => new Set(s).add(activePhotoOriginalIdx)); }} style={{position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover"}}/>}
           <div style={{position:"absolute", inset:0, background:"linear-gradient(to bottom, transparent 35%, rgba(0,0,0,0.55))", pointerEvents:"none"}}/>
           {isFeatured(court) && (
@@ -696,17 +722,12 @@ function MapSection({courts, onSelectCourt, lang}) {
 
   return (
     <section id="map" style={{background:"#000", color:"#f5f5f7", padding:"100px 0 120px"}}>
-      <div className="container" style={{textAlign:"center", marginBottom:50}}>
-        <div className="eyebrow" style={{color:"#86868b", marginBottom:14}}>
+      <div className="container" style={{textAlign:"center", marginBottom:40}}>
+        <div className="eyebrow" style={{color:"#86868b", marginBottom:10}}>
           {lang==="en"?"All courts. One map.":"สนามทั้งหมด แผนที่เดียว"}
         </div>
-        <h2 className="headline headline-lg" style={{marginBottom:14}}>
-          {lang==="en" ? <>From Sukhumvit<br/>to Bang Na.</> : <>ตั้งแต่สุขุมวิท<br/>ถึงบางนา</>}
-        </h2>
         <p className="subhead" style={{color:"#a1a1a6", maxWidth:580, margin:"0 auto"}}>
-          {lang==="en"
-            ? "Every club, every public court, every hotel. Tap any pin for details."
-            : "ทุกสโมสร ทุกสนามสาธารณะ ทุกโรงแรม คลิกหมุดเพื่อดูรายละเอียด"}
+          {lang==="en" ? "Tap any pin for details." : "คลิกหมุดเพื่อดูรายละเอียด"}
         </p>
       </div>
       <div className="container-wide">
@@ -764,23 +785,6 @@ function Hero({onSearch, lang, sport, setSport, courtCount, searchQ, setSearchQ}
         </a>
       </div>
 
-      {/* Sport switcher */}
-      <div className="reveal" style={{animationDelay:"0.36s", marginTop:32, display:"flex", justifyContent:"center", padding:"0 22px"}}>
-        <div style={{display:"inline-flex", padding:3, background:"rgba(255,255,255,0.08)", borderRadius:980, border:"1px solid rgba(255,255,255,0.1)"}}>
-          {[
-            {id:"tennis", lEn:"Tennis", lTh:"เทนนิส"},
-            {id:"pickleball", lEn:"Pickleball", lTh:"พิกเคิลบอล"},
-          ].map(s => (
-            <button key={s.id} onClick={()=>setSport(s.id)} style={{
-              padding:"9px 22px", borderRadius:980,
-              background: sport===s.id ? "var(--accent)" : "transparent",
-              color: sport===s.id ? "#000" : "#f5f5f7",
-              border:"none", fontSize:13, fontWeight: sport===s.id?600:400,
-              transition:"all 0.25s",
-            }}>{lang==="en"?s.lEn:s.lTh}</button>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
@@ -848,22 +852,14 @@ function SportShowcase({lang, sport, setSport}) {
       bg:"linear-gradient(160deg, #2e4d28 0%, #5a8347 60%, #3a5a2c 100%)" },
   ];
   return (
-    <section style={{background:"var(--gray-bg)", padding:"100px 0", color:"var(--near-black)"}}>
-      <div className="container" style={{textAlign:"center", marginBottom:50}}>
-        <div className="eyebrow" style={{color:"#86868b", marginBottom:14}}>
-          {lang==="en" ? "Pick your sport" : "เลือกกีฬาของคุณ"}
-        </div>
-        <h2 className="headline headline-lg" style={{maxWidth:680, margin:"0 auto"}}>
-          {lang==="en" ? <>Two sports.<br/>One city.</> : <>สองกีฬา<br/>เมืองเดียว</>}
-        </h2>
-      </div>
+    <section style={{background:"var(--gray-bg)", padding:"80px 0", color:"var(--near-black)"}}>
       <div className="container-wide" style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:22}}>
         {cards.map(s => (
           <button key={s.id} onClick={()=>{setSport(s.id); document.getElementById(s.id+"-list")?.scrollIntoView({behavior:"smooth", block:"start"})}} style={{
             position:"relative", borderRadius:32, overflow:"hidden", border:"none", background:"#fff", padding:0, textAlign:"left", cursor:"pointer",
             boxShadow:"0 4px 24px rgba(0,0,0,0.06)", transition:"transform 0.5s cubic-bezier(0.2,0.7,0.2,1), box-shadow 0.3s",
           }} onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow="0 12px 36px rgba(0,0,0,0.12)"}} onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="0 4px 24px rgba(0,0,0,0.06)"}}>
-            <div style={{padding:"48px 44px 0"}}>
+            <div style={{padding:"48px 44px"}}>
               <div className="eyebrow" style={{color:"#86868b", marginBottom:14, fontSize:13}}>
                 {s.count} {lang==="en"?"courts indexed":"สนามทั้งหมด"}
               </div>
@@ -873,15 +869,12 @@ function SportShowcase({lang, sport, setSport}) {
               <p className="subhead" style={{color:"#6e6e73", marginBottom:22, fontSize:18}}>
                 {lang==="en"?s.tagEn:s.tagTh}
               </p>
-              <div style={{display:"flex", gap:18, marginBottom:36, alignItems:"center"}}>
+              <div style={{display:"flex", gap:18, alignItems:"center"}}>
                 <span className="btn-pill dark">{lang==="en"?"Browse all":"ดูทั้งหมด"}</span>
                 <span className="link" style={{color:"var(--blue-link)"}}>
                   {lang==="en"?"From ฿":"เริ่มต้น ฿"}{s.from} {lang==="en"?"/hr":"/ชม."} <span className="chev">{I.chev}</span>
                 </span>
               </div>
-            </div>
-            <div style={{height:200, background:s.bg, display:"flex", alignItems:"center", justifyContent:"center"}}>
-              <CourtSVG type={s.id==="tennis"?"hard":"hard"}/>
             </div>
           </button>
         ))}
@@ -1059,9 +1052,9 @@ function App() {
         onSearch={() => document.getElementById(sport+"-list")?.scrollIntoView({behavior:"smooth", block:"start"})}
       />
 
-      <FeaturedSection lang={lang} allCourts={[...TENNIS_COURTS, ...PICKLEBALL_COURTS]} onSelectCourt={setSelectedCourt} theme={theme}/>
-
       <SportShowcase lang={lang} sport={sport} setSport={setSport}/>
+
+      <FeaturedSection lang={lang} allCourts={[...TENNIS_COURTS, ...PICKLEBALL_COURTS]} onSelectCourt={setSelectedCourt} theme={theme}/>
 
       <CourtListSection
         id="tennis-list"

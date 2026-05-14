@@ -79,15 +79,16 @@ Claude จะ:
 - **Palette:** Black/white minimalist + lime accent `#d9e34a` (`--accent`); CSS vars in `:root`; `html.dark` class toggle (only Light + Dark — removed "bold")
 - **Page structure (single-scroll, no tabs):**
   1. Fixed blur **Nav** (44px, scroll-aware border, lang switcher, anchor links: Featured / Tennis / Pickleball / Map)
-  2. **Hero** (black bg, centered huge headline, live-search pill, CTA links, sport pill switcher)
-  3. **Featured carousel** (`#featured`, horizontal scroll, 380px cards using `isFeatured()` helper across both sports)
-  4. **SportShowcase** (gray bg, 2-up Apple-style buttons — Tennis card + Pickleball card with court count + min price)
+  2. **Hero** (black bg, centered huge headline, live-search pill, CTA links — no sport switcher inside)
+  3. **SportShowcase** (gray bg, 2-up Apple-style buttons — text only, no headline/no court panel; click → scroll to sport's list section)
+  4. **Featured carousel** (`#featured`, horizontal scroll, 380px cards using `isFeatured()` helper across both sports)
   5. **Tennis list section** (`#tennis-list`, light bg, type chips + toggles + sort, grid of cards)
   6. **Pickleball list section** (`#pickleball-list`, dark bg, same filter UX)
-  7. **MapSection** (`#map`, dark, full-width Leaflet with dark CARTO tiles, numeric pin labels, all 99 courts combined)
+  7. **MapSection** (`#map`, dark, full-width Leaflet with dark CARTO tiles, numeric pin labels, all 99 courts combined; minimal header: eyebrow + "คลิกหมุดเพื่อดูรายละเอียด")
   8. **CTA "Ready to play?"** (black, big headline, 2 pill buttons)
   9. **Footer** (gray-bg, copyright + GitHub + back-to-top)
-- **Components:** `Nav`, `Hero`, `FeaturedSection`+`CourtCard(featured)`, `SportShowcase`, `CourtListSection`, `CourtCard`, `MapSection`, `CourtDetailModal`, `Footer`
+- **Components:** `Nav`, `Hero`, `SportShowcase`, `FeaturedSection`+`CourtCard(featured)`, `CourtListSection`, `CourtCard`, `MapSection`, `CourtDetailModal`, `Footer`
+- **CourtSVG:** Sport-aware — `sport="tennis"` draws full tennis layout (alleys, service boxes, T-line); `sport="pickleball"` draws kitchen/non-volley zone (7ft from net) + dashed net + service centerline (does not cross kitchen). Auto-detected via `court.id >= 100` in card/modal call sites.
 
 **Functions preserved (ทั้งหมด — ไม่หาย):**
 - **Sort options (per section):** ⭐ แนะนำ (default) / ★ คะแนน / ฿ ราคา / 🎾 คอร์ด / ก–ฮ (Thai) / A–Z (English)
