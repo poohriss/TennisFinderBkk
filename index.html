@@ -166,29 +166,89 @@ Object.assign(window, { useTweaks, TweaksPanel, TweakSection, TweakToggle, Tweak
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'Noto Sans Thai', 'Space Grotesk', sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  font-family: -apple-system, "SF Pro Display", "SF Pro Text", BlinkMacSystemFont, "Helvetica Neue", "Noto Sans Thai", sans-serif;
+  background: #fff;
+  color: #1d1d1f;
   -webkit-font-smoothing: antialiased;
-  letter-spacing: -0.01em;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.003em;
 }
 :root {
-  --green: oklch(0.52 0.15 150);
-  --green-light: oklch(0.96 0.04 150);
-  --green-mid: oklch(0.88 0.08 150);
-  --green-dark: oklch(0.36 0.12 150);
-  --yellow: oklch(0.90 0.16 96);
-  --yellow-dark: oklch(0.74 0.16 96);
-  --bg: #f7f9f7;
-  --card-bg: #ffffff;
-  --text: #1a2420;
-  --text-muted: #6b7f78;
-  --border: #e4ede8;
-  --radius: 20px;
-  --shadow: 0 1px 4px rgba(0,40,20,0.06), 0 4px 16px rgba(0,40,20,0.04);
-  --shadow-hover: 0 4px 8px rgba(0,40,20,0.08), 0 12px 32px rgba(0,40,20,0.08);
+  --black: #000000;
+  --near-black: #1d1d1f;
+  --gray-1: #86868b;
+  --gray-2: #6e6e73;
+  --gray-3: #d2d2d7;
+  --gray-bg: #f5f5f7;
+  --white: #ffffff;
+  --accent: #d9e34a;
+  --accent-2: #c8d63d;
+  --blue-link: #0066cc;
+  --clay: #c4623d;
+  --grass: #5a8347;
+  --hard: #4a6a8f;
+  /* legacy aliases kept so old refs still work */
+  --green: var(--grass);
+  --green-light: var(--gray-bg);
+  --green-mid: var(--gray-3);
+  --green-dark: var(--near-black);
+  --yellow: var(--accent);
+  --yellow-dark: var(--accent-2);
+  --bg: #fff;
+  --card-bg: var(--gray-bg);
+  --text: var(--near-black);
+  --text-muted: var(--gray-2);
+  --border: var(--gray-3);
+  --radius: 18px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 16px 36px rgba(0,0,0,0.10);
 }
+html.dark { color-scheme: dark; }
+html.dark body { background: #000; color: #f5f5f7; }
+html.dark { --near-black: #f5f5f7; --gray-bg: #1d1d1f; --gray-3: #2c2c2e; --bg: #000; --card-bg: #1d1d1f; --text: #f5f5f7; --border: #2c2c2e; }
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+::selection { background: var(--accent); color: #000; }
+
+.headline { font-weight: 600; letter-spacing: -0.04em; line-height: 1.05; }
+.headline-xl { font-size: clamp(48px, 7vw, 96px); }
+.headline-lg { font-size: clamp(40px, 5.5vw, 64px); }
+.headline-md { font-size: clamp(32px, 4vw, 48px); }
+.subhead { font-weight: 400; letter-spacing: -0.02em; font-size: clamp(18px, 1.8vw, 26px); line-height: 1.3; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.tab-num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+
+.link { color: var(--accent); font-weight: 400; font-size: 17px; display: inline-flex; align-items: center; gap: 2px; transition: opacity 0.2s; }
+.link:hover { opacity: 0.8; text-decoration: underline; text-underline-offset: 3px; }
+.link .chev { transition: transform 0.2s; display: inline-block; }
+.link:hover .chev { transform: translateX(2px); }
+
+.btn-pill { display: inline-flex; align-items: center; gap: 6px; padding: 12px 22px; border-radius: 980px; background: var(--accent); color: #000; font-size: 15px; font-weight: 500; border: none; transition: all 0.2s; }
+.btn-pill:hover { background: var(--accent-2); }
+.btn-pill.alt { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+.btn-pill.alt:hover { background: rgba(255,255,255,0.2); }
+.btn-pill.dark { background: var(--near-black); color: #fff; }
+.btn-pill.dark:hover { background: #2c2c2e; }
+html.dark .btn-pill.dark { background: #fff; color: #000; }
+
+.container { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+.container-wide { max-width: 1240px; margin: 0 auto; padding: 0 22px; }
+
+.hscroll::-webkit-scrollbar { display: none; }
+.hscroll { scrollbar-width: none; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { animation: fadeUp 0.6s cubic-bezier(0.2,0.7,0.2,1) both; }
+@media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
+
+/* Leaflet popup themed */
+.leaflet-popup-content-wrapper { border-radius: 14px; padding: 0; }
+.leaflet-popup-content { margin: 0; padding: 0; min-width: 240px; }
+.leaflet-popup-tip { background: #fff; }
+html.dark .leaflet-popup-content-wrapper, html.dark .leaflet-popup-tip { background: #1d1d1f; color: #f5f5f7; }
 </style>
 </head>
 <body>
@@ -306,8 +366,24 @@ const PICKLEBALL_COURTS = [
 const ZONES = ["ทั้งหมด","ใจกลางกรุง","สุขุมวิท","ฝั่งตะวันออก","ฝั่งเหนือ","ริมแม่น้ำ","ฝั่งใต้","ฝั่งตะวันตก"];
 const TENNIS_TYPES = [{k:"all",th:"ทุกประเภท",en:"All Types"},{k:"hard",th:"ฮาร์ดคอร์ต",en:"Hard"},{k:"clay",th:"เคลย์",en:"Clay"},{k:"grass",th:"หญ้า",en:"Grass"}];
 const PB_TYPES    = [{k:"all",th:"ทุกประเภท",en:"All Types"},{k:"hard",th:"ฮาร์ดคอร์ต",en:"Hard"}];
-const TYPE_COLORS = { hard:"#3b82f6", clay:"#f97316", grass:"var(--green)" };
+const TYPE_COLORS = { hard:"#4a6a8f", clay:"#c4623d", grass:"#5a8347" };
 const TYPE_LABELS = { hard:"ฮาร์ดคอร์ต", clay:"เคลย์", grass:"หญ้า" };
+const TYPE_EN = { hard:"Hard", clay:"Clay", grass:"Grass" };
+const typeBg = (t) => t==="clay" ? "linear-gradient(160deg, #b85a3a 0%, #c4623d 50%, #8a3f24 100%)"
+  : t==="grass" ? "linear-gradient(160deg, #4d7240 0%, #5a8347 50%, #36502e 100%)"
+  : "linear-gradient(160deg, #3f5d7f 0%, #4a6a8f 50%, #2f4866 100%)";
+
+const I = {
+  chev:<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>,
+  search:<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>,
+  close:<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>,
+  pin:<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M12 22s-7-7-7-12a7 7 0 1 1 14 0c0 5-7 12-7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>,
+  star:<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.6 6.7L12 16.9 5.8 20.2l1.6-6.7L2.2 8.9l6.9-.6z"/></svg>,
+  phone:<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.9 19.9 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.9 19.9 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.4 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>,
+  moon:<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>,
+  roof:<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M3 11L12 4l9 7v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>,
+  globe:<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>,
+};
 const courtTypes = (c) => Array.isArray(c.type) ? c.type : [c.type];
 const primaryType = (c) => courtTypes(c)[0];
 const courtHasType = (c, t) => courtTypes(c).includes(t);
@@ -362,71 +438,78 @@ function isFeatured(court) {
   return court.rating >= 4.6 && court.reviews >= 100;
 }
 
-function CourtCard({court, onClick, theme, lang}) {
+function CourtCard({court, onClick, theme, lang, featured}) {
   const [hov, setHov] = useState(false);
   const [imgErr, setImgErr] = useState(false);
-  const darkTheme = theme === "dark";
+  const dark = theme === "dark";
   const cardImageSrc = !imgErr && (
     court.image ||
     (court.photos && court.photos.length > 0 && resizeGooglePhoto(court.photos[0].url, 600, 400))
   );
+  const cardBg = dark ? "#1d1d1f" : "var(--gray-bg)";
+  const muted = dark ? "#a1a1a6" : "#6e6e73";
+  const subtle = "#86868b";
+  const headerH = featured ? 240 : 170;
   return (
-    <div onClick={() => onClick(court)} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)} style={{
-      background: darkTheme ? (hov?"#1c2a1e":"#162018") : "var(--card-bg)",
-      border: darkTheme ? "1px solid #243228" : "1px solid var(--border)",
-      borderRadius:"var(--radius)", padding:0, cursor:"pointer",
-      transition:"all 0.2s cubic-bezier(0.2,0,0,1)",
-      transform: hov ? "translateY(-3px)" : "none",
-      boxShadow: hov ? "var(--shadow-hover)" : "var(--shadow)",
-      overflow:"hidden", display:"flex", flexDirection:"column",
-    }}>
-      <div style={{
-        height:130,
-        background: primaryType(court)==="clay" ? "linear-gradient(135deg,#c84b0a,#e0622a 40%,#b94008)"
-          : primaryType(court)==="grass" ? "linear-gradient(135deg,#1a5c2a,#2d8a42 40%,#145022)"
-          : "linear-gradient(135deg,#1e5fa8,#2b7ad4 40%,#174e8e)",
-        position:"relative", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0,
+    <article
+      onClick={() => onClick(court)}
+      onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}
+      style={{
+        background: cardBg, borderRadius: featured ? 24 : 18, overflow:"hidden", cursor:"pointer",
+        transition:"transform 0.4s cubic-bezier(0.2,0.7,0.2,1)",
+        transform: hov ? "translateY(-3px)" : "none",
+        ...(featured ? {flexShrink:0, width:380, scrollSnapAlign:"start"} : {}),
+        color: dark ? "#f5f5f7" : "var(--near-black)",
       }}>
+      <div style={{height:headerH, background:typeBg(primaryType(court)), position:"relative", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden"}}>
         <CourtSVG type={primaryType(court)} />
         {cardImageSrc && <img src={cardImageSrc} alt={court.nameTh} loading="lazy" onError={()=>setImgErr(true)} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}/>}
-        {isFeatured(court) && <div style={{position:"absolute",top:10,left:10,background:"var(--yellow)",color:"#111",padding:"2px 8px",borderRadius:20,fontSize:11,fontWeight:700,zIndex:1}}>⭐ แนะนำ</div>}
-        <div style={{position:"absolute",bottom:10,right:10,display:"flex",gap:4,zIndex:1}}>
-          {court.indoor && <Badge color="rgba(0,0,0,0.5)" text="#fff">🏠 ในร่ม</Badge>}
-          {court.nightLights && <Badge color="rgba(0,0,0,0.5)" text="#fff">🌙 มีไฟ</Badge>}
+        {isFeatured(court) && (
+          <span style={{position:"absolute", top:14, right:14, display:"inline-flex", alignItems:"center", gap:4, color:"#000", background:"var(--accent)", padding:"3px 9px", borderRadius:980, fontSize:11, fontWeight:600, zIndex:2}}>
+            {I.star} {lang==="en"?"Featured":"แนะนำ"}
+          </span>
+        )}
+        <div style={{position:"absolute", top:14, left:14, color:"#fff", zIndex:2}}>
+          <div className="eyebrow" style={{fontSize:10.5, opacity:0.92}}>
+            {courtTypes(court).map(t => lang==="en"?TYPE_EN[t]:TYPE_LABELS[t]).join(" · ")}{court.courts ? ` · ${court.courts} ${lang==="en"?"courts":"คอร์ต"}` : ""}
+          </div>
+        </div>
+        <div style={{position:"absolute", bottom:14, left:14, display:"flex", gap:8, color:"rgba(255,255,255,0.92)", fontSize:11, letterSpacing:"0.04em", textTransform:"uppercase", fontWeight:500, zIndex:2}}>
+          {court.indoor && <span style={{display:"inline-flex", alignItems:"center", gap:3}}>{I.roof} {lang==="en"?"Indoor":"ในร่ม"}</span>}
+          {court.nightLights && <span style={{display:"inline-flex", alignItems:"center", gap:3}}>{I.moon} {lang==="en"?"Night":"กลางคืน"}</span>}
         </div>
       </div>
-      <div style={{padding:"16px 18px", flex:1, display:"flex", flexDirection:"column", gap:7}}>
-        <div style={{display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:8}}>
-          <div>
-            <div style={{fontWeight:700,fontSize:15,color:darkTheme?"#ddeedd":"#1a2420",lineHeight:1.3,letterSpacing:"-0.01em"}}>{lang==="en" ? court.name : court.nameTh}</div>
-            <div style={{fontSize:12,color:darkTheme?"#6a9a6a":"var(--text-muted)",marginTop:2}}>{lang==="en" ? court.nameTh : court.name}</div>
-          </div>
-          <div style={{display:"flex",alignItems:"baseline",gap:4,whiteSpace:"nowrap"}}>
-            <StarRating rating={court.rating}/>
-            {court.reviews > 0 && <span style={{fontSize:12,color:darkTheme?"#6a8a6a":"#999"}}>({court.reviews})</span>}
-          </div>
+      <div style={{padding: featured ? "30px 28px 28px" : "22px 22px 24px"}}>
+        <div className="eyebrow" style={{color:subtle, marginBottom:8, fontSize:10.5}}>
+          {court.district}{court.bts ? ` · ${court.bts.replace(/^(BTS|MRT)\s*/,"")}` : ""}
         </div>
-        <div style={{fontSize:12,color:darkTheme?"#7ab87a":"#555",display:"flex",alignItems:"center",gap:4}}>
-          <span>📍</span><span>{court.district}{court.bts ? ` • ${court.bts}` : ""}</span>
-        </div>
-        <div style={{display:"flex",gap:6,flexWrap:"wrap",marginTop:2}}>
-          {courtTypes(court).map(t => <Badge key={t} color={darkTheme?"#1a3020":"#e8f5e8"} text={darkTheme?"#6ecf6e":"var(--green-dark)"}>{TYPE_LABELS[t]}</Badge>)}
-          {court.courts && <Badge color={darkTheme?"#1a1a30":"#eef2ff"} text={darkTheme?"#9090e0":"#4040b0"}>{court.courts} คอร์ด</Badge>}
-        </div>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:"auto",paddingTop:10,borderTop:darkTheme?"1px solid #243228":"1px solid var(--border)"}}>
-          <div>
+        <h3 className="headline" style={{fontSize: featured ? 26 : 20, marginBottom: featured ? 8 : 12, letterSpacing:"-0.02em", lineHeight:1.1}}>
+          {lang==="en" ? court.name : court.nameTh}
+        </h3>
+        {featured && (
+          <p style={{color:muted, fontSize:14, lineHeight:1.45, marginBottom:18, minHeight:42}}>
+            {lang==="en" ? court.nameTh : court.name}
+          </p>
+        )}
+        <div style={{display:"flex", alignItems:"baseline", justifyContent:"space-between"}}>
+          <div className="tab-num" style={{fontSize: featured ? 28 : 22, fontWeight:600, letterSpacing:"-0.02em"}}>
             {court.priceMin == null
-              ? <span style={{fontSize:13,color:darkTheme?"#7a9a7a":"var(--text-muted)"}}>ติดต่อสอบถาม</span>
+              ? <span style={{fontSize:14, color:muted, fontWeight:400}}>{lang==="en"?"Contact":"ติดต่อสอบถาม"}</span>
               : court.priceMin === 0
-              ? <span style={{fontWeight:800,fontSize:19,color:"var(--green)",letterSpacing:"-0.02em"}}>ฟรี</span>
-              : <><span style={{fontWeight:800,fontSize:19,color:"var(--green)",letterSpacing:"-0.02em"}}>฿{court.priceMin.toLocaleString()}</span>
-                 <span style={{fontSize:12,color:darkTheme?"#6a8a6a":"var(--text-muted)"}}>{court.priceMax>court.priceMin?`–${court.priceMax.toLocaleString()}`:""}/ชม.</span></>
+              ? <span style={{color:"var(--accent-2)"}}>{lang==="en"?"Free":"ฟรี"}</span>
+              : <>฿{court.priceMin.toLocaleString()}<span style={{fontSize:13, color:muted, marginLeft:3, fontWeight:400}}>/{lang==="en"?"hr":"ชม."}</span></>
             }
           </div>
-          <div style={{fontSize:11,color:darkTheme?"#6a8a6a":"#999"}}>{court.hours || ""}</div>
+          <span style={{color:muted, fontSize:13, display:"inline-flex", alignItems:"center", gap:3, whiteSpace:"nowrap"}}>
+            {court.rating != null ? <>
+              <span style={{color:"var(--accent-2)"}}>{I.star}</span> {court.rating.toFixed(1)}
+              {court.reviews > 0 && <span style={{color:subtle}}> · {court.reviews}</span>}
+            </> : <span style={{color:subtle}}>—</span>}
+          </span>
         </div>
+        {court.hours && <div style={{fontSize:12, color:subtle, marginTop:10}}>{court.hours}</div>}
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -440,7 +523,7 @@ function InfoBox({label, value, darkTheme}) {
 }
 
 function CourtDetailModal({court, onClose, theme, lang}) {
-  const darkTheme = theme === "dark";
+  const dark = theme === "dark";
   const [photoIdx, setPhotoIdx] = useState(0);
   const [photoErrIdx, setPhotoErrIdx] = useState(new Set());
   const photos = court.photos || [];
@@ -456,85 +539,105 @@ function CourtDetailModal({court, onClose, theme, lang}) {
       else if (e.key === "ArrowRight" && hasGallery) setPhotoIdx(i => (i + 1) % visiblePhotos.length);
     };
     window.addEventListener("keydown", h);
-    return () => window.removeEventListener("keydown", h);
+    document.body.style.overflow = "hidden";
+    return () => { window.removeEventListener("keydown", h); document.body.style.overflow = ""; };
   }, [hasGallery, visiblePhotos.length]);
 
   const heroSrc = activePhoto ? resizeGooglePhoto(activePhoto.url, 1200, 900) : (court.image || null);
+  const surface = dark ? "#1d1d1f" : "#fff";
+  const text = dark ? "#f5f5f7" : "var(--near-black)";
+  const muted = dark ? "#a1a1a6" : "#6e6e73";
+  const subtle = "#86868b";
+  const tileBg = dark ? "#2c2c2e" : "var(--gray-bg)";
+
   return (
-    <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.55)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(4px)"}}>
-      <div onClick={e=>e.stopPropagation()} style={{background:darkTheme?"#162018":"#fff",borderRadius:24,width:"100%",maxWidth:520,maxHeight:"90vh",overflow:"auto",boxShadow:"0 20px 60px rgba(0,0,0,0.3)"}}>
-        <div style={{height:220,position:"relative",background:primaryType(court)==="clay"?"linear-gradient(135deg,#c84b0a,#e0622a 60%,#b94008)":primaryType(court)==="grass"?"linear-gradient(135deg,#1a5c2a,#2d8a42 60%,#145022)":"linear-gradient(135deg,#1e5fa8,#2b7ad4 60%,#174e8e)",display:"flex",alignItems:"center",justifyContent:"center",borderRadius:"20px 20px 0 0",overflow:"hidden"}}>
+    <div onClick={onClose} style={{position:"fixed", inset:0, background:"rgba(0,0,0,0.6)", zIndex:2000, display:"flex", alignItems:"center", justifyContent:"center", padding:22, backdropFilter:"blur(20px)", WebkitBackdropFilter:"blur(20px)"}}>
+      <div onClick={e=>e.stopPropagation()} style={{background:surface, color:text, borderRadius:28, width:"100%", maxWidth:640, maxHeight:"92vh", overflow:"auto", position:"relative", boxShadow:"0 20px 60px rgba(0,0,0,0.3)"}}>
+        <button onClick={onClose} style={{position:"absolute", top:18, right:18, zIndex:10, width:34, height:34, borderRadius:"50%", background:"rgba(0,0,0,0.55)", color:"#fff", border:"none", display:"flex", alignItems:"center", justifyContent:"center"}}>{I.close}</button>
+
+        <div style={{height:280, background:typeBg(primaryType(court)), position:"relative", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden"}}>
           <CourtSVG type={primaryType(court)} />
-          {heroSrc && <img key={heroSrc} src={heroSrc} alt={court.nameTh} loading="lazy" onError={()=>{ if (activePhotoOriginalIdx >= 0) setPhotoErrIdx(s => new Set(s).add(activePhotoOriginalIdx)); }} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}/>}
-          <div style={{position:"absolute",top:0,right:0,bottom:0,left:0,background:"linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.55))",zIndex:1,pointerEvents:"none"}}/>
-          <button onClick={onClose} style={{position:"absolute",top:12,right:12,background:"rgba(0,0,0,0.4)",border:"none",color:"#fff",width:32,height:32,borderRadius:"50%",cursor:"pointer",fontSize:16,display:"flex",alignItems:"center",justifyContent:"center",zIndex:3}}>✕</button>
-          {isFeatured(court) && <div style={{position:"absolute",top:12,left:12,background:"var(--yellow)",color:"#111",padding:"3px 10px",borderRadius:20,fontSize:12,fontWeight:700,zIndex:3}}>⭐ แนะนำ</div>}
+          {heroSrc && <img key={heroSrc} src={heroSrc} alt={court.nameTh} loading="lazy" onError={()=>{ if (activePhotoOriginalIdx >= 0) setPhotoErrIdx(s => new Set(s).add(activePhotoOriginalIdx)); }} style={{position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover"}}/>}
+          <div style={{position:"absolute", inset:0, background:"linear-gradient(to bottom, transparent 35%, rgba(0,0,0,0.55))", pointerEvents:"none"}}/>
+          {isFeatured(court) && (
+            <span style={{position:"absolute", top:18, left:18, display:"inline-flex", alignItems:"center", gap:4, color:"#000", background:"var(--accent)", padding:"4px 12px", borderRadius:980, fontSize:12, fontWeight:600, zIndex:3}}>
+              {I.star} {lang==="en"?"Featured":"แนะนำ"}
+            </span>
+          )}
           {hasGallery && visiblePhotos.length > 1 && (
             <>
-              <button onClick={()=>setPhotoIdx(i => (i - 1 + visiblePhotos.length) % visiblePhotos.length)} aria-label="Previous photo" style={{position:"absolute",left:8,top:"50%",transform:"translateY(-50%)",background:"rgba(0,0,0,0.45)",border:"none",color:"#fff",width:36,height:36,borderRadius:"50%",cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center",zIndex:3}}>‹</button>
-              <button onClick={()=>setPhotoIdx(i => (i + 1) % visiblePhotos.length)} aria-label="Next photo" style={{position:"absolute",right:8,top:"50%",transform:"translateY(-50%)",background:"rgba(0,0,0,0.45)",border:"none",color:"#fff",width:36,height:36,borderRadius:"50%",cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center",zIndex:3}}>›</button>
-              <div style={{position:"absolute",top:12,left:"50%",transform:"translateX(-50%)",background:"rgba(0,0,0,0.5)",color:"#fff",padding:"3px 10px",borderRadius:12,fontSize:11,zIndex:3}}>{(photoIdx % visiblePhotos.length) + 1} / {visiblePhotos.length}</div>
+              <button onClick={()=>setPhotoIdx(i => (i - 1 + visiblePhotos.length) % visiblePhotos.length)} aria-label="Previous photo" style={{position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", background:"rgba(0,0,0,0.5)", border:"none", color:"#fff", width:38, height:38, borderRadius:"50%", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center", zIndex:3}}>‹</button>
+              <button onClick={()=>setPhotoIdx(i => (i + 1) % visiblePhotos.length)} aria-label="Next photo" style={{position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", background:"rgba(0,0,0,0.5)", border:"none", color:"#fff", width:38, height:38, borderRadius:"50%", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center", zIndex:3}}>›</button>
+              <div style={{position:"absolute", top:18, left:"50%", transform:"translateX(-50%)", background:"rgba(0,0,0,0.55)", color:"#fff", padding:"4px 12px", borderRadius:12, fontSize:11, zIndex:3}}>{(photoIdx % visiblePhotos.length) + 1} / {visiblePhotos.length}</div>
             </>
           )}
-          <div style={{position:"absolute",bottom:12,left:16,right:16,zIndex:2}}>
-            <div style={{fontWeight:800,fontSize:22,color:"#fff",textShadow:"0 1px 4px rgba(0,0,0,0.5)"}}>{lang==="en" ? court.name : court.nameTh}</div>
-            <div style={{color:"rgba(255,255,255,0.8)",fontSize:13}}>{lang==="en" ? court.nameTh : court.name}</div>
+          <div style={{position:"absolute", bottom:16, left:22, right:22, zIndex:2}}>
+            <div style={{fontWeight:600, fontSize:24, color:"#fff", letterSpacing:"-0.02em", textShadow:"0 1px 4px rgba(0,0,0,0.5)"}}>{lang==="en" ? court.name : court.nameTh}</div>
+            <div style={{color:"rgba(255,255,255,0.82)", fontSize:13, marginTop:2}}>{lang==="en" ? court.nameTh : court.name}</div>
           </div>
         </div>
+
         {activePhoto && activePhoto.attribution && (
-          <div style={{padding:"6px 16px",fontSize:11,color:darkTheme?"#7a8a7a":"#888",borderBottom:darkTheme?"1px solid #243228":"1px solid var(--border)",background:darkTheme?"#0f1714":"#fafafa"}}>
-            Photo by <a href={activePhoto.attribution.profile_url} target="_blank" rel="noopener noreferrer" style={{color:darkTheme?"#a0c8a0":"#4a7a4a",textDecoration:"none"}}>{activePhoto.attribution.name}</a> via Google Maps
+          <div style={{padding:"8px 22px", fontSize:11, color:subtle, borderBottom:`1px solid ${dark?"#2c2c2e":"var(--gray-3)"}`, background:dark?"#0f0f10":"#fafafa"}}>
+            Photo by <a href={activePhoto.attribution.profile_url} target="_blank" rel="noopener noreferrer" style={{color:dark?"#a1a1a6":"#6e6e73"}}>{activePhoto.attribution.name}</a> via Google Maps
           </div>
         )}
-        <div style={{padding:20,display:"flex",flexDirection:"column",gap:16}}>
-          <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-            {courtTypes(court).map(t => <Badge key={t} color={TYPE_COLORS[t]+"22"} text={TYPE_COLORS[t]}>{TYPE_LABELS[t]}</Badge>)}
-            {court.indoor && <Badge>🏠 ในร่ม</Badge>}
-            {court.nightLights && <Badge>🌙 ไฟกลางคืน</Badge>}
-            {court.courts && <Badge color="#f0f0ff" text="#4040c0">{court.courts} คอร์ด</Badge>}
-            <div style={{marginLeft:"auto"}}><StarRating rating={court.rating}/> {court.reviews != null && <span style={{fontSize:12,color:"#999"}}>({court.reviews})</span>}</div>
+
+        <div style={{padding:"34px 36px 32px"}}>
+          <div className="eyebrow" style={{color:subtle, marginBottom:10}}>
+            {court.district}{court.bts ? ` · ${court.bts}` : ""}
           </div>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
-            <InfoBox label="ราคา/ชม." value={court.priceMin == null ? "—" : court.priceMin === 0 ? "ฟรี" : `฿${court.priceMin.toLocaleString()}${court.priceMax>court.priceMin?`–${court.priceMax.toLocaleString()}`:""}`} darkTheme={darkTheme}/>
-            <InfoBox label="เวลาเปิด" value={court.hours || "—"} darkTheme={darkTheme}/>
+
+          <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:14, marginBottom:24}}>
+            {[
+              {l:lang==="en"?"From":"ราคา", v: court.priceMin == null ? "—" : court.priceMin === 0 ? (lang==="en"?"Free":"ฟรี") : `฿${court.priceMin.toLocaleString()}${court.priceMax>court.priceMin?`–${court.priceMax.toLocaleString()}`:""}`, s: court.priceMin>0 ? `/${lang==="en"?"hr":"ชม."}` : ""},
+              {l:lang==="en"?"Hours":"เวลาเปิด", v:court.hours || "—", s:""},
+              {l:lang==="en"?"Rating":"คะแนน", v: court.rating != null ? `★ ${court.rating.toFixed(1)}` : "—", s: court.reviews>0 ? ` · ${court.reviews}` : ""},
+              {l:lang==="en"?"Courts":"จำนวน", v: court.courts || "—", s: courtTypes(court).map(t => lang==="en"?TYPE_EN[t]:TYPE_LABELS[t]).join(", ")},
+            ].map((r,i)=>(
+              <div key={i} style={{padding:"16px 20px", background:tileBg, borderRadius:16}}>
+                <div className="eyebrow" style={{color:subtle, marginBottom:6, fontSize:11}}>{r.l}</div>
+                <div className="tab-num" style={{fontSize:22, fontWeight:600, letterSpacing:"-0.02em"}}>
+                  {r.v}{r.s && <span style={{fontSize:13, color:muted, marginLeft:3, fontWeight:400}}>{r.s}</span>}
+                </div>
+              </div>
+            ))}
           </div>
-          <div style={{background:darkTheme?"#1a2c1e":"var(--green-light)",borderRadius:14,padding:16}}>
-            <div style={{fontSize:12,fontWeight:600,color:darkTheme?"#6a9a6a":"var(--green-dark)",marginBottom:6,textTransform:"uppercase",letterSpacing:"0.06em"}}>ที่ตั้ง</div>
-            <div style={{fontSize:14,color:darkTheme?"#c0d8c0":"#333"}}>{court.address}</div>
-            {court.bts && <div style={{fontSize:13,color:darkTheme?"#7ab87a":"var(--green)",marginTop:4}}>🚌 {court.bts}</div>}
-          </div>
-          {court.notes && (
-            <div style={{fontSize:13,color:darkTheme?"#a0b0a0":"#666",fontStyle:"italic",lineHeight:1.5}}>💬 {court.notes}</div>
-          )}
+
           {court.facilities && court.facilities.length > 0 && (
-            <div>
-              <div style={{fontSize:12,fontWeight:600,color:"#999",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:8}}>สิ่งอำนวยความสะดวก</div>
-              <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-                {court.facilities.map(f => <Badge key={f} color={darkTheme?"#1e2820":"#f0f5f0"} text={darkTheme?"#a0c8a0":"#2d5a2d"}>✓ {f}</Badge>)}
+            <div style={{marginBottom:24}}>
+              <div className="eyebrow" style={{color:subtle, marginBottom:10}}>{lang==="en"?"Facilities":"สิ่งอำนวยความสะดวก"}</div>
+              <div style={{display:"flex", flexWrap:"wrap", gap:6}}>
+                {court.facilities.map(f => (
+                  <span key={f} style={{padding:"5px 12px", background:tileBg, borderRadius:980, fontSize:13}}>{f}</span>
+                ))}
               </div>
             </div>
           )}
-          <div>
-            <div style={{fontSize:12,fontWeight:600,color:"#999",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:8}}>ช่องทางติดต่อ</div>
-            <div style={{display:"flex",flexDirection:"column",gap:8}}>
-              {court.phone && (
-                <a href={`tel:${court.phone}`} style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",borderRadius:12,background:darkTheme?"#1e2820":"#f0f9f0",border:`1px solid ${darkTheme?"#2a4030":"#c8e8c8"}`,color:darkTheme?"#80c880":"var(--green-dark)",textDecoration:"none",fontSize:14,fontWeight:600}}>
-                  <span style={{fontSize:20}}>📞</span>
-                  <div><div style={{fontSize:12,color:"#999",marginBottom:1}}>โทรศัพท์</div><div>{court.phone}</div></div>
-                </a>
-              )}
-              {court.website && (
-                <a href={court.website} target="_blank" rel="noreferrer" style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",borderRadius:12,background:darkTheme?"#28201e":"#f9f5f0",border:`1px solid ${darkTheme?"#403028":"#e8d8c8"}`,color:darkTheme?"#d8a878":"#a06028",textDecoration:"none",fontSize:14,fontWeight:600}}>
-                  <span style={{fontSize:20}}>🌐</span>
-                  <div><div style={{fontSize:12,color:"#999",marginBottom:1}}>เว็บไซต์</div><div style={{fontSize:13,wordBreak:"break-all"}}>{court.website.replace(/^https?:\/\//,"").replace(/\/$/,"")}</div></div>
-                </a>
-              )}
-              <a href={court.googleMaps || `https://www.google.com/maps/search/${encodeURIComponent(court.nameTh+' '+court.address)}`} target="_blank" rel="noreferrer" style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",borderRadius:12,background:darkTheme?"#1e2028":"#f0f0f9",border:`1px solid ${darkTheme?"#2a2a40":"#c8c8e8"}`,color:darkTheme?"#8888e0":"#4040b0",textDecoration:"none",fontSize:14,fontWeight:600}}>
-                <span style={{fontSize:20}}>📍</span>
-                <div><div style={{fontSize:12,color:"#999",marginBottom:1}}>Google Maps{court.googleMaps ? "" : " (search)"}</div><div style={{fontSize:13}}>{court.address}</div></div>
+
+          <div style={{marginBottom:24}}>
+            <div className="eyebrow" style={{color:subtle, marginBottom:8}}>{lang==="en"?"Address":"ที่อยู่"}</div>
+            <div style={{fontSize:15, lineHeight:1.5}}>{court.address}</div>
+          </div>
+
+          {court.notes && (
+            <div style={{marginBottom:24, fontSize:13, color:muted, fontStyle:"italic", lineHeight:1.55}}>{court.notes}</div>
+          )}
+
+          <div style={{display:"flex", gap:10, flexWrap:"wrap"}}>
+            {court.phone && (
+              <a href={`tel:${court.phone}`} className="btn-pill" style={{flex:"1 1 0", minWidth:140, justifyContent:"center"}}>
+                {I.phone} {court.phone}
               </a>
-              {!court.phone && !court.website && <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 16px",borderRadius:12,background:darkTheme?"#1e2820":"#f5f5f0",border:`1px solid ${darkTheme?"#2a3a2a":"#e0e0d8"}`,color:"#999",fontSize:13}}><span>ℹ️</span> ติดต่อผ่าน Facebook / LINE ของสนาม</div>}
-            </div>
+            )}
+            {court.website && (
+              <a href={court.website} target="_blank" rel="noreferrer" className="btn-pill alt" style={{flex:"1 1 0", minWidth:140, justifyContent:"center", color:dark?"#fff":"var(--near-black)", background:tileBg, border:`1px solid ${dark?"#2c2c2e":"var(--gray-3)"}`}}>
+                {I.globe} {lang==="en"?"Website":"เว็บไซต์"}
+              </a>
+            )}
+            <a href={court.googleMaps || `https://www.google.com/maps/search/${encodeURIComponent(court.nameTh+' '+court.address)}`} target="_blank" rel="noreferrer" className="btn-pill dark" style={{flex:"1 1 0", minWidth:140, justifyContent:"center"}}>
+              {I.pin} {lang==="en"?"Open in Maps":"เปิดแผนที่"}
+            </a>
           </div>
         </div>
       </div>
@@ -542,53 +645,46 @@ function CourtDetailModal({court, onClose, theme, lang}) {
   );
 }
 
-// ─── MAP VIEW ────────────────────────────────────────────────────────────────
-function MapView({courts, onSelectCourt, theme, sport}) {
-  const darkTheme = theme === "dark";
+// ─── MAP SECTION (Apple style — dark tiles, split useEffect markersRef) ──────
+function MapSection({courts, onSelectCourt, lang}) {
   const mapRef = useRef(null);
   const leafletMap = useRef(null);
   const markersRef = useRef([]);
 
-  // init map once
   useEffect(() => {
     if (!mapRef.current || leafletMap.current) return;
     const L = window.L;
-    const map = L.map(mapRef.current, { center:[13.7563,100.5018], zoom:12 });
-    L.tileLayer(
-      darkTheme ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-      { attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>', maxZoom:19 }
-    ).addTo(map);
+    const map = L.map(mapRef.current, { center:[13.7563,100.5018], zoom:11.4, zoomControl:false });
+    L.control.zoom({ position:"bottomright" }).addTo(map);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution:'© OSM © CARTO', maxZoom:19,
+    }).addTo(map);
     leafletMap.current = map;
     return () => { map.remove(); leafletMap.current = null; delete window.__selectCourt; };
   }, []);
 
-  // update markers whenever courts changes
   useEffect(() => {
     const map = leafletMap.current;
     if (!map) return;
     const L = window.L;
-    const icon = sport === "pickleball" ? "🏓" : "🎾";
-    // clear old markers
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
-    // add new markers
     courts.forEach(court => {
+      const label = court.id < 100 ? court.id : court.id - 100;
       const m = L.marker([court.lat, court.lng], { icon: L.divIcon({
         className:"",
-        html:`<div style="width:36px;height:36px;background:${isFeatured(court)?"oklch(0.90 0.16 96)":"var(--green)"};border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;"><span style="transform:rotate(45deg);font-size:16px;">${icon}</span></div>`,
-        iconSize:[36,36], iconAnchor:[18,36], popupAnchor:[0,-38],
+        html:`<div style="width:30px;height:30px;border-radius:50%;background:${isFeatured(court)?"#d9e34a":"#fff"};color:#000;border:3px solid #000;font-family:-apple-system,sans-serif;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;">${label}</div>`,
+        iconSize:[30,30], iconAnchor:[15,15],
       })}).addTo(map).bindPopup(`
-        <div style="font-family:'Noto Sans Thai',sans-serif;min-width:200px;padding:4px 0">
-          <div style="font-weight:700;font-size:15px;margin-bottom:4px">${court.nameTh}</div>
-          <div style="font-size:12px;color:#666;margin-bottom:6px">${court.name}</div>
-          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
-            <span style="font-weight:700;color:oklch(0.52 0.15 150);font-size:16px">${court.priceMin==null?"—":court.priceMin===0?"ฟรี":"฿"+court.priceMin.toLocaleString()}</span>
-            <span style="font-size:11px;color:#999">${court.priceMin==null||court.priceMin===0?"":"/ชม."}</span>
-            <span style="margin-left:auto;color:#f0a800;font-weight:600">★ ${court.rating ?? "—"}</span>
+        <div style="font-family:-apple-system,sans-serif;min-width:220px;padding:14px 16px;letter-spacing:-0.01em">
+          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#86868b;margin-bottom:4px">${court.district}${court.bts?` · ${court.bts.replace(/^(BTS|MRT)\\s*/,"")}`:""}</div>
+          <div style="font-weight:600;font-size:17px;margin-bottom:4px;letter-spacing:-0.02em">${lang==="en"?court.name:court.nameTh}</div>
+          <div style="font-size:12px;color:#86868b;margin-bottom:10px">${lang==="en"?court.nameTh:court.name}</div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
+            <span style="font-weight:600;font-size:18px;letter-spacing:-0.02em">${court.priceMin==null?"—":court.priceMin===0?(lang==="en"?"Free":"ฟรี"):"฿"+court.priceMin.toLocaleString()}${court.priceMin>0?`<span style="font-size:12px;color:#86868b;font-weight:400">/${lang==="en"?"hr":"ชม."}</span>`:""}</span>
+            <span style="color:#86868b;font-size:12px">★ ${court.rating!=null?court.rating.toFixed(1):"—"}${court.reviews>0?` · ${court.reviews}`:""}</span>
           </div>
-          <div style="font-size:12px;color:#555;margin-bottom:8px">📍 ${court.district}${court.bts?` · ${court.bts}`:""}</div>
-          <button onclick="window.__selectCourt(${court.id})" style="width:100%;padding:8px;background:oklch(0.52 0.15 150);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">ดูข้อมูลติดต่อ →</button>
+          <button onclick="window.__selectCourt(${court.id})" style="width:100%;padding:9px;background:#1d1d1f;color:#fff;border:none;border-radius:980px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">${lang==="en"?"View details":"ดูรายละเอียด"} ›</button>
         </div>`, { maxWidth:260 });
       markersRef.current.push(m);
     });
@@ -596,305 +692,423 @@ function MapView({courts, onSelectCourt, theme, sport}) {
       const c = courts.find(c=>c.id===id);
       if (c) onSelectCourt(c);
     };
-  }, [courts, sport]);
+  }, [courts, lang]);
 
   return (
-    <div style={{display:"flex",gap:16,height:"calc(100vh - 160px)",minHeight:500}}>
-      <div ref={mapRef} style={{flex:1,borderRadius:"var(--radius)",overflow:"hidden",border:`1px solid ${darkTheme?"#243228":"#c8d8c8"}`,zIndex:0}}/>
-      <div style={{width:280,overflow:"auto",display:"flex",flexDirection:"column",gap:8}}>
-        {courts.map(court => (
-          <div key={court.id} onClick={()=>{onSelectCourt(court);leafletMap.current?.setView([court.lat,court.lng],15);}} style={{background:darkTheme?"#162018":"#fff",border:`1px solid ${darkTheme?"#243228":"var(--border)"}`,borderRadius:14,padding:"12px 14px",cursor:"pointer",transition:"all 0.15s"}}>
-            <div style={{fontWeight:700,fontSize:14,color:darkTheme?"#cce8cc":"var(--text)",letterSpacing:"-0.01em"}}>{court.nameTh}</div>
-            <div style={{fontSize:12,color:"var(--text-muted)",marginTop:2}}>📍 {court.district}</div>
-            <div style={{display:"flex",justifyContent:"space-between",marginTop:6,alignItems:"center"}}>
-              <span style={{fontWeight:700,color:"var(--green)",fontSize:14}}>{court.priceMin==null?"—":court.priceMin===0?"ฟรี":<>฿{court.priceMin.toLocaleString()}<span style={{fontSize:11,fontWeight:400,color:"#999"}}>/ชม.</span></>}</span>
-              <StarRating rating={court.rating}/>
-            </div>
-          </div>
-        ))}
+    <section id="map" style={{background:"#000", color:"#f5f5f7", padding:"100px 0 120px"}}>
+      <div className="container" style={{textAlign:"center", marginBottom:50}}>
+        <div className="eyebrow" style={{color:"#86868b", marginBottom:14}}>
+          {lang==="en"?"All courts. One map.":"สนามทั้งหมด แผนที่เดียว"}
+        </div>
+        <h2 className="headline headline-lg" style={{marginBottom:14}}>
+          {lang==="en" ? <>From Sukhumvit<br/>to Bang Na.</> : <>ตั้งแต่สุขุมวิท<br/>ถึงบางนา</>}
+        </h2>
+        <p className="subhead" style={{color:"#a1a1a6", maxWidth:580, margin:"0 auto"}}>
+          {lang==="en"
+            ? "Every club, every public court, every hotel. Tap any pin for details."
+            : "ทุกสโมสร ทุกสนามสาธารณะ ทุกโรงแรม คลิกหมุดเพื่อดูรายละเอียด"}
+        </p>
       </div>
-    </div>
+      <div className="container-wide">
+        <div ref={mapRef} style={{height:560, borderRadius:28, overflow:"hidden", border:"1px solid rgba(255,255,255,0.08)"}}/>
+      </div>
+    </section>
   );
 }
 
-// ─── HERO ────────────────────────────────────────────────────────────────────
-function Hero({onSearch, theme, lang, sport, courtCount, searchQ, setSearchQ}) {
-  const q = searchQ;
-  const setQ = setSearchQ;
-  const heroBg = theme==="dark"
-    ? "linear-gradient(150deg,#081209 0%,#0e2414 50%,#08120a 100%)"
-    : theme==="bold"
-    ? "linear-gradient(150deg,#0a3018 0%,#1a5c2e 50%,#082814 100%)"
-    : "linear-gradient(150deg,#0d2410 0%,#174d20 50%,#0a1e0d 100%)";
-
-  const ACTIVE = sport==="pickleball" ? PICKLEBALL_COURTS : TENNIS_COURTS;
-
+// ─── HERO (Apple style + live-filter search) ────────────────────────────────
+function Hero({onSearch, lang, sport, setSport, courtCount, searchQ, setSearchQ}) {
   return (
-    <div style={{background:heroBg,position:"relative",overflow:"hidden",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"52px 24px 48px"}}>
-      <svg style={{position:"absolute",inset:0,width:"100%",height:"100%",opacity:0.07}} viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid slice">
-        <rect x="60" y="40" width="880" height="480" stroke="white" strokeWidth="6" fill="none"/>
-        <line x1="60" y1="100" x2="940" y2="100" stroke="white" strokeWidth="3"/>
-        <line x1="60" y1="460" x2="940" y2="460" stroke="white" strokeWidth="3"/>
-        <line x1="500" y1="40" x2="500" y2="520" stroke="white" strokeWidth="6"/>
-        <circle cx="500" cy="40" r="8" fill="white"/>
-        <circle cx="500" cy="520" r="8" fill="white"/>
-        <line x1="263" y1="100" x2="263" y2="460" stroke="white" strokeWidth="3"/>
-        <line x1="737" y1="100" x2="737" y2="460" stroke="white" strokeWidth="3"/>
-        <line x1="263" y1="280" x2="737" y2="280" stroke="white" strokeWidth="3"/>
-        <line x1="60" y1="265" x2="60" y2="295" stroke="white" strokeWidth="5"/>
-        <line x1="940" y1="265" x2="940" y2="295" stroke="white" strokeWidth="5"/>
-      </svg>
-      <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 70% 60% at 50% 50%,rgba(40,140,60,0.18) 0%,transparent 70%)",pointerEvents:"none"}}/>
-      <div style={{position:"absolute",top:-80,right:-60,width:320,height:320,background:"radial-gradient(circle,rgba(220,190,0,0.12) 0%,transparent 70%)",borderRadius:"50%",pointerEvents:"none"}}/>
+    <section id="top" style={{
+      background:"#000", color:"#f5f5f7",
+      paddingTop:120, paddingBottom:60, textAlign:"center",
+      position:"relative", overflow:"hidden",
+    }}>
+      <div className="reveal" style={{animationDelay:"0.05s"}}>
+        <div className="eyebrow" style={{color:"var(--accent)", marginBottom:14, fontSize:13, fontWeight:500, letterSpacing:"0.08em"}}>
+          {lang==="en" ? "TennisFinder BKK — New for 2026" : "TennisFinder BKK — ใหม่สำหรับ 2026"}
+        </div>
+      </div>
+      <h1 className="headline headline-xl reveal" style={{animationDelay:"0.1s", marginBottom:18, padding:"0 22px"}}>
+        {lang==="en" ? <>Find your court.<br/><span style={{color:"var(--accent)"}}>In Bangkok.</span></>
+                     : <>หาสนามของคุณ<br/><span style={{color:"var(--accent)"}}>ในกรุงเทพฯ</span></>}
+      </h1>
+      <p className="subhead reveal" style={{animationDelay:"0.18s", color:"#a1a1a6", maxWidth:640, margin:"0 auto", padding:"0 22px"}}>
+        {lang==="en"
+          ? `${courtCount} ${sport==="pickleball"?"pickleball":"tennis"} clubs and public courts. All in one place. Built for Bangkok.`
+          : `${courtCount} สนาม${sport==="pickleball"?"พิกเคิลบอล":"เทนนิส"} ในที่เดียว ครบทุกเขต ทำมาเพื่อคนกรุงเทพฯ`}
+      </p>
 
-      <div style={{position:"relative",zIndex:1,maxWidth:680,width:"100%",textAlign:"center"}}>
-        <div style={{display:"inline-flex",alignItems:"center",gap:8,marginBottom:24,background:"rgba(255,255,255,0.08)",border:"1px solid rgba(255,255,255,0.15)",borderRadius:40,padding:"6px 16px"}}>
-          <div style={{width:20,height:20,background:"var(--yellow)",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11}}>🎾</div>
-          <span style={{color:"rgba(255,255,255,0.75)",fontSize:12,fontWeight:600,letterSpacing:"0.12em",textTransform:"uppercase"}}>TennisFinder BKK</span>
+      {/* Search bar (live filter) */}
+      <div className="reveal" style={{animationDelay:"0.24s", marginTop:30, display:"flex", justifyContent:"center", padding:"0 22px"}}>
+        <div style={{display:"flex", alignItems:"center", gap:10, width:"100%", maxWidth:520, background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.14)", borderRadius:980, padding:"4px 6px 4px 18px"}}>
+          <span style={{color:"#86868b", display:"inline-flex"}}>{I.search}</span>
+          <input
+            placeholder={lang==="en"?"Search district, court name…":"ค้นหาเขต, ชื่อสนาม…"}
+            value={searchQ} onChange={e=>setSearchQ(e.target.value)} onKeyDown={e=>e.key==="Enter"&&onSearch(searchQ)}
+            style={{flex:1, padding:"10px 0", background:"transparent", border:"none", outline:"none", color:"#f5f5f7", fontSize:15, fontFamily:"inherit"}}/>
+          {searchQ && <button onClick={()=>setSearchQ("")} style={{background:"transparent", border:"none", color:"#86868b", padding:"6px 8px"}}>{I.close}</button>}
+          <button onClick={()=>onSearch(searchQ)} className="btn-pill" style={{padding:"8px 18px", fontSize:13}}>
+            {lang==="en"?"Search":"ค้นหา"}
+          </button>
         </div>
-        <h1 style={{fontSize:"clamp(36px,6vw,72px)",fontWeight:900,color:"#fff",lineHeight:1.08,marginBottom:16,letterSpacing:"-0.02em"}}>
-          {lang==="en" ? <>Find Your Perfect<br/><span style={{color:"var(--yellow)"}}>Tennis Court</span></> : <>หาสนามเทนนิส<br/><span style={{color:"var(--yellow)"}}>ในกรุงเทพฯ ได้เลย</span></>}
-        </h1>
-        <p style={{color:"rgba(255,255,255,0.55)",fontSize:"clamp(14px,2vw,18px)",marginBottom:40,lineHeight:1.6}}>
-          {lang==="en"
-            ? `${courtCount} ${sport==="pickleball"?"pickleball":"tennis"} courts · all districts · compare prices`
-            : `รวม ${courtCount} สนาม${sport==="pickleball"?"พิกเคิลบอล":"เทนนิส"}ทั่วกรุงเทพฯ · เปรียบเทียบราคา · ดูข้อมูลติดต่อ`}
-        </p>
-        <div style={{display:"flex",background:"#fff",borderRadius:18,overflow:"hidden",boxShadow:"0 8px 40px rgba(0,0,0,0.4)",border:"2px solid rgba(255,255,255,0.1)",maxWidth:560,margin:"0 auto"}}>
-          <span style={{padding:"0 16px",display:"flex",alignItems:"center",color:"#aaa",fontSize:20}}>🔍</span>
-          <input placeholder={lang==="en"?"District, court name...":"ค้นหาเขต, ชื่อสนาม..."} value={q} onChange={e=>setQ(e.target.value)} onKeyDown={e=>e.key==="Enter"&&onSearch(q)} style={{flex:1,padding:"16px 0",border:"none",outline:"none",fontSize:16,fontFamily:"inherit",background:"transparent",color:"#111"}}/>
-          <button onClick={()=>onSearch(q)} style={{padding:"16px 28px",background:"var(--green)",color:"#fff",border:"none",cursor:"pointer",fontSize:16,fontWeight:700,fontFamily:"inherit"}}>{lang==="en"?"Search":"ค้นหา"}</button>
-        </div>
-        <div style={{display:"flex",gap:32,justifyContent:"center",marginTop:48}}>
+      </div>
+
+      {/* CTA */}
+      <div className="reveal" style={{animationDelay:"0.30s", marginTop:24, display:"flex", gap:28, justifyContent:"center", padding:"0 22px", flexWrap:"wrap"}}>
+        <a href="#featured" className="link" style={{color:"var(--accent)"}}>
+          {lang==="en"?"Browse featured":"ดูสนามแนะนำ"} <span className="chev">{I.chev}</span>
+        </a>
+        <a href="#map" className="link" style={{color:"#fff"}}>
+          {lang==="en"?"Open the map":"เปิดแผนที่"} <span className="chev">{I.chev}</span>
+        </a>
+      </div>
+
+      {/* Sport switcher */}
+      <div className="reveal" style={{animationDelay:"0.36s", marginTop:32, display:"flex", justifyContent:"center", padding:"0 22px"}}>
+        <div style={{display:"inline-flex", padding:3, background:"rgba(255,255,255,0.08)", borderRadius:980, border:"1px solid rgba(255,255,255,0.1)"}}>
           {[
-            {n:courtCount, label:lang==="en"?"Courts":"สนาม"},
-            {n:`฿${Math.min(...ACTIVE.map(c=>c.priceMin).filter(p=>p!=null&&p>0))}`, label:lang==="en"?"From/hr":"เริ่มต้น/ชม."},
-            {n:ACTIVE.filter(c=>c.indoor).length, label:lang==="en"?"Indoor":"ในร่ม"},
-          ].map(({n,label})=>(
-            <div key={label} style={{textAlign:"center"}}>
-              <div style={{fontWeight:800,fontSize:28,color:"var(--yellow)",lineHeight:1}}>{n}</div>
-              <div style={{fontSize:12,color:"rgba(255,255,255,0.45)",marginTop:4,letterSpacing:"0.05em",textTransform:"uppercase"}}>{label}</div>
-            </div>
+            {id:"tennis", lEn:"Tennis", lTh:"เทนนิส"},
+            {id:"pickleball", lEn:"Pickleball", lTh:"พิกเคิลบอล"},
+          ].map(s => (
+            <button key={s.id} onClick={()=>setSport(s.id)} style={{
+              padding:"9px 22px", borderRadius:980,
+              background: sport===s.id ? "var(--accent)" : "transparent",
+              color: sport===s.id ? "#000" : "#f5f5f7",
+              border:"none", fontSize:13, fontWeight: sport===s.id?600:400,
+              transition:"all 0.25s",
+            }}>{lang==="en"?s.lEn:s.lTh}</button>
           ))}
         </div>
       </div>
-      <div style={{position:"absolute",bottom:28,left:"50%",transform:"translateX(-50%)",color:"rgba(255,255,255,0.3)",display:"flex",flexDirection:"column",alignItems:"center",gap:6}}>
-        <span style={{fontSize:18,animation:"bounce 1.5s infinite"}}>↓</span>
+    </section>
+  );
+}
+
+// ─── NAV (Apple fixed blur) ─────────────────────────────────────────────────
+function Nav({lang, setLang, sport, setSport}) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(()=>{
+    const h = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
+  },[]);
+  const links = [
+    {id:"featured", lEn:"Featured", lTh:"แนะนำ"},
+    {id:"tennis-list", lEn:"Tennis", lTh:"เทนนิส"},
+    {id:"pickleball-list", lEn:"Pickleball", lTh:"พิกเคิลบอล"},
+    {id:"map", lEn:"Map", lTh:"แผนที่"},
+  ];
+  return (
+    <nav style={{
+      position:"fixed", top:0, left:0, right:0, zIndex:1000,
+      background:"rgba(0,0,0,0.72)", backdropFilter:"saturate(180%) blur(20px)", WebkitBackdropFilter:"saturate(180%) blur(20px)",
+      borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid transparent",
+      transition:"border-color 0.3s", height:48,
+    }}>
+      <div style={{maxWidth:1240, margin:"0 auto", padding:"0 22px", height:"100%", display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+        <a href="#top" style={{display:"flex", alignItems:"center", gap:8}}>
+          <svg width="22" height="22" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#d9e34a"/><path d="M3.5 16 Q16 3, 28.5 16" stroke="#000" strokeWidth="1.3" fill="none"/><path d="M3.5 16 Q16 29, 28.5 16" stroke="#000" strokeWidth="1.3" fill="none"/></svg>
+          <span style={{color:"#f5f5f7", fontSize:14, fontWeight:500, letterSpacing:"-0.01em"}}>TennisFinder BKK</span>
+        </a>
+        <div style={{display:"flex", gap:0}}>
+          {links.map(l => (
+            <a key={l.id} href={`#${l.id}`} style={{color:"#f5f5f7", fontSize:12, padding:"0 12px", opacity:0.85, display:"inline-flex", alignItems:"center", height:48}}
+               onMouseEnter={e=>e.currentTarget.style.opacity="1"} onMouseLeave={e=>e.currentTarget.style.opacity="0.85"}>
+              {lang==="en"?l.lEn:l.lTh}
+            </a>
+          ))}
+        </div>
+        <div style={{display:"flex", alignItems:"center", gap:8}}>
+          <div style={{display:"inline-flex", background:"rgba(255,255,255,0.08)", borderRadius:980, padding:2, border:"1px solid rgba(255,255,255,0.1)"}}>
+            {[{v:"th",label:"ไทย"},{v:"en",label:"EN"}].map(o=>(
+              <button key={o.v} onClick={()=>setLang(o.v)} style={{padding:"3px 11px", borderRadius:980, border:"none", background:lang===o.v?"var(--accent)":"transparent", color:lang===o.v?"#000":"#f5f5f7", fontSize:11, fontWeight:lang===o.v?600:500}}>{o.label}</button>
+            ))}
+          </div>
+        </div>
       </div>
-      <style>{`@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}`}</style>
-    </div>
+    </nav>
+  );
+}
+
+// ─── SPORT SHOWCASE (Apple 2-up) ────────────────────────────────────────────
+function SportShowcase({lang, sport, setSport}) {
+  const cards = [
+    { id:"tennis", lEn:"Tennis", lTh:"เทนนิส",
+      tagEn:"From boutique clay courts to public concrete.",
+      tagTh:"ตั้งแต่เคลย์ระดับพรีเมียม จนถึงสนามสาธารณะ",
+      count:TENNIS_COURTS.length,
+      from:Math.min(...TENNIS_COURTS.map(c=>c.priceMin).filter(p=>p!=null&&p>0)),
+      bg:"linear-gradient(160deg, #1a3a52 0%, #4a6a8f 60%, #2a4866 100%)" },
+    { id:"pickleball", lEn:"Pickleball", lTh:"พิกเคิลบอล",
+      tagEn:"The fastest-growing sport. Indoor or out.",
+      tagTh:"กีฬาที่กำลังมาแรง ทั้งในร่มและกลางแจ้ง",
+      count:PICKLEBALL_COURTS.length,
+      from:Math.min(...PICKLEBALL_COURTS.map(c=>c.priceMin).filter(p=>p!=null&&p>0)),
+      bg:"linear-gradient(160deg, #2e4d28 0%, #5a8347 60%, #3a5a2c 100%)" },
+  ];
+  return (
+    <section style={{background:"var(--gray-bg)", padding:"100px 0", color:"var(--near-black)"}}>
+      <div className="container" style={{textAlign:"center", marginBottom:50}}>
+        <div className="eyebrow" style={{color:"#86868b", marginBottom:14}}>
+          {lang==="en" ? "Pick your sport" : "เลือกกีฬาของคุณ"}
+        </div>
+        <h2 className="headline headline-lg" style={{maxWidth:680, margin:"0 auto"}}>
+          {lang==="en" ? <>Two sports.<br/>One city.</> : <>สองกีฬา<br/>เมืองเดียว</>}
+        </h2>
+      </div>
+      <div className="container-wide" style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:22}}>
+        {cards.map(s => (
+          <button key={s.id} onClick={()=>{setSport(s.id); document.getElementById(s.id+"-list")?.scrollIntoView({behavior:"smooth", block:"start"})}} style={{
+            position:"relative", borderRadius:32, overflow:"hidden", border:"none", background:"#fff", padding:0, textAlign:"left", cursor:"pointer",
+            boxShadow:"0 4px 24px rgba(0,0,0,0.06)", transition:"transform 0.5s cubic-bezier(0.2,0.7,0.2,1), box-shadow 0.3s",
+          }} onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow="0 12px 36px rgba(0,0,0,0.12)"}} onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="0 4px 24px rgba(0,0,0,0.06)"}}>
+            <div style={{padding:"48px 44px 0"}}>
+              <div className="eyebrow" style={{color:"#86868b", marginBottom:14, fontSize:13}}>
+                {s.count} {lang==="en"?"courts indexed":"สนามทั้งหมด"}
+              </div>
+              <h3 className="headline" style={{fontSize:44, marginBottom:10, color:"var(--near-black)"}}>
+                {lang==="en"?s.lEn:s.lTh}
+              </h3>
+              <p className="subhead" style={{color:"#6e6e73", marginBottom:22, fontSize:18}}>
+                {lang==="en"?s.tagEn:s.tagTh}
+              </p>
+              <div style={{display:"flex", gap:18, marginBottom:36, alignItems:"center"}}>
+                <span className="btn-pill dark">{lang==="en"?"Browse all":"ดูทั้งหมด"}</span>
+                <span className="link" style={{color:"var(--blue-link)"}}>
+                  {lang==="en"?"From ฿":"เริ่มต้น ฿"}{s.from} {lang==="en"?"/hr":"/ชม."} <span className="chev">{I.chev}</span>
+                </span>
+              </div>
+            </div>
+            <div style={{height:200, background:s.bg, display:"flex", alignItems:"center", justifyContent:"center"}}>
+              <CourtSVG type={s.id==="tennis"?"hard":"hard"}/>
+            </div>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── FEATURED CAROUSEL ──────────────────────────────────────────────────────
+function FeaturedSection({lang, allCourts, onSelectCourt, theme}) {
+  const featured = allCourts.filter(isFeatured).sort((a,b)=>(b.rating??0)-(a.rating??0));
+  const scrollRef = useRef(null);
+  if (featured.length === 0) return null;
+  return (
+    <section id="featured" style={{background:"#000", color:"#f5f5f7", padding:"100px 0 120px"}}>
+      <div className="container" style={{marginBottom:50}}>
+        <div className="eyebrow" style={{color:"#86868b", marginBottom:14}}>
+          {lang==="en" ? "Featured for Bangkok" : "แนะนำสำหรับกรุงเทพฯ"}
+        </div>
+        <h2 className="headline headline-lg" style={{marginBottom:14, maxWidth:780}}>
+          {lang==="en" ? <>The best courts<br/>worth a trip.</> : <>สนามดีๆ ที่ควรลอง<br/>สักครั้ง</>}
+        </h2>
+        <p className="subhead" style={{color:"#a1a1a6", maxWidth:580}}>
+          {lang==="en"
+            ? "Auto-curated: rating ≥ 4.6 and 100+ reviews. Hand-picked clubs across the city."
+            : "คัดอัตโนมัติจาก rating ≥ 4.6 และรีวิว 100+ รายการ คัดสรรจากทั่วกรุงเทพฯ"}
+        </p>
+      </div>
+      <div ref={scrollRef} className="hscroll" style={{display:"flex", gap:22, overflowX:"auto", padding:"0 max(22px, calc((100vw - 1240px) / 2 + 22px))", scrollSnapType:"x mandatory", scrollPaddingLeft:22}}>
+        {featured.map(c => <CourtCard key={c.id} court={c} onClick={onSelectCourt} theme="dark" lang={lang} featured={true}/>)}
+      </div>
+      <div className="container" style={{marginTop:32, display:"flex", justifyContent:"flex-end", gap:8}}>
+        <button onClick={()=>scrollRef.current?.scrollBy({left:-440,behavior:"smooth"})} style={{width:36, height:36, borderRadius:"50%", background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.1)", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center"}}><span style={{transform:"rotate(180deg)", display:"inline-flex"}}>{I.chev}</span></button>
+        <button onClick={()=>scrollRef.current?.scrollBy({left:440,behavior:"smooth"})} style={{width:36, height:36, borderRadius:"50%", background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.1)", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center"}}>{I.chev}</button>
+      </div>
+    </section>
+  );
+}
+
+// ─── COURT LIST SECTION (per sport — Apple style with our filters) ──────────
+function CourtListSection({id, lang, sport, courts, allCount, onSelectCourt, dark, title, subtitle, searchQ, sortBy, setSortBy}) {
+  const [filterType, setFilterType] = useState("all");
+  const [toggles, setToggles] = useState({indoor:false, aircon:false, nightLights:false, hasBTS:false});
+
+  const filtered = courts.filter(c => {
+    if (filterType!=="all" && !courtHasType(c, filterType)) return false;
+    if (toggles.indoor && !c.indoor) return false;
+    if (toggles.aircon && !c.aircon) return false;
+    if (toggles.nightLights && !c.nightLights) return false;
+    if (toggles.hasBTS && !c.bts) return false;
+    if (searchQ && !c.nameTh.includes(searchQ) && !c.name.toLowerCase().includes(searchQ.toLowerCase()) && !c.district.includes(searchQ) && !c.zone.includes(searchQ)) return false;
+    return true;
+  }).sort((a,b)=>
+    sortBy==="featured"?(Number(isFeatured(b))-Number(isFeatured(a)))||((b.rating??0)-(a.rating??0))
+    :sortBy==="rating"?(b.rating??0)-(a.rating??0)
+    :sortBy==="price"?(a.priceMin??Infinity)-(b.priceMin??Infinity)
+    :sortBy==="name"?a.nameTh.localeCompare(b.nameTh,"th")
+    :sortBy==="nameEn"?a.name.localeCompare(b.name,"en")
+    :(b.courts??0)-(a.courts??0)
+  );
+
+  const availableTypes = sport==="tennis" ? ["all","hard","clay","grass"] : ["all","hard"];
+  const muted = dark ? "#a1a1a6" : "#6e6e73";
+  const subtle = "#86868b";
+  const chipBorder = dark ? "rgba(255,255,255,0.18)" : "var(--gray-3)";
+
+  return (
+    <section id={id} style={{background: dark ? "#000" : "#fff", color: dark ? "#f5f5f7" : "var(--near-black)", padding:"100px 0 120px"}}>
+      <div className="container-wide">
+        <div style={{marginBottom:42, maxWidth:760}}>
+          <div className="eyebrow" style={{color:subtle, marginBottom:14}}>
+            {sport==="tennis"?(lang==="en"?"Tennis":"เทนนิส"):(lang==="en"?"Pickleball":"พิกเคิลบอล")} · {allCount} {lang==="en"?"courts":"สนาม"}
+          </div>
+          <h2 className="headline headline-lg" style={{marginBottom:14}}>{title}</h2>
+          <p className="subhead" style={{color: dark?"#a1a1a6":"#6e6e73"}}>{subtitle}</p>
+        </div>
+
+        {/* Filter chips + toggles + sort */}
+        <div style={{display:"flex", gap:10, marginBottom:36, flexWrap:"wrap", alignItems:"center"}}>
+          <div style={{display:"flex", gap:6, flexWrap:"wrap"}}>
+            {availableTypes.map(t => (
+              <button key={t} onClick={()=>setFilterType(t)} style={{
+                padding:"7px 16px", borderRadius:980, fontSize:13, fontWeight:400,
+                background: filterType===t ? (dark?"#fff":"var(--near-black)") : "transparent",
+                color: filterType===t ? (dark?"#000":"#fff") : (dark?"#f5f5f7":"var(--near-black)"),
+                border: filterType===t ? "1px solid transparent" : `1px solid ${chipBorder}`,
+                transition:"all 0.18s",
+              }}>{t==="all"?(lang==="en"?"All":"ทั้งหมด"):(lang==="en"?TYPE_EN[t]:TYPE_LABELS[t])}</button>
+            ))}
+          </div>
+          <div style={{width:1, height:24, background:chipBorder}}/>
+          <div style={{display:"flex", gap:6, flexWrap:"wrap"}}>
+            {[
+              {k:"indoor", th:"ในร่ม", en:"Indoor"},
+              {k:"aircon", th:"แอร์", en:"AC"},
+              {k:"nightLights", th:"กลางคืน", en:"Night"},
+              {k:"hasBTS", th:"ใกล้ BTS", en:"BTS"},
+            ].map(({k,th,en})=>(
+              <button key={k} onClick={()=>setToggles(t=>({...t, [k]:!t[k]}))} style={{
+                padding:"7px 14px", borderRadius:980, fontSize:13, fontWeight:400,
+                background: toggles[k] ? "var(--accent)" : "transparent",
+                color: toggles[k] ? "#000" : (dark?"#f5f5f7":"var(--near-black)"),
+                border: toggles[k] ? "1px solid transparent" : `1px solid ${chipBorder}`,
+              }}>{lang==="en"?en:th}</button>
+            ))}
+          </div>
+          <select value={sortBy} onChange={e=>setSortBy(e.target.value)} style={{
+            marginLeft:"auto", padding:"7px 14px", borderRadius:980,
+            border:`1px solid ${chipBorder}`, background:"transparent",
+            color: dark?"#f5f5f7":"var(--near-black)", fontSize:13, fontFamily:"inherit", outline:"none",
+          }}>
+            <option value="featured">⭐ {lang==="en"?"Recommended":"แนะนำ"}</option>
+            <option value="rating">★ {lang==="en"?"Rating":"คะแนน"}</option>
+            <option value="price">฿ {lang==="en"?"Price":"ราคา"}</option>
+            <option value="courts">🎾 {lang==="en"?"Most Courts":"คอร์ด"}</option>
+            <option value="name">ก–ฮ</option>
+            <option value="nameEn">A–Z</option>
+          </select>
+        </div>
+
+        {filtered.length === 0 ? (
+          <div style={{textAlign:"center", padding:60, color:muted}}>
+            <div style={{fontSize:18, fontWeight:500, marginBottom:8}}>{lang==="en"?"No courts found":"ไม่พบสนามที่ตรงกัน"}</div>
+            <div style={{fontSize:14, color:subtle}}>{lang==="en"?"Try adjusting filters":"ลองปรับตัวกรองใหม่"}</div>
+          </div>
+        ) : (
+          <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(280px, 1fr))", gap:18}}>
+            {filtered.map(c => <CourtCard key={c.id} court={c} onClick={onSelectCourt} theme={dark?"dark":"light"} lang={lang}/>)}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ─── FOOTER ─────────────────────────────────────────────────────────────────
+function Footer({lang}) {
+  return (
+    <footer style={{background:"var(--gray-bg)", color:"#6e6e73", padding:"28px 0", fontSize:12}}>
+      <div className="container-wide" style={{display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:16}}>
+        <span>© 2026 TennisFinder BKK · poohriss.github.io/TennisFinderBkk</span>
+        <div style={{display:"flex", gap:24}}>
+          <a href="https://github.com/poohriss/TennisFinderBkk" target="_blank" rel="noreferrer" style={{color:"#6e6e73"}}>GitHub</a>
+          <a href="#top" style={{color:"#6e6e73"}}>{lang==="en"?"Back to top":"ขึ้นไปบน"}</a>
+        </div>
+      </div>
+    </footer>
   );
 }
 
 // ─── MAIN APP ────────────────────────────────────────────────────────────────
-const TWEAK_DEFAULTS = { "theme":"dark", "lang":"th", "viewMode":"grid", "showFeaturedOnly":false };
+const TWEAK_DEFAULTS = { "theme":"light", "lang":"th", "showFeaturedOnly":false };
 
 function App() {
   const { useTweaks, TweaksPanel, TweakSection, TweakRadio, TweakToggle } = window;
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
-  const { theme, lang, showFeaturedOnly } = tweaks;
-  const darkTheme = theme === "dark";
+  const { theme, lang } = tweaks;
 
   const [sport, setSport] = useState("tennis");
-  const [screen, setScreen] = useState("home");
-  const [filters, setFilters] = useState({zone:"ทั้งหมด",type:"all",maxPrice:2000,indoor:false,aircon:false,nightLights:false,hasBTS:false,openTime:"all"});
   const [searchQ, setSearchQ] = useState("");
   const [selectedCourt, setSelectedCourt] = useState(null);
   const [sortBy, setSortBy] = useState("featured");
 
   useEffect(() => {
-    const r = document.documentElement.style;
-    if (darkTheme) {
-      r.setProperty("--bg","#0f1a12"); r.setProperty("--card-bg","#162018");
-      r.setProperty("--text","#ddeedd"); r.setProperty("--text-muted","#6a8a72");
-      r.setProperty("--border","#243228");
-      r.setProperty("--shadow","0 1px 4px rgba(0,0,0,0.3),0 4px 16px rgba(0,0,0,0.2)");
-      r.setProperty("--shadow-hover","0 4px 8px rgba(0,0,0,0.4),0 12px 32px rgba(0,0,0,0.3)");
-      document.body.style.background = "#0f1a12";
-    } else if (theme==="bold") {
-      r.setProperty("--bg","#eef7f0"); r.setProperty("--card-bg","#fff");
-      r.setProperty("--text","#0e2016"); r.setProperty("--text-muted","#4a6a54");
-      r.setProperty("--border","#c0dcc8");
-      r.setProperty("--shadow","0 1px 4px rgba(0,60,20,0.08),0 4px 16px rgba(0,60,20,0.06)");
-      r.setProperty("--shadow-hover","0 4px 8px rgba(0,60,20,0.12),0 12px 32px rgba(0,60,20,0.1)");
-      document.body.style.background = "#eef7f0";
-    } else {
-      r.setProperty("--bg","#f7f9f7"); r.setProperty("--card-bg","#ffffff");
-      r.setProperty("--text","#1a2420"); r.setProperty("--text-muted","#6b7f78");
-      r.setProperty("--border","#e4ede8");
-      r.setProperty("--shadow","0 1px 4px rgba(0,40,20,0.06),0 4px 16px rgba(0,40,20,0.04)");
-      r.setProperty("--shadow-hover","0 4px 8px rgba(0,40,20,0.08),0 12px 32px rgba(0,40,20,0.08)");
-      document.body.style.background = "#f7f9f7";
-    }
+    document.documentElement.classList.toggle("dark", theme==="dark");
   }, [theme]);
 
-  const COURTS = sport==="tennis" ? TENNIS_COURTS : PICKLEBALL_COURTS;
-  const ACTIVE_TYPES = sport==="tennis" ? TENNIS_TYPES : PB_TYPES;
-
-  const filtered = COURTS.filter(c => {
-    if (showFeaturedOnly && !isFeatured(c)) return false;
-    if (filters.zone!=="ทั้งหมด" && c.zone!==filters.zone) return false;
-    if (filters.type!=="all" && !courtHasType(c, filters.type)) return false;
-    if (c.priceMin != null && c.priceMin>filters.maxPrice) return false;
-    if (filters.indoor && !c.indoor) return false;
-    if (filters.aircon && !c.aircon) return false;
-    if (filters.nightLights && !c.nightLights) return false;
-    if (filters.hasBTS && !c.bts) return false;
-    if (filters.openTime==="early" && !(c.hours && c.hours.startsWith("06"))) return false;
-    if (filters.openTime==="late" && !(c.hours && c.hours.includes("22"))) return false;
-    if (searchQ && !c.nameTh.includes(searchQ) && !c.name.toLowerCase().includes(searchQ.toLowerCase()) && !c.district.includes(searchQ) && !c.zone.includes(searchQ)) return false;
-    return true;
-  }).sort((a,b) => sortBy==="featured"?(Number(isFeatured(b))-Number(isFeatured(a)))||((b.rating??0)-(a.rating??0)):sortBy==="rating"?(b.rating??0)-(a.rating??0):sortBy==="price"?(a.priceMin??Infinity)-(b.priceMin??Infinity):sortBy==="name"?a.nameTh.localeCompare(b.nameTh,"th"):sortBy==="nameEn"?a.name.localeCompare(b.name,"en"):(b.courts??0)-(a.courts??0));
-
-  const navBg = darkTheme ? "rgba(15,26,18,0.92)" : "rgba(255,255,255,0.88)";
-  const navBorder = darkTheme ? "#1e3022" : "#e4ede8";
-
   return (
-    <div style={{minHeight:"100vh",color:"var(--text)",fontFamily:"'Noto Sans Thai','Space Grotesk',sans-serif"}}>
-      {/* NAV */}
-      <nav style={{background:navBg,borderBottom:`1px solid ${navBorder}`,position:"sticky",top:0,zIndex:100,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 24px",height:60,backdropFilter:"blur(12px)",boxShadow:darkTheme?"0 1px 0 #1e3022":"0 1px 0 #e4ede8"}}>
-        <button onClick={()=>setScreen("home")} style={{display:"flex",alignItems:"center",gap:8,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit"}}>
-          <div style={{width:28,height:28,background:"var(--green)",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14}}>🎾</div>
-          <span style={{fontWeight:800,fontSize:16,color:darkTheme?"#ddeedd":"#1a2420",letterSpacing:"-0.02em"}}>TennisFinder</span>
-        </button>
-        <div style={{display:"flex",gap:2}}>
-          {[{id:"home",label:lang==="en"?"Discover":"ค้นหา"},{id:"map",label:lang==="en"?"Map":"แผนที่"}].map(n=>(
-            <button key={n.id} onClick={()=>setScreen(n.id)} style={{padding:"6px 14px",borderRadius:8,background:screen===n.id?(darkTheme?"#1a2c1e":"var(--green-light)"):"none",color:screen===n.id?"var(--green)":"var(--text-muted)",border:"none",cursor:"pointer",fontSize:14,fontWeight:screen===n.id?700:400,fontFamily:"inherit"}}>{n.label}</button>
-          ))}
+    <div>
+      <Nav lang={lang} setLang={(l)=>setTweak("lang", l)} sport={sport} setSport={setSport}/>
+      <Hero
+        lang={lang} sport={sport} setSport={setSport}
+        courtCount={(sport==="tennis"?TENNIS_COURTS:PICKLEBALL_COURTS).length}
+        searchQ={searchQ} setSearchQ={setSearchQ}
+        onSearch={() => document.getElementById(sport+"-list")?.scrollIntoView({behavior:"smooth", block:"start"})}
+      />
+
+      <FeaturedSection lang={lang} allCourts={[...TENNIS_COURTS, ...PICKLEBALL_COURTS]} onSelectCourt={setSelectedCourt} theme={theme}/>
+
+      <SportShowcase lang={lang} sport={sport} setSport={setSport}/>
+
+      <CourtListSection
+        id="tennis-list"
+        lang={lang} sport="tennis" courts={TENNIS_COURTS} allCount={TENNIS_COURTS.length}
+        onSelectCourt={setSelectedCourt} dark={false}
+        title={lang==="en" ? <>Tennis in Bangkok.<br/>From ฿{Math.min(...TENNIS_COURTS.map(c=>c.priceMin).filter(p=>p!=null&&p>0))} / hour.</> : <>เทนนิสในกรุงเทพฯ<br/>เริ่มต้น ฿{Math.min(...TENNIS_COURTS.map(c=>c.priceMin).filter(p=>p!=null&&p>0))} / ชม.</>}
+        subtitle={lang==="en" ? `${TENNIS_COURTS.length} clubs and public courts. Booking direct, no apps.` : `${TENNIS_COURTS.length} สโมสรและสนามสาธารณะ จองตรงกับสนาม`}
+        searchQ={searchQ} sortBy={sortBy} setSortBy={setSortBy}
+      />
+
+      <CourtListSection
+        id="pickleball-list"
+        lang={lang} sport="pickleball" courts={PICKLEBALL_COURTS} allCount={PICKLEBALL_COURTS.length}
+        onSelectCourt={setSelectedCourt} dark={true}
+        title={lang==="en" ? <>Pickleball is here.<br/>And it's growing fast.</> : <>พิกเคิลบอลมาแล้ว<br/>และกำลังเติบโต</>}
+        subtitle={lang==="en" ? `${PICKLEBALL_COURTS.length} dedicated venues across Bangkok.` : `${PICKLEBALL_COURTS.length} สนามเฉพาะทั่วกรุงเทพฯ`}
+        searchQ={searchQ} sortBy={sortBy} setSortBy={setSortBy}
+      />
+
+      <MapSection lang={lang} courts={[...TENNIS_COURTS, ...PICKLEBALL_COURTS]} onSelectCourt={setSelectedCourt}/>
+
+      {/* CTA */}
+      <section id="help" style={{background:"#000", color:"#f5f5f7", padding:"120px 22px", textAlign:"center"}}>
+        <h2 className="headline headline-lg" style={{marginBottom:18}}>
+          {lang==="en" ? <>Ready to play?</> : <>พร้อมเล่นแล้ว?</>}
+        </h2>
+        <p className="subhead" style={{color:"#a1a1a6", maxWidth:540, margin:"0 auto 36px"}}>
+          {lang==="en"
+            ? "Pick a court above, or open the map and find what's nearest."
+            : "เลือกสนามด้านบน หรือเปิดแผนที่ดูสนามที่ใกล้คุณ"}
+        </p>
+        <div style={{display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap"}}>
+          <a href="#featured" className="btn-pill">{lang==="en"?"Browse courts":"ดูสนาม"}</a>
+          <a href="#map" className="btn-pill alt">{lang==="en"?"Open the map":"เปิดแผนที่"}</a>
         </div>
-        <div style={{display:"flex",alignItems:"center",background:darkTheme?"#162018":"#fff",border:`1px solid var(--border)`,borderRadius:20,padding:2,gap:0}}>
-          {[{v:"th",label:"ไทย"},{v:"en",label:"EN"}].map(o=>(
-            <button key={o.v} onClick={()=>setTweak("lang",o.v)} style={{padding:"4px 12px",borderRadius:18,border:"none",background:lang===o.v?"var(--green)":"transparent",color:lang===o.v?"#fff":"var(--text-muted)",fontSize:12,fontWeight:lang===o.v?700:500,cursor:"pointer",fontFamily:"inherit",transition:"all 0.15s"}}>{o.label}</button>
-          ))}
-        </div>
-      </nav>
+      </section>
 
-      {/* HERO */}
-      {screen==="home" && <Hero onSearch={q=>{setSearchQ(q);window.scrollTo({top:300,behavior:"smooth"});}} theme={theme} lang={lang} sport={sport} courtCount={COURTS.length} searchQ={searchQ} setSearchQ={setSearchQ}/>}
-
-      <div style={{maxWidth:1200,margin:"0 auto",padding:"0 16px"}}>
-        {(screen==="home"||screen==="list") && (
-          <div style={{paddingTop:screen==="home"?28:20}}>
-            {/* Sport tabs */}
-            <div style={{display:"flex",gap:6,marginBottom:12}}>
-              {[{id:"tennis",label:"เทนนิส",labelEn:"Tennis"},{id:"pickleball",label:"พิกเคิลบอล",labelEn:"Pickleball"}].map(s=>(
-                <button key={s.id} onClick={()=>{setSport(s.id);setFilters(f=>({...f,type:"all"}));}} style={{display:"flex",alignItems:"center",gap:6,padding:"7px 18px",borderRadius:40,background:sport===s.id?"var(--green)":(darkTheme?"#162018":"#fff"),border:`1.5px solid ${sport===s.id?"var(--green)":"var(--border)"}`,color:sport===s.id?"#fff":"var(--text-muted)",fontWeight:sport===s.id?700:400,fontSize:14,cursor:"pointer",fontFamily:"inherit",transition:"all 0.18s",boxShadow:sport===s.id?"0 2px 12px rgba(0,100,40,0.2)":"var(--shadow)"}}>
-                  {s.id==="tennis"
-                    ? <span style={{fontSize:16}}>🎾</span>
-                    : <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{flexShrink:0}}>
-                        {/* paddle head — rounded rect */}
-                        <rect x="5" y="1" width="11" height="12" rx="2.5" fill={sport===s.id?"#fff":"#1a1a1a"}/>
-                        {/* paddle face holes */}
-                        {[[8,3.5],[11,3.5],[8,6.5],[11,6.5],[8,9.5],[11,9.5]].map(([cx,cy],i)=>(
-                          <circle key={i} cx={cx} cy={cy} r="0.9" fill={sport===s.id?"var(--green)":"#fff"}/>
-                        ))}
-                        {/* handle */}
-                        <rect x="9" y="13" width="3" height="4.5" rx="1.5" fill={sport===s.id?"#fff":"#1a1a1a"}/>
-                        {/* ball */}
-                        <circle cx="3" cy="14.5" r="2.5" fill="#f97316"/>
-                        {[[3,13.3],[1.9,15],[4.1,15]].map(([cx,cy],i)=>(
-                          <circle key={i} cx={cx} cy={cy} r="0.55" fill="rgba(255,255,255,0.65)"/>
-                        ))}
-                      </svg>
-                  }
-                  {lang==="en"?s.labelEn:s.label}
-                  <span style={{background:sport===s.id?"rgba(255,255,255,0.25)":(darkTheme?"#243228":"var(--green-light)"),color:sport===s.id?"#fff":"var(--green-dark)",borderRadius:20,padding:"1px 7px",fontSize:11,fontWeight:600}}>{s.id==="tennis"?TENNIS_COURTS.length:PICKLEBALL_COURTS.length}</span>
-                </button>
-              ))}
-            </div>
-            {/* Inline filter bar */}
-            <div style={{display:"flex",gap:8,marginBottom:12,flexWrap:"wrap",alignItems:"center",background:darkTheme?"#162018":"#fff",border:`1px solid var(--border)`,borderRadius:20,padding:"8px 12px",boxShadow:"var(--shadow)",position:"sticky",top:68,zIndex:50}}>
-              <div style={{display:"flex",alignItems:"center",flex:1,minWidth:160,gap:4}}>
-                <span style={{color:"#aaa",fontSize:15}}>🔍</span>
-                <input placeholder={lang==="en"?"Search courts, district...":"ค้นหาสนาม, เขต..."} value={searchQ} onChange={e=>setSearchQ(e.target.value)} style={{flex:1,padding:"4px 0",border:"none",outline:"none",background:"transparent",fontSize:14,fontFamily:"inherit",color:"var(--text)"}}/>
-                {searchQ && <button onClick={()=>setSearchQ("")} style={{background:"none",border:"none",cursor:"pointer",color:"#aaa",fontSize:14,padding:0}}>✕</button>}
-              </div>
-              <div style={{width:1,height:24,background:"var(--border)",flexShrink:0}}/>
-              <div style={{display:"flex",gap:6}}>
-                {ACTIVE_TYPES.filter(t=>t.k!=="all").map(t=>(
-                  <button key={t.k} onClick={()=>setFilters(f=>({...f,type:f.type===t.k?"all":t.k}))} style={{padding:"5px 11px",borderRadius:20,border:"1.5px solid",borderColor:filters.type===t.k?TYPE_COLORS[t.k]:"var(--border)",background:filters.type===t.k?TYPE_COLORS[t.k]+"22":"transparent",color:filters.type===t.k?TYPE_COLORS[t.k]:"var(--text-muted)",fontSize:12,fontWeight:filters.type===t.k?600:400,cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit",transition:"all 0.15s"}}>{lang==="en"?t.en:t.th}</button>
-                ))}
-              </div>
-              <div style={{width:1,height:24,background:"var(--border)",flexShrink:0}}/>
-              <div style={{display:"flex",gap:6}}>
-                {[{k:"indoor",th:"ในร่ม",en:"Indoor"},{k:"aircon",th:"มีแอร์",en:"AC"},{k:"nightLights",th:"ไฟกลางคืน",en:"Night Lights"},{k:"hasBTS",th:"ใกล้ BTS",en:"Near BTS"}].map(({k,th,en})=>(
-                  <button key={k} onClick={()=>setFilters(f=>({...f,[k]:!f[k]}))} style={{padding:"5px 11px",borderRadius:20,border:"1.5px solid",borderColor:filters[k]?"var(--green)":"var(--border)",background:filters[k]?"var(--green)":"transparent",color:filters[k]?"#fff":"var(--text-muted)",fontSize:12,fontWeight:filters[k]?600:400,cursor:"pointer",whiteSpace:"nowrap",fontFamily:"inherit",transition:"all 0.15s"}}>{lang==="en"?en:th}</button>
-                ))}
-              </div>
-              <select value={sortBy} onChange={e=>setSortBy(e.target.value)} style={{padding:"5px 10px",borderRadius:10,border:`1px solid var(--border)`,background:"transparent",color:"var(--text-muted)",fontSize:12,cursor:"pointer",fontFamily:"inherit",outline:"none"}}>
-                <option value="featured">⭐ {lang==="en"?"Recommended":"แนะนำ"}</option>
-                <option value="rating">★ {lang==="en"?"Top Rated":"คะแนน"}</option>
-                <option value="price">฿ {lang==="en"?"Cheapest":"ราคา"}</option>
-                <option value="courts">🎾 {lang==="en"?"Most Courts":"คอร์ด"}</option>
-                <option value="name">{lang==="en"?"ก–ฮ Thai A–Z":"ก–ฮ ตัวอักษร"}</option>
-                <option value="nameEn">{lang==="en"?"A–Z Alphabetical":"A–Z อังกฤษ"}</option>
-              </select>
-            </div>
-
-            <div style={{marginBottom:14,color:"var(--text-muted)",fontSize:13,paddingLeft:4}}>
-              {lang==="en"?`${filtered.length} courts`:`พบ ${filtered.length} สนาม`}
-              {(searchQ||filters.type!=="all"||filters.indoor||filters.aircon||filters.nightLights||filters.hasBTS) && (
-                <button onClick={()=>{setSearchQ("");setFilters({zone:"ทั้งหมด",type:"all",maxPrice:2000,indoor:false,aircon:false,nightLights:false,hasBTS:false,openTime:"all"});}} style={{marginLeft:10,color:"var(--green)",background:"none",border:"none",cursor:"pointer",fontSize:12,fontFamily:"inherit",fontWeight:600}}>{lang==="en"?"Reset ✕":"รีเซ็ต ✕"}</button>
-              )}
-            </div>
-
-            {filtered.length===0 ? (
-              <div style={{textAlign:"center",padding:60,color:"var(--text-muted)"}}>
-                <div style={{fontSize:48,marginBottom:16}}>🎾</div>
-                <div style={{fontSize:18,fontWeight:600,marginBottom:8}}>{lang==="en"?"No courts found":"ไม่พบสนามที่ตรงกัน"}</div>
-                <div style={{fontSize:14}}>{lang==="en"?"Try adjusting filters":"ลองปรับตัวกรองใหม่"}</div>
-              </div>
-            ) : (
-              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:14,paddingBottom:40}}>
-                {filtered.map(c=><CourtCard key={c.id} court={c} onClick={setSelectedCourt} theme={theme} lang={lang}/>)}
-              </div>
-            )}
-          </div>
-        )}
-
-        {screen==="map" && (
-          <div style={{paddingTop:20}}>
-            <div style={{marginBottom:12,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-              <div style={{display:"flex",gap:6}}>
-                {[{id:"tennis",label:"เทนนิส",labelEn:"Tennis"},{id:"pickleball",label:"พิกเคิลบอล",labelEn:"Pickleball"}].map(s=>(
-                  <button key={s.id} onClick={()=>{setSport(s.id);}} style={{display:"flex",alignItems:"center",gap:6,padding:"7px 18px",borderRadius:40,background:sport===s.id?"var(--green)":(darkTheme?"#162018":"#fff"),border:`1.5px solid ${sport===s.id?"var(--green)":"var(--border)"}`,color:sport===s.id?"#fff":"var(--text-muted)",fontWeight:sport===s.id?700:400,fontSize:14,cursor:"pointer",fontFamily:"inherit",transition:"all 0.18s",boxShadow:sport===s.id?"0 2px 12px rgba(0,100,40,0.2)":"var(--shadow)"}}>
-                    {s.id==="tennis"
-                      ? <span style={{fontSize:16}}>🎾</span>
-                      : <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{flexShrink:0}}>
-                          <rect x="5" y="1" width="11" height="12" rx="2.5" fill={sport===s.id?"#fff":"#1a1a1a"}/>
-                          {[[8,3.5],[11,3.5],[8,6.5],[11,6.5],[8,9.5],[11,9.5]].map(([cx,cy],i)=>(
-                            <circle key={i} cx={cx} cy={cy} r="0.9" fill={sport===s.id?"var(--green)":"#fff"}/>
-                          ))}
-                          <rect x="9" y="13" width="3" height="4.5" rx="1.5" fill={sport===s.id?"#fff":"#1a1a1a"}/>
-                          <circle cx="3" cy="14.5" r="2.5" fill="#f97316"/>
-                          {[[3,13.3],[1.9,15],[4.1,15]].map(([cx,cy],i)=>(
-                            <circle key={i} cx={cx} cy={cy} r="0.55" fill="rgba(255,255,255,0.65)"/>
-                          ))}
-                        </svg>
-                    }
-                    {lang==="en"?s.labelEn:s.label}
-                    <span style={{background:sport===s.id?"rgba(255,255,255,0.25)":(darkTheme?"#243228":"var(--green-light)"),color:sport===s.id?"#fff":"var(--green-dark)",borderRadius:20,padding:"1px 7px",fontSize:11,fontWeight:600}}>{s.id==="tennis"?TENNIS_COURTS.length:PICKLEBALL_COURTS.length}</span>
-                  </button>
-                ))}
-              </div>
-              <span style={{fontSize:13,color:"var(--text-muted)"}}>{lang==="en"?"Click a pin to see details":"คลิกหมุดเพื่อดูรายละเอียด"}</span>
-            </div>
-            <MapView courts={COURTS} onSelectCourt={setSelectedCourt} theme={theme} sport={sport}/>
-          </div>
-        )}
-      </div>
+      <Footer lang={lang}/>
 
       {selectedCourt && <CourtDetailModal court={selectedCourt} onClose={()=>setSelectedCourt(null)} theme={theme} lang={lang}/>}
 
       <TweaksPanel>
-        <TweakSection title="ธีม / Theme">
-          <TweakRadio id="theme" label="สีสัน" options={[{value:"light",label:"☀️ Light"},{value:"dark",label:"🌙 Dark"},{value:"bold",label:"🌿 Bold"}]}/>
+        <TweakSection title="Appearance">
+          <TweakRadio id="theme" label="Theme" options={[{value:"light",label:"Light"},{value:"dark",label:"Dark"}]}/>
         </TweakSection>
-        <TweakSection title="ภาษา / Language">
-          <TweakRadio id="lang" label="ภาษา" options={[{value:"th",label:"ไทย"},{value:"en",label:"EN"}]}/>
-        </TweakSection>
-        <TweakSection title="การแสดงผล">
-          <TweakToggle id="showFeaturedOnly" label="แสดงสนามแนะนำเท่านั้น"/>
+        <TweakSection title="Language">
+          <TweakRadio id="lang" label="Lang" options={[{value:"th",label:"ไทย"},{value:"en",label:"EN"}]}/>
         </TweakSection>
       </TweaksPanel>
     </div>

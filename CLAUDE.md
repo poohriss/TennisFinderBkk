@@ -72,27 +72,37 @@ Claude จะ:
 
 ไม่ต้องแก้ filter / map / sort — ระบบ map markers + filter เป็น reactive ทำงานอัตโนมัติ
 
-## Features (Design v2 — implemented)
+## Features (Design v3 — Apple — implemented 2026-05-14)
 
-- **Sport tabs:** Tennis / Pickleball — อยู่เหนือ filter bar (ไม่ใช่ standalone bar), มีทั้งในหน้า list และ map
-- **Layout:** Merged home + list view (single-page scroll ไม่มี Home tab แยก)
-- **Inline filter bar:** Sticky bar ใต้ hero — type pills, text toggles (ในร่ม, มีแอร์, ไฟกลางคืน, ใกล้ BTS), sort select (ไม่มี zone pills); **bilingual** — pills/labels เปลี่ยนตาม `lang` state
-- **Sort options:** ⭐ แนะนำ (default — featured ขึ้นบนแล้วเรียงตาม rating, ที่เหลือเรียงตาม rating) / ★ คะแนน / ฿ ราคา / 🎾 คอร์ด / ก–ฮ (Thai) / A–Z (English)
-- **Bilingual name swap:** CourtCard + Modal — เมื่อ `lang==="en"` ชื่ออังกฤษอยู่บน, ชื่อไทยอยู่ล่าง (และกลับกันเมื่อ `lang==="th"`)
-- **Review count display:** CourtCard แสดง `★ 4.5 (NNN)` — เลข reviews ในวงเล็บถัดจาก rating (ถ้า reviews > 0)
-- **Live search:** Hero search (ด้านบน) ใช้ `searchQ` state เดียวกับ filter bar (ด้านล่าง) — พิมพ์ใน hero → filter list ทันที (ไม่ต้องกด Enter); ปุ่ม **ค้นหา** / Enter → scroll ไปดูผลลัพธ์
-- **Multi-type courts:** `type` field รับได้ทั้ง string (`"hard"`) และ array (`["hard","clay"]`) — courts ที่มีหลายพื้นผิวใช้ array; helpers `courtTypes(c)`, `primaryType(c)`, `courtHasType(c,t)`; filter จะ match ถ้า type ใดประเภทหนึ่งตรง; card/modal badge แสดงทุก type; gradient/SVG ใช้ primary (ตัวแรก)
-- **aircon field:** boolean ใน COURTS data — confirmed: Sterling Court (tennis), Asoke Pickleball (pickleball)
-- **Map view:** Leaflet + OpenStreetMap, custom pin markers, sidebar list, popup; sport tabs ใน map header; markers update reactive ตาม sport (split useEffect + markersRef pattern)
-- **Detail modal:** ข้อมูลติดต่อ, facilities, ราคา, เวลา, Google Maps link
-- **Featured (⭐ แนะนำ):** คำนวณอัตโนมัติจาก `rating >= 4.6 && reviews >= 100` ผ่าน `isFeatured(court)` helper — ไม่ใช้ `featured` field ในข้อมูลแล้ว (field ยังอยู่แต่ ignored); ปัจจุบัน 9 tennis + 3 pickleball = 12 สนาม
-- **Free court display:** `priceMin===0` → แสดง "ฟรี" ในทุก context (card, modal, map popup, sidebar)
-- **Themes:** dark / light / bold via CSS vars (oklch color palette)
-- **Language:** ไทย / EN toggle — pill buttons ใน nav bar (ขวาบน) + ใน tweaks panel (sync กัน, share `lang` state เดียว)
-- **Tweaks panel:** Floating draggable panel (theme, lang, show-featured-only)
-- **Website button:** ปุ่ม 🌐 ใน detail modal — แสดงเมื่อ `court.website` มี (ระหว่างปุ่มโทรศัพท์กับ Google Maps); สีส้ม-น้ำตาล แยกจากปุ่มอื่น
-- **Pickleball icon:** Custom SVG — ไม้สีดำ (เหลี่ยม), ลูกสีส้ม (ไม่ใช่ emoji)
-- **CourtSVG:** Landscape orientation — net เป็นเส้นตั้ง, service lines เป็นเส้นตั้ง, center service line เป็นเส้นนอน
+**Visual + Layout (Apple aesthetic):**
+- **Typography:** `-apple-system, "SF Pro Display"` + Noto Sans Thai; `.headline` clamp() 48–96px, tight tracking `-0.04em`
+- **Palette:** Black/white minimalist + lime accent `#d9e34a` (`--accent`); CSS vars in `:root`; `html.dark` class toggle (only Light + Dark — removed "bold")
+- **Page structure (single-scroll, no tabs):**
+  1. Fixed blur **Nav** (44px, scroll-aware border, lang switcher, anchor links: Featured / Tennis / Pickleball / Map)
+  2. **Hero** (black bg, centered huge headline, live-search pill, CTA links, sport pill switcher)
+  3. **Featured carousel** (`#featured`, horizontal scroll, 380px cards using `isFeatured()` helper across both sports)
+  4. **SportShowcase** (gray bg, 2-up Apple-style buttons — Tennis card + Pickleball card with court count + min price)
+  5. **Tennis list section** (`#tennis-list`, light bg, type chips + toggles + sort, grid of cards)
+  6. **Pickleball list section** (`#pickleball-list`, dark bg, same filter UX)
+  7. **MapSection** (`#map`, dark, full-width Leaflet with dark CARTO tiles, numeric pin labels, all 99 courts combined)
+  8. **CTA "Ready to play?"** (black, big headline, 2 pill buttons)
+  9. **Footer** (gray-bg, copyright + GitHub + back-to-top)
+- **Components:** `Nav`, `Hero`, `FeaturedSection`+`CourtCard(featured)`, `SportShowcase`, `CourtListSection`, `CourtCard`, `MapSection`, `CourtDetailModal`, `Footer`
+
+**Functions preserved (ทั้งหมด — ไม่หาย):**
+- **Sort options (per section):** ⭐ แนะนำ (default) / ★ คะแนน / ฿ ราคา / 🎾 คอร์ด / ก–ฮ (Thai) / A–Z (English)
+- **Bilingual name swap:** CourtCard + Modal — เมื่อ `lang==="en"` ชื่ออังกฤษอยู่บน
+- **Review count display:** CourtCard แสดง `★ 4.5 · NNN` ถัดจาก rating
+- **Live search:** Hero search ใช้ `searchQ` state ที่ส่งเข้า list sections — พิมพ์ใน hero → filter ทันที, ปุ่ม/Enter → scroll ไป `#<sport>-list`
+- **Multi-type courts:** `type` รับ string หรือ array; helpers `courtTypes/primaryType/courtHasType`
+- **Map view:** Leaflet + dark CARTO tiles, custom pin markers (numeric label + lime if featured); split useEffect + markersRef reactive pattern
+- **Detail modal:** Apple-style — gradient header, photo gallery + arrow keys + attribution row; 2×2 info grid (price/hours/rating/courts); facilities pills; 3 pill buttons (phone / website / Open in Maps); `body.style.overflow="hidden"` lock
+- **Featured (⭐ แนะนำ):** คำนวณอัตโนมัติจาก `rating >= 4.6 && reviews >= 100` ผ่าน `isFeatured(court)` — populates the Featured carousel
+- **Free court display:** `priceMin===0` → แสดง "ฟรี" / "Free"
+- **Language:** ไทย / EN toggle ใน nav (Apple pill) + ใน tweaks panel — share `lang` state
+- **Tweaks panel:** Floating draggable (Light/Dark + ไทย/EN — simplified from v2)
+- **Website button:** Pill in modal between phone + Open in Maps
+- **CourtSVG:** Landscape orientation
 
 ## สิ่งที่วางแผนจะทำ
 
@@ -131,6 +141,7 @@ Claude จะ:
 - [x] id:30 rename → **Suan Luang Rama IX Sport Center** (2026-05-14) — เปลี่ยน district: ห้วยขวาง → ประเวศ, GPS corrected to 13.6819/100.6600, zone: ใจกลางกรุง → ฝั่งตะวันออก
 - [x] Photo batch update (2026-05-14) — 11 courts: ids 9, 12, 14, 16, 17, 18, 20, 22, 27, 29, 30 (Google Maps Photo Spheres)
 - [x] Remove broken website (id:19 Simoorgh — bkktennis.com offline)
+- [x] **Design v3 — Apple redesign** (2026-05-14) — full visual + layout rewrite from claude.ai/design "TennisFinder Apple" bundle. SF Pro typography, black/white + lime accent (`#d9e34a`), single-scroll Apple layout (Nav → Hero → Featured carousel → SportShowcase → Tennis section → Pickleball section → Map → CTA → Footer). New components: `Nav`, `FeaturedSection`, `SportShowcase`, `CourtListSection`, `Footer`. Modal Apple-style with 2×2 info grid + pill buttons. Map uses dark CARTO tiles with numeric pin labels. **All data + functions preserved** — 60+39 courts untouched, photos gallery + attribution, googleMaps redirect, multi-type, live search, sort options, filter chips/toggles, tweaks panel
 
 ## โครงสร้าง COURTS data
 
