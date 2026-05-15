@@ -264,14 +264,15 @@ html.dark .leaflet-popup-content-wrapper, html.dark .leaflet-popup-tip { backgro
 
 /* Map "Near me" floating button — offset accounts for map container border-radius (28px) */
 .near-me-btn {
-  position: absolute; top: 18px; right: 18px; z-index: 500;
-  padding: 10px 16px; background: #1d1d1f; color: #fff;
-  border: 1px solid rgba(255,255,255,0.12); border-radius: 980px;
+  position: absolute; top: 8px; right: 28px; z-index: 500;
+  padding: 10px 16px; background: #fff; color: #1d1d1f;
+  border: 1px solid rgba(0,0,0,0.08); border-radius: 980px;
   font-family: -apple-system, sans-serif; font-size: 13px; font-weight: 500;
   cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   transition: transform .15s ease, background .15s ease;
 }
-.near-me-btn:hover { background: #2d2d2f; transform: scale(1.03); }
+.near-me-btn:hover { background: #f5f5f7; transform: scale(1.03); }
 .near-me-btn:disabled { opacity: 0.6; cursor: wait; }
 
 /* Map sport-toggle segmented pill */
@@ -860,7 +861,7 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
         </button>
         {locError && (
           <div style={{
-            position:"absolute", top:62, right:18, zIndex:500, maxWidth:280,
+            position:"absolute", top:52, right:28, zIndex:500, maxWidth:280,
             padding:"10px 14px", background:"rgba(255,59,48,0.95)", color:"#fff",
             borderRadius:12, fontSize:12, lineHeight:1.4,
             fontFamily:"-apple-system, sans-serif",
