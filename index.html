@@ -249,6 +249,45 @@ html.dark .btn-pill.dark { background: #fff; color: #000; }
 .leaflet-popup-content { margin: 0; padding: 0; min-width: 240px; }
 .leaflet-popup-tip { background: #fff; }
 html.dark .leaflet-popup-content-wrapper, html.dark .leaflet-popup-tip { background: #1d1d1f; color: #f5f5f7; }
+
+/* User location pulse marker */
+.user-loc-pin {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #007aff; border: 3px solid #fff;
+  box-shadow: 0 0 0 4px rgba(0,122,255,0.25);
+  animation: userLocPulse 2s ease-out infinite;
+}
+@keyframes userLocPulse {
+  0%   { box-shadow: 0 0 0 0    rgba(0,122,255,0.45); }
+  100% { box-shadow: 0 0 0 18px rgba(0,122,255,0); }
+}
+
+/* Map "Near me" floating button */
+.near-me-btn {
+  position: absolute; top: 16px; right: 16px; z-index: 500;
+  padding: 10px 16px; background: #1d1d1f; color: #fff;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 980px;
+  font-family: -apple-system, sans-serif; font-size: 13px; font-weight: 500;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  transition: transform .15s ease, background .15s ease;
+}
+.near-me-btn:hover { background: #2d2d2f; transform: scale(1.03); }
+.near-me-btn:disabled { opacity: 0.6; cursor: wait; }
+
+/* Map sport-toggle segmented pill */
+.map-sport-toggle {
+  display: inline-flex; padding: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 980px; border: 1px solid rgba(255,255,255,0.12);
+}
+.map-sport-toggle button {
+  padding: 8px 18px; font-size: 13px; font-weight: 500;
+  background: transparent; color: #a1a1a6;
+  border: none; border-radius: 980px; cursor: pointer;
+  font-family: inherit;
+  transition: background .15s ease, color .15s ease;
+}
+.map-sport-toggle button.active { background: #fff; color: #000; }
 </style>
 </head>
 <body>
@@ -464,6 +503,14 @@ function isFeatured(court) {
   return court.rating >= 4.6 && court.reviews >= 100;
 }
 
+// Great-circle distance in kilometers between two lat/lng points
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371, toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1), dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2)**2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
 function CourtCard({court, onClick, theme, lang, featured}) {
   const [hov, setHov] = useState(false);
   const [imgErr, setImgErr] = useState(false);
@@ -671,11 +718,20 @@ function CourtDetailModal({court, onClose, theme, lang}) {
   );
 }
 
-// ─── MAP SECTION (Apple style — dark tiles, split useEffect markersRef) ──────
-function MapSection({courts, onSelectCourt, lang}) {
+// ─── MAP SECTION (Apple style — dark tiles, sport toggle, geolocation) ──────
+function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
   const mapRef = useRef(null);
   const leafletMap = useRef(null);
   const markersRef = useRef([]);
+  const userMarkerRef = useRef(null);
+  const [mapSport, setMapSport] = useState("all");
+  const [userLoc, setUserLoc] = useState(null);
+  const [locating, setLocating] = useState(false);
+  const [locError, setLocError] = useState(null);
+
+  const courts = mapSport === "tennis" ? tennisCourts
+              : mapSport === "pickleball" ? pickleballCourts
+              : [...tennisCourts, ...pickleballCourts];
 
   useEffect(() => {
     if (!mapRef.current || leafletMap.current) return;
@@ -686,7 +742,7 @@ function MapSection({courts, onSelectCourt, lang}) {
       attribution:'© OSM © CARTO', maxZoom:19,
     }).addTo(map);
     leafletMap.current = map;
-    return () => { map.remove(); leafletMap.current = null; delete window.__selectCourt; };
+    return () => { map.remove(); leafletMap.current = null; userMarkerRef.current = null; delete window.__selectCourt; };
   }, []);
 
   useEffect(() => {
@@ -697,13 +753,15 @@ function MapSection({courts, onSelectCourt, lang}) {
     markersRef.current = [];
     courts.forEach(court => {
       const label = court.id < 100 ? court.id : court.id - 100;
+      const featured = isFeatured(court);
+      const distStr = userLoc ? ` · ${haversineKm(userLoc.lat, userLoc.lng, court.lat, court.lng).toFixed(1)} km` : "";
       const m = L.marker([court.lat, court.lng], { icon: L.divIcon({
         className:"",
-        html:`<div style="width:30px;height:30px;border-radius:50%;background:${isFeatured(court)?"#d9e34a":"#fff"};color:#000;border:3px solid #000;font-family:-apple-system,sans-serif;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;">${label}</div>`,
+        html:`<div style="width:30px;height:30px;border-radius:50%;background:${featured?"#d9e34a":"#fff"};color:#000;border:3px solid #000;font-family:-apple-system,sans-serif;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;">${label}</div>`,
         iconSize:[30,30], iconAnchor:[15,15],
       })}).addTo(map).bindPopup(`
         <div style="font-family:-apple-system,sans-serif;min-width:220px;padding:14px 16px;letter-spacing:-0.01em">
-          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#86868b;margin-bottom:4px">${court.district}${court.bts?` · ${court.bts.replace(/^(BTS|MRT)\\s*/,"")}`:""}</div>
+          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#86868b;margin-bottom:4px">${court.district}${court.bts?` · ${court.bts.replace(/^(BTS|MRT)\\s*/,"")}`:""}${distStr}</div>
           <div style="font-weight:600;font-size:17px;margin-bottom:4px;letter-spacing:-0.02em">${lang==="en"?court.name:court.nameTh}</div>
           <div style="font-size:12px;color:#86868b;margin-bottom:10px">${lang==="en"?court.nameTh:court.name}</div>
           <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
@@ -718,11 +776,66 @@ function MapSection({courts, onSelectCourt, lang}) {
       const c = courts.find(c=>c.id===id);
       if (c) onSelectCourt(c);
     };
-  }, [courts, lang]);
+  }, [courts, lang, userLoc]);
+
+  // Auto-fit bounds when sport filter changes (skip "all" — keep default Bangkok view)
+  useEffect(() => {
+    const map = leafletMap.current;
+    if (!map || mapSport === "all" || courts.length === 0) return;
+    const L = window.L;
+    map.flyToBounds(L.latLngBounds(courts.map(c => [c.lat, c.lng])), { padding:[50,50], duration:0.6, maxZoom:14 });
+  }, [mapSport]);
+
+  // User location marker
+  useEffect(() => {
+    const map = leafletMap.current;
+    if (!map || !userLoc) return;
+    const L = window.L;
+    if (userMarkerRef.current) userMarkerRef.current.remove();
+    userMarkerRef.current = L.marker([userLoc.lat, userLoc.lng], {
+      icon: L.divIcon({ html:`<div class="user-loc-pin"></div>`, className:"", iconSize:[18,18], iconAnchor:[9,9] }),
+      interactive: false,
+      zIndexOffset: 1000,
+    }).addTo(map);
+  }, [userLoc]);
+
+  const handleNearMe = () => {
+    setLocError(null);
+    if (!navigator.geolocation) {
+      setLocError(lang==="en" ? "Geolocation not supported by your browser" : "เบราว์เซอร์ไม่รองรับ geolocation");
+      return;
+    }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const { latitude, longitude } = pos.coords;
+        setUserLoc({ lat: latitude, lng: longitude });
+        leafletMap.current?.flyTo([latitude, longitude], 14, { duration: 0.8 });
+        setLocating(false);
+      },
+      err => {
+        setLocating(false);
+        const msgs = {
+          1: lang==="en" ? "Permission denied — please allow location in browser settings" : "ไม่ได้รับอนุญาต — โปรดอนุญาตการใช้ตำแหน่งใน browser",
+          2: lang==="en" ? "Location unavailable" : "หาตำแหน่งไม่ได้",
+          3: lang==="en" ? "Request timed out — try again" : "หมดเวลา ลองอีกครั้ง",
+        };
+        setLocError(msgs[err.code] || (lang==="en"?"Could not get location":"ไม่สามารถหาตำแหน่งได้"));
+        console.warn("[geolocation]", err.code, err.message);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+  };
+
+  const sportOpts = [
+    { id:"all",        label: lang==="en" ? "All" : "ทั้งหมด" },
+    { id:"tennis",     label: lang==="en" ? "Tennis" : "เทนนิส" },
+    { id:"pickleball", label: "Pickleball" },
+  ];
 
   return (
     <section id="map" style={{background:"#000", color:"#f5f5f7", padding:"100px 0 120px"}}>
-      <div className="container" style={{textAlign:"center", marginBottom:40}}>
+      <div className="container" style={{textAlign:"center", marginBottom:24}}>
         <div className="eyebrow" style={{color:"#86868b", marginBottom:10}}>
           {lang==="en"?"All courts. One map.":"สนามทั้งหมด แผนที่เดียว"}
         </div>
@@ -730,7 +843,30 @@ function MapSection({courts, onSelectCourt, lang}) {
           {lang==="en" ? "Tap any pin for details." : "คลิกหมุดเพื่อดูรายละเอียด"}
         </p>
       </div>
-      <div className="container-wide">
+      <div className="container" style={{display:"flex", justifyContent:"center", marginBottom:24}}>
+        <div className="map-sport-toggle">
+          {sportOpts.map(opt => (
+            <button key={opt.id}
+              className={mapSport===opt.id ? "active" : ""}
+              onClick={() => setMapSport(opt.id)}>
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="container-wide" style={{position:"relative"}}>
+        <button className="near-me-btn" onClick={handleNearMe} disabled={locating} title={lang==="en"?"Find courts near me":"หาสนามใกล้ฉัน"}>
+          <span style={{fontSize:14}}>📍</span> {locating ? (lang==="en"?"Locating…":"กำลังหา…") : (lang==="en"?"Near me":"ใกล้ฉัน")}
+        </button>
+        {locError && (
+          <div style={{
+            position:"absolute", top:60, right:16, zIndex:500, maxWidth:280,
+            padding:"10px 14px", background:"rgba(255,59,48,0.95)", color:"#fff",
+            borderRadius:12, fontSize:12, lineHeight:1.4,
+            fontFamily:"-apple-system, sans-serif",
+            boxShadow:"0 4px 12px rgba(0,0,0,0.3)",
+          }}>{locError}</div>
+        )}
         <div ref={mapRef} style={{height:560, borderRadius:28, overflow:"hidden", border:"1px solid rgba(255,255,255,0.08)"}}/>
       </div>
     </section>
@@ -1074,7 +1210,7 @@ function App() {
         searchQ={searchQ} sortBy={sortBy} setSortBy={setSortBy}
       />
 
-      <MapSection lang={lang} courts={[...TENNIS_COURTS, ...PICKLEBALL_COURTS]} onSelectCourt={setSelectedCourt}/>
+      <MapSection lang={lang} tennisCourts={TENNIS_COURTS} pickleballCourts={PICKLEBALL_COURTS} onSelectCourt={setSelectedCourt}/>
 
       {/* CTA */}
       <section id="help" style={{background:"#000", color:"#f5f5f7", padding:"120px 22px", textAlign:"center"}}>

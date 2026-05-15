@@ -84,7 +84,7 @@ Claude จะ:
   4. **Featured carousel** (`#featured`, horizontal scroll, 380px cards using `isFeatured()` helper across both sports)
   5. **Tennis list section** (`#tennis-list`, light bg, type chips + toggles + sort, grid of cards)
   6. **Pickleball list section** (`#pickleball-list`, dark bg, same filter UX)
-  7. **MapSection** (`#map`, dark, full-width Leaflet with dark CARTO tiles, numeric pin labels, all 99 courts combined; minimal header: eyebrow + "คลิกหมุดเพื่อดูรายละเอียด")
+  7. **MapSection** (`#map`, dark, full-width Leaflet with dark CARTO tiles, numeric pin labels, **sport toggle pill** (Tennis / Pickleball / ทั้งหมด — auto fitBounds), **"Near me" geolocation button** (top-right of map, pulse-marker on user location, popup shows distance in km); minimal header: eyebrow + "คลิกหมุดเพื่อดูรายละเอียด")
   8. **CTA "Ready to play?"** (black, big headline, 2 pill buttons)
   9. **Footer** (gray-bg, copyright + GitHub + back-to-top)
 - **Components:** `Nav`, `Hero`, `SportShowcase`, `FeaturedSection`+`CourtCard(featured)`, `CourtListSection`, `CourtCard`, `MapSection`, `CourtDetailModal`, `Footer`
@@ -96,7 +96,7 @@ Claude จะ:
 - **Review count display:** CourtCard แสดง `★ 4.5 · NNN` ถัดจาก rating
 - **Live search:** Hero search ใช้ `searchQ` state ที่ส่งเข้า list sections — พิมพ์ใน hero → filter ทันที, ปุ่ม/Enter → scroll ไป `#<sport>-list`
 - **Multi-type courts:** `type` รับ string หรือ array; helpers `courtTypes/primaryType/courtHasType`
-- **Map view:** Leaflet + dark CARTO tiles, custom pin markers (numeric label + lime if featured); split useEffect + markersRef reactive pattern
+- **Map view:** Leaflet + dark CARTO tiles, custom pin markers (numeric label + lime if featured), **sport-filter pill** (mapSport state — "all" | "tennis" | "pickleball", auto `flyToBounds` when switching), **geolocation** via `navigator.geolocation.getCurrentPosition` → pulse-blue user marker + `haversineKm()` distance displayed in popup eyebrow; split useEffect + markersRef reactive pattern
 - **Detail modal:** Apple-style — gradient header, photo gallery + arrow keys + attribution row; 2×2 info grid (price/hours/rating/courts); facilities pills; 3 pill buttons (phone / website / Open in Maps); `body.style.overflow="hidden"` lock
 - **Featured (⭐ แนะนำ):** คำนวณอัตโนมัติจาก `rating >= 4.6 && reviews >= 100` ผ่าน `isFeatured(court)` — populates the Featured carousel
 - **Free court display:** `priceMin===0` → แสดง "ฟรี" / "Free"
@@ -143,6 +143,7 @@ Claude จะ:
 - [x] Photo batch update (2026-05-14) — 11 courts: ids 9, 12, 14, 16, 17, 18, 20, 22, 27, 29, 30 (Google Maps Photo Spheres)
 - [x] Remove broken website (id:19 Simoorgh — bkktennis.com offline)
 - [x] **Design v3 — Apple redesign** (2026-05-14) — full visual + layout rewrite from claude.ai/design "TennisFinder Apple" bundle. SF Pro typography, black/white + lime accent (`#d9e34a`), single-scroll Apple layout (Nav → Hero → Featured carousel → SportShowcase → Tennis section → Pickleball section → Map → CTA → Footer). New components: `Nav`, `FeaturedSection`, `SportShowcase`, `CourtListSection`, `Footer`. Modal Apple-style with 2×2 info grid + pill buttons. Map uses dark CARTO tiles with numeric pin labels. **All data + functions preserved** — 60+39 courts untouched, photos gallery + attribution, googleMaps redirect, multi-type, live search, sort options, filter chips/toggles, tweaks panel
+- [x] **Map upgrades** (2026-05-16) — (1) **Sport toggle pill** on map (Tennis / Pickleball / ทั้งหมด) — `mapSport` state, auto `flyToBounds` when filter changes (skips "all"). (2) **Geolocation** — "Near me / ใกล้ฉัน" pill button (top-right of map), blue pulse-marker on user location, popup eyebrow shows distance via new `haversineKm()` helper; bilingual error toast (red box under button) for permission denied / unavailable / timeout. MapSection now receives `tennisCourts` + `pickleballCourts` as separate props (was combined array). Tried marker clustering (leaflet.markercluster) but reverted — user felt clusters made the map harder to read. **Note:** geolocation works on HTTPS (GitHub Pages) — on local `file://` Chromium may block silently
 
 ## โครงสร้าง COURTS data
 
