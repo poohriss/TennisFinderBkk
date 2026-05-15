@@ -264,7 +264,7 @@ html.dark .leaflet-popup-content-wrapper, html.dark .leaflet-popup-tip { backgro
 
 /* Map "Near me" floating button — offset accounts for map container border-radius (28px) */
 .near-me-btn {
-  position: absolute; top: 24px; right: 24px; z-index: 500;
+  position: absolute; top: 18px; right: 18px; z-index: 500;
   padding: 10px 16px; background: #1d1d1f; color: #fff;
   border: 1px solid rgba(255,255,255,0.12); border-radius: 980px;
   font-family: -apple-system, sans-serif; font-size: 13px; font-weight: 500;
@@ -860,7 +860,7 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
         </button>
         {locError && (
           <div style={{
-            position:"absolute", top:68, right:24, zIndex:500, maxWidth:280,
+            position:"absolute", top:62, right:18, zIndex:500, maxWidth:280,
             padding:"10px 14px", background:"rgba(255,59,48,0.95)", color:"#fff",
             borderRadius:12, fontSize:12, lineHeight:1.4,
             fontFamily:"-apple-system, sans-serif",
