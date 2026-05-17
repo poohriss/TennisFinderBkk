@@ -80,11 +80,11 @@ Claude จะ:
 - **Page structure (single-scroll, no tabs):**
   1. Fixed blur **Nav** (44px, scroll-aware border, lang switcher, anchor links: Featured / Tennis / Pickleball / Map)
   2. **Hero** (black bg, centered huge headline, live-search pill, CTA links — no sport switcher inside)
-  3. **SportShowcase** (gray bg, 2-up Apple-style buttons — text only, no headline/no court panel; click → scroll to sport's list section)
-  4. **Featured carousel** (`#featured`, horizontal scroll, 380px cards using `isFeatured()` helper across both sports)
-  5. **Tennis list section** (`#tennis-list`, light bg, type chips + toggles + sort, grid of cards)
-  6. **Pickleball list section** (`#pickleball-list`, dark bg, same filter UX)
-  7. **MapSection** (`#map`, dark, full-width Leaflet with dark CARTO tiles, numeric pin labels, **sport toggle pill** (Tennis / Pickleball / ทั้งหมด — auto fitBounds), **"Near me" geolocation button** (top-right of map, pulse-marker on user location, popup shows distance in km); minimal header: eyebrow + "คลิกหมุดเพื่อดูรายละเอียด")
+  3. **SportShowcase** (gray bg, 2-up Apple-style buttons — text only, no headline/no court panel; click → scroll to sport's list section; compact padding 48px section / 28×30 card inner)
+  4. **MapSection** (`#map`, dark, full-width Leaflet with dark CARTO tiles, numeric pin labels, **sport toggle pill** (Tennis / Pickleball / ทั้งหมด — auto fitBounds), **"Near me" geolocation button** (top-right of map, pulse-marker on user location, popup shows distance in km); minimal header: eyebrow + "คลิกหมุดเพื่อดูรายละเอียด")
+  5. **Featured carousel** (`#featured`, horizontal scroll, 380px cards using `isFeatured()` helper across both sports)
+  6. **Tennis list section** (`#tennis-list`, light bg, type chips + toggles + sort, grid of cards)
+  7. **Pickleball list section** (`#pickleball-list`, dark bg, same filter UX; sort `<option>` elements override color to `#000` so OS-native dropdown popup is readable)
   8. **CTA "Ready to play?"** (black, big headline, 2 pill buttons)
   9. **Footer** (gray-bg, copyright + GitHub + back-to-top)
 - **Components:** `Nav`, `Hero`, `SportShowcase`, `FeaturedSection`+`CourtCard(featured)`, `CourtListSection`, `CourtCard`, `MapSection`, `CourtDetailModal`, `Footer`
@@ -144,6 +144,8 @@ Claude จะ:
 - [x] Remove broken website (id:19 Simoorgh — bkktennis.com offline)
 - [x] **Design v3 — Apple redesign** (2026-05-14) — full visual + layout rewrite from claude.ai/design "TennisFinder Apple" bundle. SF Pro typography, black/white + lime accent (`#d9e34a`), single-scroll Apple layout (Nav → Hero → Featured carousel → SportShowcase → Tennis section → Pickleball section → Map → CTA → Footer). New components: `Nav`, `FeaturedSection`, `SportShowcase`, `CourtListSection`, `Footer`. Modal Apple-style with 2×2 info grid + pill buttons. Map uses dark CARTO tiles with numeric pin labels. **All data + functions preserved** — 60+39 courts untouched, photos gallery + attribution, googleMaps redirect, multi-type, live search, sort options, filter chips/toggles, tweaks panel
 - [x] **Map upgrades** (2026-05-16) — (1) **Sport toggle pill** on map (Tennis / Pickleball / ทั้งหมด) — `mapSport` state, auto `flyToBounds` when filter changes (skips "all"). (2) **Geolocation** — "Near me / ใกล้ฉัน" white pill button positioned `top:8px right:28px` (tucked into the rounded top-right corner of the map), blue pulse-marker on user location, popup eyebrow shows distance via new `haversineKm()` helper; bilingual error toast (red box under button) for permission denied / unavailable / timeout. MapSection now receives `tennisCourts` + `pickleballCourts` as separate props (was combined array). Tried marker clustering (leaflet.markercluster) but reverted — user felt clusters made the map harder to read. **Note:** geolocation works on HTTPS (GitHub Pages) — on local `file://` Chromium may block silently
+- [x] **Layout polish** (2026-05-18) — (1) **MapSection ย้ายขึ้น** ระหว่าง SportShowcase กับ Featured carousel (เดิมอยู่ก่อน CTA) — discovery flow: เลือกกีฬา → ดูแผนที่ → ดู featured → list. (2) **SportShowcase compaction** — section padding 80→48px, card inner 48×44 → 28×30, heading 44→32px, subhead 18→15px, border-radius 32→24. (3) **Pickleball sort dropdown** — เพิ่ม `style={{color:"#000"}}` ใน `<option>` elements เพื่อให้ OS-native dropdown popup อ่านได้ (ก่อนหน้า white-on-white)
+- [x] Verify rating/reviews — ids 66 (4.9/8), 67 (5.0/3) — batch 1 in progress (เหลือ 60, 126, 128 + 25 ตัว non-place_id)
 
 ## โครงสร้าง COURTS data
 
