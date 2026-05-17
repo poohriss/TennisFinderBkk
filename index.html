@@ -725,7 +725,7 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
   const leafletMap = useRef(null);
   const markersRef = useRef([]);
   const userMarkerRef = useRef(null);
-  const [mapSport, setMapSport] = useState("all");
+  const [mapSport, setMapSport] = useState("tennis");
   const [mapFilterType, setMapFilterType] = useState("all");
   const [mapToggles, setMapToggles] = useState({indoor:false, aircon:false, nightLights:false, hasBTS:false});
   const [userLoc, setUserLoc] = useState(null);
