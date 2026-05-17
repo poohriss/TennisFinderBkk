@@ -1031,14 +1031,9 @@ function FeaturedSection({lang, allCourts, onSelectCourt, theme}) {
         <div className="eyebrow" style={{color:"#86868b", marginBottom:14}}>
           {lang==="en" ? "Featured for Bangkok" : "แนะนำสำหรับกรุงเทพฯ"}
         </div>
-        <h2 className="headline headline-lg" style={{marginBottom:14, maxWidth:780}}>
+        <h2 className="headline headline-lg" style={{maxWidth:780}}>
           {lang==="en" ? <>The best courts<br/>worth a trip.</> : <>สนามดีๆ ที่ควรลอง<br/>สักครั้ง</>}
         </h2>
-        <p className="subhead" style={{color:"#a1a1a6", maxWidth:580}}>
-          {lang==="en"
-            ? "Auto-curated: rating ≥ 4.6 and 100+ reviews. Hand-picked clubs across the city."
-            : "คัดอัตโนมัติจาก rating ≥ 4.6 และรีวิว 100+ รายการ คัดสรรจากทั่วกรุงเทพฯ"}
-        </p>
       </div>
       <div ref={scrollRef} className="hscroll" style={{display:"flex", gap:22, overflowX:"auto", padding:"0 max(22px, calc((100vw - 1240px) / 2 + 22px))", scrollSnapType:"x mandatory", scrollPaddingLeft:22}}>
         {featured.map(c => <CourtCard key={c.id} court={c} onClick={onSelectCourt} theme="dark" lang={lang} featured={true}/>)}
