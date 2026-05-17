@@ -499,9 +499,9 @@ function resizeGooglePhoto(url, w, h) {
   return url.replace(/=[swh\d-]+$/, `=w${w}-h${h}`);
 }
 
-// "แนะนำ" star is computed from rating + reviews — no manual featured field
+// "แนะนำ" is now manual — controlled by court.featured field in data
 function isFeatured(court) {
-  return court.rating >= 4.6 && court.reviews >= 100;
+  return court.featured === true;
 }
 
 // Great-circle distance in kilometers between two lat/lng points
