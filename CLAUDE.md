@@ -81,7 +81,7 @@ Claude จะ:
   1. Fixed blur **Nav** (44px, scroll-aware border, lang switcher, anchor links: Featured / Tennis / Pickleball / Map)
   2. **Hero** (black bg, centered huge headline, live-search pill, CTA links — no sport switcher inside)
   3. **SportShowcase** (gray bg, 2-up Apple-style buttons — text only, no headline/no court panel; click → scroll to sport's list section; compact padding 48px section / 28×30 card inner)
-  4. **MapSection** (`#map`, dark, full-width Leaflet with dark CARTO tiles, numeric pin labels, **sport toggle pill** (Tennis / Pickleball / ทั้งหมด — auto fitBounds), **"Near me" geolocation button** (top-right of map, pulse-marker on user location, popup shows distance in km); minimal header: eyebrow + "คลิกหมุดเพื่อดูรายละเอียด")
+  4. **MapSection** (`#map`, dark, full-width Leaflet with dark CARTO tiles, numeric pin labels, **sport toggle pill** (Tennis / Pickleball / ทั้งหมด — auto fitBounds), **filter row** (type chips when sport selected + Indoor/AC/Night/BTS toggle pills, reactive markers), **"Near me" geolocation button** (top-right of map, pulse-marker on user location, popup shows distance in km); minimal header: eyebrow + "คลิกหมุดเพื่อดูรายละเอียด")
   5. **Featured carousel** (`#featured`, horizontal scroll, 380px cards using `isFeatured()` helper across both sports)
   6. **Tennis list section** (`#tennis-list`, light bg, type chips + toggles + sort, grid of cards)
   7. **Pickleball list section** (`#pickleball-list`, dark bg, same filter UX; sort `<option>` elements override color to `#000` so OS-native dropdown popup is readable)

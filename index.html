@@ -726,13 +726,30 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
   const markersRef = useRef([]);
   const userMarkerRef = useRef(null);
   const [mapSport, setMapSport] = useState("all");
+  const [mapFilterType, setMapFilterType] = useState("all");
+  const [mapToggles, setMapToggles] = useState({indoor:false, aircon:false, nightLights:false, hasBTS:false});
   const [userLoc, setUserLoc] = useState(null);
   const [locating, setLocating] = useState(false);
   const [locError, setLocError] = useState(null);
 
-  const courts = mapSport === "tennis" ? tennisCourts
-              : mapSport === "pickleball" ? pickleballCourts
-              : [...tennisCourts, ...pickleballCourts];
+  // tennis types ≠ pickleball types — reset เมื่อสลับกีฬาเพื่อไม่ให้ filter หลุด state
+  useEffect(() => { setMapFilterType("all"); }, [mapSport]);
+
+  const baseCourts = mapSport === "tennis" ? tennisCourts
+                  : mapSport === "pickleball" ? pickleballCourts
+                  : [...tennisCourts, ...pickleballCourts];
+  const courts = baseCourts.filter(c => {
+    if (mapFilterType!=="all" && !courtHasType(c, mapFilterType)) return false;
+    if (mapToggles.indoor && !c.indoor) return false;
+    if (mapToggles.aircon && !c.aircon) return false;
+    if (mapToggles.nightLights && !c.nightLights) return false;
+    if (mapToggles.hasBTS && !c.bts) return false;
+    return true;
+  });
+
+  const availableMapTypes = mapSport==="tennis" ? ["all","hard","clay","grass"]
+                         : mapSport==="pickleball" ? ["all","hard"]
+                         : ["all"];
 
   useEffect(() => {
     if (!mapRef.current || leafletMap.current) return;
@@ -844,7 +861,7 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
           {lang==="en" ? "Tap any pin for details." : "คลิกหมุดเพื่อดูรายละเอียด"}
         </p>
       </div>
-      <div className="container" style={{display:"flex", justifyContent:"center", marginBottom:24}}>
+      <div className="container" style={{display:"flex", justifyContent:"center", marginBottom:18}}>
         <div className="map-sport-toggle">
           {sportOpts.map(opt => (
             <button key={opt.id}
@@ -852,6 +869,40 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
               onClick={() => setMapSport(opt.id)}>
               {opt.label}
             </button>
+          ))}
+        </div>
+      </div>
+      <div className="container" style={{display:"flex", justifyContent:"center", gap:10, marginBottom:24, flexWrap:"wrap", alignItems:"center"}}>
+        {availableMapTypes.length > 1 && (
+          <>
+            <div style={{display:"flex", gap:6, flexWrap:"wrap"}}>
+              {availableMapTypes.map(t => (
+                <button key={t} onClick={()=>setMapFilterType(t)} style={{
+                  padding:"7px 16px", borderRadius:980, fontSize:13, fontWeight:400,
+                  background: mapFilterType===t ? "#fff" : "transparent",
+                  color: mapFilterType===t ? "#000" : "#f5f5f7",
+                  border: mapFilterType===t ? "1px solid transparent" : "1px solid rgba(255,255,255,0.18)",
+                  transition:"all 0.18s", cursor:"pointer", fontFamily:"inherit",
+                }}>{t==="all" ? (lang==="en"?"All":"ทั้งหมด") : (lang==="en"?TYPE_EN[t]:TYPE_LABELS[t])}</button>
+              ))}
+            </div>
+            <div style={{width:1, height:24, background:"rgba(255,255,255,0.18)"}}/>
+          </>
+        )}
+        <div style={{display:"flex", gap:6, flexWrap:"wrap"}}>
+          {[
+            {k:"indoor",      th:"ในร่ม",  en:"Indoor"},
+            {k:"aircon",      th:"แอร์",   en:"AC"},
+            {k:"nightLights", th:"กลางคืน", en:"Night"},
+            {k:"hasBTS",      th:"ใกล้ BTS", en:"BTS"},
+          ].map(({k,th,en})=>(
+            <button key={k} onClick={()=>setMapToggles(t=>({...t, [k]:!t[k]}))} style={{
+              padding:"7px 14px", borderRadius:980, fontSize:13, fontWeight:400,
+              background: mapToggles[k] ? "var(--accent)" : "transparent",
+              color: mapToggles[k] ? "#000" : "#f5f5f7",
+              border: mapToggles[k] ? "1px solid transparent" : "1px solid rgba(255,255,255,0.18)",
+              cursor:"pointer", fontFamily:"inherit",
+            }}>{lang==="en"?en:th}</button>
           ))}
         </div>
       </div>
