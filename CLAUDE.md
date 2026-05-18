@@ -149,6 +149,7 @@ Claude จะ:
 - [x] **Featured carousel manual selection** (2026-05-18) — `isFeatured()` เปลี่ยนจาก auto-compute (rating≥4.6 && reviews≥100) เป็น manual `court.featured===true` ผ่าน field ใน data; ลบ subhead "คัดอัตโนมัติจาก rating ≥ 4.6..." ออกจาก FeaturedSection. ปัจจุบัน 12 courts flagged: tennis 1,2,6,7,21,24,28,40 + pickleball 101,102,106,112 — แก้ field ใน data เพื่อ adjust list ได้
 - [x] **Map filter row** (2026-05-18) — เพิ่ม type chips (Hard/Clay/Grass สำหรับ tennis, Hard สำหรับ pickleball, ซ่อนเมื่อสลับเป็น "ทั้งหมด") + 4 toggle pills (Indoor/AC/Night/BTS) ใต้ sport toggle. `mapFilterType` reset เป็น "all" อัตโนมัติเมื่อสลับกีฬา. ไม่มี auto-fitBounds เมื่อ filter เปลี่ยน (จะกระตุกเกินไป), แค่ markers reactive ผ่าน useEffect deps. Pickleball label localized to "พิกเคิลบอล" เมื่อ lang=th
 - [x] **Map default sport = "tennis"** (2026-05-18) — เปลี่ยนจาก "all" ตอนแรกเป็น "tennis" — user เปิดมาเห็นแค่หมุดเทนนิสก่อน, กดสลับ "ทั้งหมด"/"พิกเคิลบอล" ได้
+- [x] **Mobile critical fixes** (2026-05-19) — (1) **Nav** anchor links wrapped in `.nav-links` class, hidden at `max-width: 640px` (logo + lang switcher stay visible). (2) **SportShowcase** grid `1fr 1fr` → `repeat(auto-fit, minmax(300px, 1fr))` — auto-stack to 1 column บน mobile. (3) **Section padding** — เพิ่ม `.section-pad` (desktop 100/120 → mobile 56/64) + `.hero-pad` (desktop 120/60 → mobile 80/40) applied to MapSection / FeaturedSection / CourtListSection / CTA / Hero. ลด vertical whitespace ~40% บน mobile. ไม่กระทบ desktop
 
 ## โครงสร้าง COURTS data
 
