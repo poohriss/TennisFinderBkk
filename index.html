@@ -508,6 +508,15 @@ function isFeatured(court) {
   return court.featured === true;
 }
 
+// Price tier for map pin color-coding (based on priceMin ฿/hr)
+function priceTier(c) {
+  if (c.priceMin == null) return {key:"na",   color:"#8e8e93", th:"ไม่ระบุ",  en:"N/A"};
+  if (c.priceMin === 0)   return {key:"free", color:"#30a46c", th:"ฟรี",      en:"Free"};
+  if (c.priceMin <= 300)  return {key:"low",  color:"#0a84ff", th:"ประหยัด",  en:"≤300฿"};
+  if (c.priceMin <= 700)  return {key:"mid",  color:"#f5820a", th:"ปานกลาง",  en:"301–700฿"};
+  return                         {key:"prem", color:"#ff375f", th:"พรีเมียม", en:">700฿"};
+}
+
 // Great-circle distance in kilometers between two lat/lng points
 function haversineKm(lat1, lng1, lat2, lng2) {
   const R = 6371, toRad = d => d * Math.PI / 180;
@@ -724,7 +733,7 @@ function CourtDetailModal({court, onClose, theme, lang}) {
 }
 
 // ─── MAP SECTION (Apple style — dark tiles, sport toggle, geolocation) ──────
-function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
+function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang, searchQ}) {
   const mapRef = useRef(null);
   const leafletMap = useRef(null);
   const markersRef = useRef([]);
@@ -743,6 +752,7 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
                   : mapSport === "pickleball" ? pickleballCourts
                   : [...tennisCourts, ...pickleballCourts];
   const courts = baseCourts.filter(c => {
+    if (searchQ && !c.nameTh.includes(searchQ) && !c.name.toLowerCase().includes(searchQ.toLowerCase()) && !c.district.includes(searchQ) && !c.zone.includes(searchQ)) return false;
     if (mapFilterType!=="all" && !courtHasType(c, mapFilterType)) return false;
     if (mapToggles.indoor && !c.indoor) return false;
     if (mapToggles.aircon && !c.aircon) return false;
@@ -776,10 +786,11 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
     courts.forEach(court => {
       const label = court.id < 100 ? court.id : court.id - 100;
       const featured = isFeatured(court);
+      const tier = priceTier(court);
       const distStr = userLoc ? ` · ${haversineKm(userLoc.lat, userLoc.lng, court.lat, court.lng).toFixed(1)} km` : "";
       const m = L.marker([court.lat, court.lng], { icon: L.divIcon({
         className:"",
-        html:`<div style="width:30px;height:30px;border-radius:50%;background:${featured?"#d9e34a":"#fff"};color:#000;border:3px solid #000;font-family:-apple-system,sans-serif;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;">${label}</div>`,
+        html:`<div style="width:30px;height:30px;border-radius:50%;background:${tier.color};color:#fff;border:2px solid #000;${featured?"box-shadow:0 0 0 3px #d9e34a;":""}font-family:-apple-system,sans-serif;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;">${label}</div>`,
         iconSize:[30,30], iconAnchor:[15,15],
       })}).addTo(map).bindPopup(`
         <div style="font-family:-apple-system,sans-serif;min-width:220px;padding:14px 16px;letter-spacing:-0.01em">
@@ -909,6 +920,25 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang}) {
             }}>{lang==="en"?en:th}</button>
           ))}
         </div>
+      </div>
+      {/* Price-tier legend */}
+      <div className="container" style={{display:"flex", justifyContent:"center", gap:14, marginBottom:24, flexWrap:"wrap", alignItems:"center"}}>
+        {[
+          {color:"#30a46c", th:"ฟรี",     en:"Free"},
+          {color:"#0a84ff", th:"≤300฿",   en:"≤300฿"},
+          {color:"#f5820a", th:"301–700฿", en:"301–700฿"},
+          {color:"#ff375f", th:">700฿",   en:">700฿"},
+          {color:"#8e8e93", th:"ไม่ระบุ", en:"N/A"},
+        ].map((t,i)=>(
+          <span key={i} style={{display:"inline-flex", alignItems:"center", gap:6, fontSize:12, color:"#a1a1a6"}}>
+            <span style={{width:12, height:12, borderRadius:"50%", background:t.color, border:"1.5px solid #000", flexShrink:0}}/>
+            {lang==="en"?t.en:t.th}
+          </span>
+        ))}
+        <span style={{display:"inline-flex", alignItems:"center", gap:6, fontSize:12, color:"#a1a1a6"}}>
+          <span style={{width:12, height:12, borderRadius:"50%", background:"#8e8e93", border:"1.5px solid #000", boxShadow:"0 0 0 2px #d9e34a", flexShrink:0}}/>
+          {lang==="en"?"Featured":"แนะนำ"}
+        </span>
       </div>
       <div className="container-wide" style={{position:"relative"}}>
         <button className="near-me-btn" onClick={handleNearMe} disabled={locating} title={lang==="en"?"Find courts near me":"หาสนามใกล้ฉัน"}>
@@ -1241,7 +1271,7 @@ function App() {
 
       <SportShowcase lang={lang} sport={sport} setSport={setSport}/>
 
-      <MapSection lang={lang} tennisCourts={TENNIS_COURTS} pickleballCourts={PICKLEBALL_COURTS} onSelectCourt={setSelectedCourt}/>
+      <MapSection lang={lang} tennisCourts={TENNIS_COURTS} pickleballCourts={PICKLEBALL_COURTS} onSelectCourt={setSelectedCourt} searchQ={searchQ}/>
 
       <FeaturedSection lang={lang} allCourts={[...TENNIS_COURTS, ...PICKLEBALL_COURTS]} onSelectCourt={setSelectedCourt} theme={theme}/>
 
