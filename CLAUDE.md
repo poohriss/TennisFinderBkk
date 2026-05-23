@@ -13,7 +13,7 @@
 
 ## สถานะปัจจุบัน
 
-- **สนาม Tennis:** 57 สนาม — original 25 (ids 1–30 ยกเว้น 3, 4, 5, 10, 25 dup/closed) + 30 จาก Google Places (ids 31–65 ยกเว้น 34, 44, 50, 51, 59 deleted) + 2 manual (id:66 Let's Play Tennis Rama 2, id:67 Charcoal Court Tennis Club); **id:34 Spin & Slice merged into id:26 Troops Tennis Academy (2026-05-23)** — rebrand ชื่อเดียวกัน (สุขุมวิท 50), เก็บ id:26 (ชื่อปัจจุบัน); **id:50 สนามเทนนิส วชิรเบญจทัศ + id:51 Tennis Courts สวนรถไฟ merged into id:49 ศูนย์กีฬาวชิรเบญจทัศ (2026-05-19)** — duplicate Google listings ของสวนรถไฟเดียวกัน; GPS verified สำหรับ original หมุดทั้งหมด + photos updated (ids 6, 7, 9, 12, 14, 16, 17, 18, 20, 22, 24, 27, 28, 29, 30); **id:25 Crystal Tennis Center merged into id:40 Crystal Sports G (2026-05-12)** — same physical place; **id:44 Ultra Tennis Studio deleted (2026-05-13)**; **id:5 Santisuk Tennis Court + id:59 Al Fort Tennis & Fitness deleted (2026-05-14)** — ปิดไปแล้ว; **id:30 renamed → Suan Luang Rama IX Sport Center (Prawet)** — verified (เดิม misclassified as Huai Khwang)
+- **สนาม Tennis:** 56 สนาม — original 25 (ids 1–30 ยกเว้น 3, 4, 5, 10, 25 dup/closed) + 29 จาก Google Places (ids 31–65 ยกเว้น 34, 44, 45, 50, 51, 59 deleted) + 2 manual (id:66 Let's Play Tennis Rama 2, id:67 Charcoal Court Tennis Club); **id:45 สนามเทนนิส SAT merged into id:17 เทนนิส SAT หัวหมาก (2026-05-23)** — สนาม SAT หัวหมากที่เดียวกัน (286 รามคำแหง), เก็บ id:17 (operational ครบ) + rating 4.3/205 + website sat.or.th จาก id:45; **id:34 Spin & Slice merged into id:26 Troops Tennis Academy (2026-05-23)** — rebrand ชื่อเดียวกัน (สุขุมวิท 50), เก็บ id:26 (ชื่อปัจจุบัน); **id:50 สนามเทนนิส วชิรเบญจทัศ + id:51 Tennis Courts สวนรถไฟ merged into id:49 ศูนย์กีฬาวชิรเบญจทัศ (2026-05-19)** — duplicate Google listings ของสวนรถไฟเดียวกัน; GPS verified สำหรับ original หมุดทั้งหมด + photos updated (ids 6, 7, 9, 12, 14, 16, 17, 18, 20, 22, 24, 27, 28, 29, 30); **id:25 Crystal Tennis Center merged into id:40 Crystal Sports G (2026-05-12)** — same physical place; **id:44 Ultra Tennis Studio deleted (2026-05-13)**; **id:5 Santisuk Tennis Court + id:59 Al Fort Tennis & Fitness deleted (2026-05-14)** — ปิดไปแล้ว; **id:30 renamed → Suan Luang Rama IX Sport Center (Prawet)** — verified (เดิม misclassified as Huai Khwang)
 - **สนาม Pickleball:** 39 สนาม — original 20 (ids 101–120) + 19 ใหม่จาก Google Places (ids 121+); 3 สนามใน original ยังต้องตรวจสอบ (110, 118, 119)
 - **Google Places enrichment (2026-05-08):** Merged จาก `bangkok_tennis_courts.json` (46 entries) + `bangkok_pickleball_courts.json` (31) — Tennis matched 11/added 35, Pickleball matched 12/added 19; เพิ่ม field: `place_id`, `photos[]`, `notes`; ส่วนใหญ่ของ photo data + rating/review counts มาจากตรงนี้ (ไม่ใช่ค่าประมาณอีกแล้ว)
 - **Rating/Reviews:** สนามที่ matched ใหม่ใช้ Google Places ของจริง; original ที่ไม่ matched ยังเป็นค่าประมาณ
@@ -156,7 +156,7 @@ Claude จะ:
 
 ## โครงสร้าง COURTS data
 
-### Tennis (TENNIS_COURTS — ids 1–67 ยกเว้น 3, 4, 5, 10, 25, 34, 44, 50, 51, 59, total 57 courts)
+### Tennis (TENNIS_COURTS — ids 1–67 ยกเว้น 3, 4, 5, 10, 25, 34, 44, 45, 50, 51, 59, total 56 courts)
 ```js
 {
   id, name, nameTh, district, districtEn, zone,
