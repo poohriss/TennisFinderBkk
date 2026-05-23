@@ -113,7 +113,7 @@ Claude จะ:
 - [x] ปุ่ม TH/EN ใน nav bar + bilingual filter bar (type pills, text toggles, sort, reset)
 - [x] Git + GitHub Pages — auto-deploy on push
 - [ ] อัพเดต rating/reviews + googleMaps link ทุกสนาม — ส่ง format นี้ให้ Claude: `id:X ชื่อ → https://maps.app.goo.gl/xxx (rating: 4.x, NNN reviews)`
-- [ ] Verify aircon สนามที่ยังไม่แน่ใจ (Beat Discovery, Club 46, Suk Space, Arise, Windfield Tennis, CV Sport)
+- [ ] Verify aircon สนามที่ยังไม่แน่ใจ (Club 46, Suk Space, Arise, Windfield Tennis, CV Sport) — Beat Discovery resolved: ventilated/high roof, ไม่ใช่แอร์ (aircon:false)
 - [ ] Verify / แก้ไข ids 110, 118, 119 (pickleball) — ดูส่วน "สนามที่ต้องตรวจสอบ" ด้านบน
 - [x] Verify ids 29, 30 (tennis GPS/district) — id:29 Grand Tennis GPS verified, id:30 renamed → Suan Luang Rama IX (Prawet)
 - [x] Verify และเพิ่มข้อมูล Pickleball courts (20 สนาม, ids 101–120)
