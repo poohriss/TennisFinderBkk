@@ -96,9 +96,9 @@ Claude จะ:
 - **Review count display:** CourtCard แสดง `★ 4.5 · NNN` ถัดจาก rating
 - **Live search:** Hero search ใช้ `searchQ` state ที่ส่งเข้า list sections — พิมพ์ใน hero → filter ทันที, ปุ่ม/Enter → scroll ไป `#<sport>-list`
 - **Multi-type courts:** `type` รับ string หรือ array; helpers `courtTypes/primaryType/courtHasType`
-- **Map view:** Leaflet + dark CARTO tiles, custom pin markers (numeric label + lime if featured), **sport-filter pill** (mapSport state — "all" | "tennis" | "pickleball", **default = "tennis"**, auto `flyToBounds` when switching), **filter row** (type chips + Indoor/AC/Night/BTS toggle pills, reactive markers, filterType auto-resets to "all" when sport switches), **geolocation** via `navigator.geolocation.getCurrentPosition` → pulse-blue user marker + `haversineKm()` distance displayed in popup eyebrow; split useEffect + markersRef reactive pattern
+- **Map view:** Leaflet + dark CARTO tiles, custom pin markers (**price-tier color fill via `priceTier()` + rating label `court.rating.toFixed(1)`, lime ring if featured**) + bilingual price legend, **sport-filter pill** (mapSport state — "all" | "tennis" | "pickleball", **default = "tennis"**, auto `flyToBounds` when switching), **filter row** (type chips + Indoor/AC/Night/BTS toggle pills, reactive markers, filterType auto-resets to "all" when sport switches) **+ hero `searchQ` filters markers too** (same predicate as list, no auto-fit while typing), **geolocation** via `navigator.geolocation.getCurrentPosition` → pulse-blue user marker + `haversineKm()` distance displayed in popup eyebrow; split useEffect + markersRef reactive pattern
 - **Detail modal:** Apple-style — gradient header, photo gallery + arrow keys + attribution row; 2×2 info grid (price/hours/rating/courts); facilities pills; 3 pill buttons (phone / website / Open in Maps); `body.style.overflow="hidden"` lock
-- **Featured (⭐ แนะนำ):** manual selection via `featured:true` field ใน court data (เดิม auto-compute จาก rating+reviews แต่เปลี่ยนเป็น manual 2026-05-18) ผ่าน `isFeatured(court)`; populates the Featured carousel + lime accent บน map markers. ปัจจุบัน 12 courts: tennis 1,6,7,21,24,28,40,66 + pickleball 101,102,106,112
+- **Featured (⭐ แนะนำ):** manual selection via `featured:true` field ใน court data (เดิม auto-compute จาก rating+reviews แต่เปลี่ยนเป็น manual 2026-05-18) ผ่าน `isFeatured(court)`; populates the Featured carousel + lime ring บน map markers. ปัจจุบัน 12 courts: tennis 1,6,7,21,24,28,40,66 + pickleball 101,102,106,112
 - **Free court display:** `priceMin===0` → แสดง "ฟรี" / "Free"
 - **Language:** ไทย / EN toggle ใน nav (Apple pill) + ใน tweaks panel — share `lang` state
 - **Tweaks panel:** Floating draggable (Light/Dark + ไทย/EN — simplified from v2)
@@ -159,7 +159,7 @@ Claude จะ:
 
 ## โครงสร้าง COURTS data
 
-### Tennis (TENNIS_COURTS — ids 1–67 ยกเว้น 3, 4, 5, 10, 25, 34, 36, 44, 45, 50, 51, 59, total 55 courts)
+### Tennis (TENNIS_COURTS — ids 1–67 ยกเว้น 3, 4, 5, 10, 25, 34, 36, 44, 45, 50, 51, 58, 59, total 54 courts)
 ```js
 {
   id, name, nameTh, district, districtEn, zone,
