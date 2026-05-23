@@ -784,13 +784,13 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang, search
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
     courts.forEach(court => {
-      const label = court.id < 100 ? court.id : court.id - 100;
+      const label = court.rating != null ? court.rating.toFixed(1) : "";
       const featured = isFeatured(court);
       const tier = priceTier(court);
       const distStr = userLoc ? ` · ${haversineKm(userLoc.lat, userLoc.lng, court.lat, court.lng).toFixed(1)} km` : "";
       const m = L.marker([court.lat, court.lng], { icon: L.divIcon({
         className:"",
-        html:`<div style="width:30px;height:30px;border-radius:50%;background:${tier.color};color:#fff;border:2px solid #000;${featured?"box-shadow:0 0 0 3px #d9e34a;":""}font-family:-apple-system,sans-serif;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;">${label}</div>`,
+        html:`<div title="★ ${label||"—"}" style="width:30px;height:30px;border-radius:50%;background:${tier.color};color:#fff;border:2px solid #000;${featured?"box-shadow:0 0 0 3px #d9e34a;":""}font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;letter-spacing:-0.02em;display:flex;align-items:center;justify-content:center;">${label}</div>`,
         iconSize:[30,30], iconAnchor:[15,15],
       })}).addTo(map).bindPopup(`
         <div style="font-family:-apple-system,sans-serif;min-width:220px;padding:14px 16px;letter-spacing:-0.01em">
@@ -873,7 +873,7 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang, search
           {lang==="en"?"All courts. One map.":"สนามทั้งหมด แผนที่เดียว"}
         </div>
         <p className="subhead" style={{color:"#a1a1a6", maxWidth:580, margin:"0 auto"}}>
-          {lang==="en" ? "Tap any pin for details." : "คลิกหมุดเพื่อดูรายละเอียด"}
+          {lang==="en" ? "Pin number = rating ★ · color = price. Tap any pin for details." : "ตัวเลขในหมุด = คะแนนรีวิว ★ · สี = ราคา · คลิกหมุดเพื่อดูรายละเอียด"}
         </p>
       </div>
       <div className="container" style={{display:"flex", justifyContent:"center", marginBottom:18}}>
