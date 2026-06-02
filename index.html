@@ -1284,7 +1284,7 @@ function App() {
         id="pickleball-list"
         lang={lang} sport="pickleball" courts={PICKLEBALL_COURTS} allCount={PICKLEBALL_COURTS.length}
         onSelectCourt={setSelectedCourt} dark={true}
-        title={lang==="en" ? <>Pickleball is here.<br/>And it's growing fast.</> : <>พิกเคิลบอลมาแล้ว<br/>และกำลังเติบโต</>}
+        title={lang==="en" ? <>Pickleball in Bangkok.<br/>From ฿{Math.min(...PICKLEBALL_COURTS.map(c=>c.priceMin).filter(p=>p!=null&&p>0))} / hour.</> : <>พิกเคิลบอลในกรุงเทพฯ<br/>เริ่มต้น ฿{Math.min(...PICKLEBALL_COURTS.map(c=>c.priceMin).filter(p=>p!=null&&p>0))} / ชม.</>}
         subtitle={lang==="en" ? `${PICKLEBALL_COURTS.length} dedicated venues across Bangkok.` : `${PICKLEBALL_COURTS.length} สนามเฉพาะทั่วกรุงเทพฯ`}
         searchQ={searchQ} sortBy={sortBy} setSortBy={setSortBy}
       />
