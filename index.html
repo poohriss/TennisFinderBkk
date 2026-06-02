@@ -970,14 +970,8 @@ function Hero({onSearch, lang, sport, setSport, courtCount, searchQ, setSearchQ}
         {lang==="en" ? <>Find your court.<br/><span style={{color:"var(--accent)"}}>In Bangkok.</span></>
                      : <>หาสนามของคุณ<br/><span style={{color:"var(--accent)"}}>ในกรุงเทพฯ</span></>}
       </h1>
-      <p className="subhead reveal" style={{animationDelay:"0.18s", color:"#a1a1a6", maxWidth:640, margin:"0 auto", padding:"0 22px"}}>
-        {lang==="en"
-          ? `${courtCount} ${sport==="pickleball"?"pickleball":"tennis"} clubs and public courts. All in one place. Built for Bangkok.`
-          : `${courtCount} สนาม${sport==="pickleball"?"พิกเคิลบอล":"เทนนิส"} ในที่เดียว ครบทุกเขต ทำมาเพื่อคนกรุงเทพฯ`}
-      </p>
-
       {/* Search bar (live filter) */}
-      <div className="reveal" style={{animationDelay:"0.24s", marginTop:30, display:"flex", justifyContent:"center", padding:"0 22px"}}>
+      <div className="reveal" style={{animationDelay:"0.2s", marginTop:60, display:"flex", justifyContent:"center", padding:"0 22px"}}>
         <div style={{display:"flex", alignItems:"center", gap:10, width:"100%", maxWidth:520, background:"rgba(255,255,255,0.08)", border:"1px solid rgba(255,255,255,0.14)", borderRadius:980, padding:"4px 6px 4px 18px"}}>
           <span style={{color:"#86868b", display:"inline-flex"}}>{I.search}</span>
           <input
