@@ -172,7 +172,7 @@ Claude จะ:
   - **id:31 Sterling** (tennis) + **id:106 Sterling** (pickleball) — user confirmed มีแอร์, premium wellness club, คง aircon:true ✓
   - **id:29 Grand Tennis Club** → `aircon:true → false` — FB ทางการ + KTC list ไม่พูดถึงแอร์เลย (สนาม indoor ที่มีแอร์จริงจะโฆษณาเป็นจุดขายเสมอ); brand เป็น "สนามเทนนิสในร่ม" แต่ = covered/ventilated. facilities "แอร์" → "ระบายอากาศ"
   - **id:67 Charcoal** → `aircon:true → false` — เว็บทางการ charcoalcourt.com ระบุ Court 1 = "สนามในร่ม (เปิดโล่ง)" semi-indoor เปิดโล่ง ไม่มีแอร์. facilities "แอร์" ออก, "คอร์ตในร่ม (1)" → "คอร์ตในร่ม เปิดโล่ง (1)"
-  - **Pickleball aircon:true** — id:112 Papaya = **confirmed AC** (architizer: "fully air conditioned, 6 indoor courts", รีโนเวตจากสนามฟุตบอล) ✓; id:108 Asoke + id:124 Pick A Court = documented AC ✓; **id:115 RSC Ratchaphruek + id:116 Dink A Lot = ยังไม่ verify** (RSC indoor acrylic พรีเมียมน่าจะมีแต่ไม่ระบุ; Dink A Lot ไม่มีข้อมูล) — ปล่อย aircon:true ไว้ก่อน รอ user/หลักฐานเพิ่ม แหล่ง: rally57club.com, santisuk.org, charcoalcourt.com, pickleballgather, thaicourts
+  - **Pickleball aircon:true** — id:112 Papaya = **confirmed AC** (architizer: "fully air conditioned, 6 indoor courts", รีโนเวตจากสนามฟุตบอล) ✓; id:108 Asoke + id:124 Pick A Court = documented AC ✓; **id:116 Dink A Lot = confirmed AC** (user firsthand เคยไปแล้ว) ✓ aircon:true ถูก; **id:115 RSC Ratchaphruek = ยังไม่ verify** (indoor acrylic พรีเมียมน่าจะมีแต่เว็บไม่ระบุ) — ปล่อย aircon:true ไว้ก่อน แหล่ง: rally57club.com, santisuk.org, charcoalcourt.com, pickleballgather, thaicourts
 
 ## โครงสร้าง COURTS data
 
