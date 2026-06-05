@@ -165,6 +165,7 @@ Claude จะ:
   - **id:113 Siangpure Pickleball merged into id:125** — same venue (127 ซ.โยธินพัฒนา 3 คลองจั่น บางกะปิ); id:113 had wrong GPS ~5km off + sparse name. Keep id:125 (canonical name + correct GPS + place_id + bertram1958.com + photos). Fix id:125 district Lat Phrao → Bang Kapi per Google. Pickleball 34→33
   - **id:104 Shot Selections Beach Café deleted** — ปิดไปแล้ว. Pickleball 33→32
   - **Tennis hotel phones added** — id:6 Peninsula +66 2 020 2888, id:16 Hilton Grande Asoke +66 2 204 4000
+- [x] **Missing-data fill batch** (2026-06-06) — web-research เติม field ที่ขาด จากแหล่งทางการ: **id:123 Rally57** — courts:4, priceMin/Max:550฿/hr, hours 06:00–24:00, website rally57club.com (จากเว็บทางการ; phone มีอยู่แล้ว). **id:122 Backyard** — เติม hours 08:00–22:00 (pickleballgather), update note. **id:105 Santisuk** — เพิ่ม website santisuk.org + แก้ hours อาทิตย์ 14:00–19:00 → **15:00–19:15** ตามเว็บทางการ. **id:67 Charcoal** — เพิ่ม phone +66 64 201 2204 (จาก charcoalcourt.com). **ไม่พบข้อมูล published** (ปล่อยตาม pattern): OH My Court (id:121), The Primary (id:137), Let's Play Rama 2 phone/courts (id:66), SP Pickleball website (id:117), S9 hours (id:139). **Note:** id:105 Santisuk เว็บทางการระบุค่าเล่น 50฿/คน/วัน (+10฿/คน/ชม. ไฟกลางคืน) ซึ่งเป็นคนละ pricing model (donation per-person-per-day ของ church/school court) — **user ตัดสินใจคง priceMin:200 ไว้ตามเดิม** (ไม่ใส่ 50 เพราะจะ misleading ใน SportShowcase "From ฿X/hr"). แหล่ง: rally57club.com, santisuk.org, charcoalcourt.com, pickleballgather, thaicourts
 
 ## โครงสร้าง COURTS data
 
