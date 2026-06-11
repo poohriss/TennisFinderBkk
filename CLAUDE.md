@@ -19,7 +19,7 @@
 - **Rating/Reviews:** สนามที่ matched ใหม่ใช้ Google Places ของจริง; original ที่ไม่ matched ยังเป็นค่าประมาณ
 - **googleMaps field:** original 5 ตัว (ids 1, 14, 28, 101, 115) + เพิ่ม place_id ใน 23 สนามจาก enrichment (เปิด Google Maps ผ่าน place_id ก็ได้)
 - **website field:** มีแล้ว 26 จาก hand-research + เพิ่มอีก ~30 จาก Google Places enrichment
-- **รูปภาพ:** Photos จาก Google Places (มีใน `photos[]` field เกือบทุก court ที่ matched/added) + local override ด้วย `image:` field; priority: `image` > `photos[0]` > gradient+SVG; CourtCard ใช้ thumbnail (=w600-h400), Modal ใช้ full (=w1200-h900) + gallery + attribution (บังคับตาม Google ToS); ตอนนี้ไม่มี local image (โฟลเดอร์ `images/` ว่าง); manual photo URL จาก Google Maps `/p/` หรือ `gps-cs-s` paths ก็ใส่ลง `photos[]` ได้ตรงๆ — strip trailing flag suffix (`-k-no`, `-rw`) แล้วใช้ `=w1600-h1200` เพื่อให้ `resizeGooglePhoto()` ทำงาน
+- **รูปภาพ:** ⚠️ **Places API photo URLs หมดอายุแล้ว — pruned 2026-06-11**: ลิงก์ `lh3.googleusercontent.com/places/...` + `/place-photos/...` จาก enrichment 2026-05-08 คืน HTTP 403 ทั้งหมด (~140 รูป) → ลบออกจาก `photos[]` หมดแล้ว; เหลือรูปดี 49 รูปใน 40 สนาม (ลิงก์ manual แบบ `gps-cs-s` + เว็บทางการ ซึ่งไม่หมดอายุ); **46 สนามไม่มีรูปเลย** (fallback gradient+SVG ทำงานปกติ) — ดู checklist; **ห้ามเก็บ lh3 Places-API URL อีก** — ใช้เฉพาะลิงก์จากหน้า Google Maps (`/p/` หรือ `gps-cs-s` paths) หรือเว็บทางการ; priority: `image` > `photos[0]` > gradient+SVG; CourtCard ใช้ thumbnail (=w600-h400), Modal ใช้ full (=w1200-h900) + gallery + attribution (บังคับตาม Google ToS); ตอนนี้ไม่มี local image (โฟลเดอร์ `images/` ว่าง); manual photo URL จาก Google Maps ใส่ลง `photos[]` ได้ตรงๆ — strip trailing flag suffix (`-k-no`, `-rw`) แล้วใช้ `=w1600-h1200` เพื่อให้ `resizeGooglePhoto()` ทำงาน
 - **ระบบจอง:** ไม่มี ใช้ช่องทางติดต่อ (โทรศัพท์ / website / Google Maps) แทน
 
 ## สนามที่ต้องตรวจสอบเพิ่มเติม
@@ -105,7 +105,9 @@ Claude จะ:
 
 ## สิ่งที่วางแผนจะทำ
 
-- [ ] เพิ่ม local รูปภาพ override (`image:` field) — มี id:1 แล้ว; courts ส่วนใหญ่ใช้ Google Places photos อัตโนมัติ ไม่จำเป็นต้องเพิ่ม local เว้นจะอัปเกรดคุณภาพ
+- [ ] **เติมรูปใหม่ 46 สนามที่รูปหมดอายุ** (หลัง prune 2026-06-11) — ส่งลิงก์รูปจากหน้า Google Maps (`/p/` หรือ `gps-cs-s`) มาตาม workflow เพิ่มรูป; tennis 31 สนาม: ids 2, 6, 7, 8, 11, 13, 15, 17, 18, 19, 20, 21, 23, 24, 29, 31, 32, 38, 39, 40, 43, 46, 47, 49, 53, 55, 57, 60, 62, 64, 65 + pickleball 15 สนาม: ids 101, 103, 106, 109, 115, 116, 117, 122, 123, 127, 130, 132, 133, 137, 138; **id:6 + id:109 Peninsula ใช้ลิงก์ peninsula.com ไม่ได้** (hotlink protection 403) ต้องหาแหล่งอื่น
+- [x] **Dead photo prune** (2026-06-11) — ตรวจ HTTP ทุก URL ใน `photos[]` (189 รูปจริง + attribution links): **~140 รูปคืน 403** = ลิงก์ Places API (`lh3.googleusercontent.com/places/`, `/place-photos/`) หมดอายุทั้ง batch จาก enrichment 2026-05-08 + peninsula.com 3 รูป (hotlink block) → ลบ photo objects ที่ตายออกหมด + ลบ field `photos:[]` ว่าง; เหลือ 49 รูป/40 สนาม verified 200 ทั้งหมด; verified runtime ผ่าน local preview (54+32 courts โหลดครบ, 0 broken images, 0 console errors); **บทเรียน:** lh3 Places URL มีวันหมดอายุ — merge ครั้งหน้าอย่าเก็บ, ใช้ลิงก์หน้า Google Maps เท่านั้น
+- [ ] เพิ่ม local รูปภาพ override (`image:` field) — โฟลเดอร์ `images/` ว่าง; ใช้เป็นทางเลือกแทน Google links ได้ถ้าอยากให้รูปไม่ตายอีก
 - [x] ระบบรูปภาพ — `image:` field + fallback (CourtCard + Modal)
 - [x] เพิ่ม website field + ปุ่ม 🌐 ใน modal — 26 สนามมีแล้ว (Tennis 18, Pickleball 8)
 - [x] ปุ่ม TH/EN ใน nav bar + bilingual filter bar (type pills, text toggles, sort, reset)
@@ -305,6 +307,8 @@ Remove-Item -Recurse -Force $tmpProfile
 
 `--virtual-time-budget=15000` รอ 15 วินาทีให้ JS รัน; console.error/Uncaught errors จะอยู่ใน log file
 - ใช้แก้ปัญหา id:1 case (StarRating crash บน rating=null) — debug ภายใน 1 รอบ
+
+**ทางเลือกที่ดีกว่า (2026-06-11):** local preview ผ่าน Claude Preview MCP — มี `.claude/serve.ps1` (PowerShell HttpListener static server, port 8716) + `.claude/launch.json` (config ชื่อ `static`) อยู่แล้ว (gitignored); `preview_start` → screenshot/console logs/eval ได้เต็มรูปแบบ ใช้แทน headless Edge ที่ dump DOM ไม่ได้ใน sandbox
 
 ## Map markers pattern (Leaflet + React)
 
