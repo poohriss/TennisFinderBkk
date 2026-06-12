@@ -589,7 +589,7 @@ function CourtCard({court, onClick, theme, lang, featured}) {
             {lang==="en" ? court.nameTh : court.name}
           </p>
         )}
-        <div style={{display:"flex", alignItems:"baseline", justifyContent:"space-between"}}>
+        <div style={{display:"flex", alignItems:"baseline"}}>
           <div className="tab-num" style={{fontSize: featured ? 28 : 22, fontWeight:600, letterSpacing:"-0.02em"}}>
             {court.priceMin == null
               ? <span style={{fontSize:14, color:muted, fontWeight:400}}>{lang==="en"?"Contact":"ติดต่อสอบถาม"}</span>
@@ -598,12 +598,6 @@ function CourtCard({court, onClick, theme, lang, featured}) {
               : <>฿{court.priceMin.toLocaleString()}<span style={{fontSize:13, color:muted, marginLeft:3, fontWeight:400}}>/{lang==="en"?"hr":"ชม."}</span></>
             }
           </div>
-          <span style={{color:muted, fontSize:13, display:"inline-flex", alignItems:"center", gap:3, whiteSpace:"nowrap"}}>
-            {court.rating != null ? <>
-              <span style={{color:"var(--accent-2)"}}>{I.star}</span> {court.rating.toFixed(1)}
-              {court.reviews > 0 && <span style={{color:subtle}}> · {court.reviews}</span>}
-            </> : <span style={{color:subtle}}>—</span>}
-          </span>
         </div>
         {court.hours && <div style={{fontSize:12, color:subtle, marginTop:10}}>{court.hours}</div>}
       </div>
@@ -690,7 +684,7 @@ function CourtDetailModal({court, onClose, theme, lang}) {
             {[
               {l:lang==="en"?"From":"ราคา", v: court.priceMin == null ? "—" : court.priceMin === 0 ? (lang==="en"?"Free":"ฟรี") : `฿${court.priceMin.toLocaleString()}${court.priceMax>court.priceMin?`–${court.priceMax.toLocaleString()}`:""}`, s: court.priceMin>0 ? `/${lang==="en"?"hr":"ชม."}` : ""},
               {l:lang==="en"?"Hours":"เวลาเปิด", v:court.hours || "—", s:""},
-              {l:lang==="en"?"Rating":"คะแนน", v: court.rating != null ? `★ ${court.rating.toFixed(1)}` : "—", s: court.reviews>0 ? ` · ${court.reviews}` : ""},
+              {l:lang==="en"?"Venue":"ประเภท", v: court.indoor ? (lang==="en"?"Indoor":"ในร่ม") : (lang==="en"?"Outdoor":"กลางแจ้ง"), s:""},
               {l:lang==="en"?"Courts":"จำนวน", v: court.courts || "—", s: courtTypes(court).map(t => lang==="en"?TYPE_EN[t]:TYPE_LABELS[t]).join(", ")},
             ].map((r,i)=>(
               <div key={i} style={{padding:"16px 20px", background:tileBg, borderRadius:16}}>
@@ -795,13 +789,12 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang, search
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
     courts.forEach(court => {
-      const label = court.rating != null ? court.rating.toFixed(1) : "";
       const featured = isFeatured(court);
       const tier = priceTier(court);
       const distStr = userLoc ? ` · ${haversineKm(userLoc.lat, userLoc.lng, court.lat, court.lng).toFixed(1)} km` : "";
       const m = L.marker([court.lat, court.lng], { icon: L.divIcon({
         className:"",
-        html:`<div title="★ ${label||"—"}" style="width:30px;height:30px;border-radius:50%;background:${tier.color};color:#fff;border:2px solid #000;${featured?"box-shadow:0 0 0 3px #d9e34a;":""}font-family:-apple-system,sans-serif;font-size:10px;font-weight:700;letter-spacing:-0.02em;display:flex;align-items:center;justify-content:center;">${label}</div>`,
+        html:`<div style="width:30px;height:30px;border-radius:50%;background:${tier.color};border:2px solid #000;${featured?"box-shadow:0 0 0 3px #d9e34a;":""}"></div>`,
         iconSize:[30,30], iconAnchor:[15,15],
       })}).addTo(map).bindPopup(`
         <div style="font-family:-apple-system,sans-serif;min-width:220px;padding:14px 16px;letter-spacing:-0.01em">
@@ -810,7 +803,7 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang, search
           <div style="font-size:12px;color:#86868b;margin-bottom:10px">${lang==="en"?court.nameTh:court.name}</div>
           <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
             <span style="font-weight:600;font-size:18px;letter-spacing:-0.02em">${court.priceMin==null?"—":court.priceMin===0?(lang==="en"?"Free":"ฟรี"):"฿"+court.priceMin.toLocaleString()}${court.priceMin>0?`<span style="font-size:12px;color:#86868b;font-weight:400">/${lang==="en"?"hr":"ชม."}</span>`:""}</span>
-            <span style="color:#86868b;font-size:12px">★ ${court.rating!=null?court.rating.toFixed(1):"—"}${court.reviews>0?` · ${court.reviews}`:""}</span>
+            <span style="color:#86868b;font-size:12px">${court.hours||""}</span>
           </div>
           <button onclick="window.__selectCourt(${court.id})" style="width:100%;padding:9px;background:#1d1d1f;color:#fff;border:none;border-radius:980px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">${lang==="en"?"View details":"ดูรายละเอียด"} ›</button>
         </div>`, { maxWidth:260 });
@@ -884,7 +877,7 @@ function MapSection({tennisCourts, pickleballCourts, onSelectCourt, lang, search
           {lang==="en"?"All courts. One map.":"สนามทั้งหมด แผนที่เดียว"}
         </div>
         <p className="subhead" style={{color:"#a1a1a6", maxWidth:580, margin:"0 auto"}}>
-          {lang==="en" ? "Pin number = rating ★ · color = price. Tap any pin for details." : "ตัวเลขในหมุด = คะแนนรีวิว ★ · สี = ราคา · คลิกหมุดเพื่อดูรายละเอียด"}
+          {lang==="en" ? "Pin color = price tier · lime ring = featured. Tap any pin for details." : "สีหมุด = ระดับราคา · วงแหวนเขียว = แนะนำ · คลิกหมุดเพื่อดูรายละเอียด"}
         </p>
       </div>
       <div className="container" style={{display:"flex", justifyContent:"center", marginBottom:18}}>
@@ -1209,7 +1202,7 @@ function CourtListSection({id, lang, sport, courts, allCount, onSelectCourt, dar
             color: dark?"#f5f5f7":"var(--near-black)", fontSize:13, fontFamily:"inherit", outline:"none",
           }}>
             <option value="featured" style={{color:"#000"}}>⭐ {lang==="en"?"Recommended":"แนะนำ"}</option>
-            <option value="rating" style={{color:"#000"}}>★ {lang==="en"?"Rating":"คะแนน"}</option>
+
             <option value="price" style={{color:"#000"}}>฿ {lang==="en"?"Price":"ราคา"}</option>
             <option value="courts" style={{color:"#000"}}>🎾 {lang==="en"?"Most Courts":"คอร์ด"}</option>
             <option value="name" style={{color:"#000"}}>ก–ฮ</option>
